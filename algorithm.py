@@ -61,7 +61,7 @@ if __name__ == '__main__':
                     print("Forward but this shouldn't happen")
                     wheels.setMotorModel(2000,2000,2000,2000)       #Forward but shouldn't happen
                 elif angles[smallest_index] > 90:
-                    wheels.setMotorModel(-500,-500,2000,2000)       #Right 
+                    PWM.setMotorModel(2000,2000,-500,-500)       #Right  
                 
                 # Get current distance as we turn
                 c = ultrasonic.get_distance() 
