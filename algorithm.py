@@ -5,7 +5,8 @@ from servo import *
 
 # Configuration
 d = 10 # Centimeters from car to object at which to stop and scan from
-halfW = 10 # Half the width of the car in centimeters. # TODO: current value is only a guess, replace it
+halfW = 8 # Half the width of the car in centimeters.
+# TODO: use this value to prevent the car from running into the wall on an edge
 
 # Utilities
 ultrasonic=Ultrasonic()
@@ -37,7 +38,8 @@ if __name__ == '__main__':
             # Look around, checking distances
             end = 180
             distances = []
-            angles = [45, 75, 90, end - 75, end - 45]
+            #angles = [0, 45, 75, 90, end - 75, end - 45, end]
+            angles = [0, 30, 60, 90, end - 60, end - 30, end]
             for angle in angles: # range(start, stop, separator)
                 ultrasonic.pwm_S.setServoPwm('0',angle)
                 time.sleep(0.2)
