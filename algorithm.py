@@ -19,9 +19,15 @@ ultrasonic=Ultrasonic()
 ultrasonic.pwm_S = Servo()  
 wheels=Motor()
 
+# first: front-right
+# second: back-right
+# third: front-left
+# fourth: back-left
 def forward():
     # wheels.setMotorModel(2000,2000,2000,2000)       #Forward (<--originally)
-    wheels.setMotorModel(-2000,-2000,-2000,-2000)       #Forward
+    # wheels.setMotorModel(-2000,-2000,-2000,-2000)       #Forward (different on Will's bot)
+    # Need to compensate for not going straight, using an offset:
+    wheels.setMotorModel(1500,1000,1600,1700)
 # Pass `None` for `secs` to just set the PWM output to that until the next time
 # that the motors are set.
 def left(secs=1):
@@ -77,6 +83,10 @@ if __name__ == '__main__':
 
             # Move sensor back to middle
             ultrasonic.pwm_S.setServoPwm('0',middleHoriz)
+
+            # Wait to allow the sensor to settle
+            # (important to prevent reading a larger value again)
+            time.sleep(0.1)
 
             # Go in that direction, reaching it once the sensor reports a distance equal to that
             # found distance (Major NOTE: this doesn't work if the shape of an obstacle is a curve
