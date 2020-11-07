@@ -1,0 +1,4 @@
+Todos:
+- The bot can get stuck in an enclosed area.
+- Edges of walls with half the robot's width needing to be checked when moving forward
+- Finding the end of the course (BFS)
