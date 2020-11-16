@@ -14,6 +14,11 @@ middleVert = 25 # The center for the ultrasonic sensor vertically.
 sleep_time_short = 0.01 #0.1
 sleep_time_long = 0.4 #0.2
 
+# Algorithm modifiers
+stop_cond = 1 # Selects whether to stop based on distance polling(0) or with gyroscope(1).
+dist_epsilon = 30 #1   # For stop_cond == 0
+angle_epsilon = 5      # For stop_cond == 1
+
 # Utilities
 ultrasonic=Ultrasonic()
 ultrasonic.pwm_S = Servo()  
@@ -42,6 +47,16 @@ def right(secs=1):
 # Main program logic follows:
 if __name__ == '__main__':
     print ('Program is starting ... ')
+
+    # Initialize sensors
+    if stop_cond == 1:
+        import board
+        import busio
+        import adafruit_mpu6050
+
+        i2c = busio.I2C(board.SCL, board.SDA)
+        mpu = adafruit_mpu6050.MPU6050(i2c)
+
     try:
         while True:
             # Move the ultrasonic sensor to the middle:
@@ -78,6 +93,7 @@ if __name__ == '__main__':
 
             # Get the largest distance's index and value
             largest_index = max(range(len(distances)), key=distances.__getitem__)
+            destination_angle = angles[largest_index]
             destination_distance = distances[largest_index]
             print("Chose distance " + str(destination_distance))
 
@@ -88,33 +104,56 @@ if __name__ == '__main__':
             # (important to prevent reading a larger value again)
             time.sleep(0.1)
 
+            # Prepare gyro variables
+            if stop_cond == 1:
+                time_total = 0
+                degrees_total = 0
+
+                # ( https://stackoverflow.com/questions/1938048/high-precision-clock-in-python )
+                prev_time = time.time_ns() / 1000 / 1000 / 1000  # ns to seconds
+            
             # Go in that direction, reaching it once the sensor reports a distance equal to that
             # found distance (Major NOTE: this doesn't work if the shape of an obstacle is a curve
             # that keeps distance the same regardless of sensor position, but that is unlikely):
             while True:
                 # Turn
-                if angles[largest_index] < 90:
+                if destination_angle < 90:
                     print("Turning left")
                     left(None)
-                elif angles[largest_index] == 90:
+                elif destination_angle == 90:
                     print("Forward but this shouldn't happen")
                     forward()
-                elif angles[largest_index] > 90:
+                elif destination_angle > 90:
                     print("Turning right")
                     right(None)
                 else:
                     raise Exception("Unexpected case")
 
-                # Get current distance as we turn
-                c = ultrasonic.get_distance() 
+                if stop_cond == 0:
+                    # Get current distance as we turn
+                    c = ultrasonic.get_distance() 
 
-                epsilon = 30 #1
-                if abs(c - destination_distance) <= epsilon:
-                    break
-                # elif destination_distance > c:
-                    # We overshot
-                #    print("Overshot by " + str(destination_distance - c))
-                #    break
+                    if abs(c - destination_distance) <= dist_epsilon:
+                        break
+                    # elif destination_distance > c:
+                        # We overshot
+                    #    print("Overshot by " + str(destination_distance - c))
+                    #    break
+                elif stop_cond == 1:
+                    # Gyroscope
+                    # Grab current angular velocity, in a tuple containing
+                    # x, y, and z in degrees per second.
+                    (velX,velY,velZ) = mpu.gyro # z is left to right rotation
+                    current_time = time.time_ns() / 1000 / 1000 / 1000
+                    time_diff = current_time - prev_time
+                    prev_time = current_time
+                    degrees_total += velZ * time_diff
+                    if abs(degrees_total - destination_angle) <= angle_epsilon:
+                        break
+
+                else:
+                    raise Exception("Unimplemented stop_cond")
+
                     
                     # TODO: Can handle this by moving right here by a smaller amount if needed.
 
