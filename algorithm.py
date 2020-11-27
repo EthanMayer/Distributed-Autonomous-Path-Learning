@@ -24,9 +24,14 @@ carConfig = CarConfig[use]
 d = 20 # Centimeters from car to object at which to stop and scan from
 halfW = 8 # Half the width of the car in centimeters.
 # TODO: use this value to prevent the car from running into the wall on an edge
-if carConfig
-middleHoriz = 50 # 60 # The center for the servo motor for the ultrasonic sensor, horizontally
-middleVert = 25 # The center for the ultrasonic sensor vertically.
+if carConfig == CarConfig.WhereEam:
+    middleHoriz = 50 # 60 # The center for the servo motor for the ultrasonic sensor, horizontally
+    middleVert = 25 # The center for the ultrasonic sensor vertically.
+elif carConfig == CarConfig.sbond75:
+    middleHoriz = 90
+    middleVert = 90
+elif carConfig == CarConfig.Ethan:
+    pass
 sleep_time_short = 0.01 #0.1
 sleep_time_long = 0.4 #0.2
 
@@ -47,18 +52,37 @@ wheels=Motor()
 def forward():
     # wheels.setMotorModel(2000,2000,2000,2000)       #Forward (<--originally)
     # wheels.setMotorModel(-2000,-2000,-2000,-2000)       #Forward (different on Will's bot)
-    # Need to compensate for not going straight, using an offset:
-    wheels.setMotorModel(1500,1000,1600,1700)
+    if carConfig == CarConfig.WhereEam:
+        # Need to compensate for not going straight, using an offset:
+        wheels.setMotorModel(1500,1000,1600,1700)
+    elif carConfig == CarConfig.sbond75:
+        wheels.setMotorModel(-2000,-2000,-2000,-2000)
+    elif carConfig == CarConfig.Ethan:
+        pass
 # Pass `None` for `secs` to just set the PWM output to that until the next time
 # that the motors are set.
-def left(secs=1):
-    wheels.setMotorModel(2000,2000,-500,-500)       #Right (<--originally)  
-    if secs:
-        time.sleep(secs)
-def right(secs=1):
+def left_(secs=1):
     wheels.setMotorModel(-500,-500,2000,2000)       #Left  (<--originally)
     if secs:
         time.sleep(secs)
+def right_(secs=1):
+    wheels.setMotorModel(2000,2000,-500,-500)       #Right (<--originally)  
+    if secs:
+        time.sleep(secs)
+def left(secs=1):
+    if carConfig == CarConfig.WhereEam:
+        right_(secs)
+    elif carConfig == CarConfig.sbond75:
+        left_(secs)
+    elif carConfig == CarConfig.Ethan:
+        pass
+def right(secs=1):
+    if carConfig == CarConfig.WhereEam:
+        left_(secs)
+    elif carConfig == CarConfig.sbond75:
+        right_(secs)
+    elif carConfig == CarConfig.Ethan:
+        pass
 
 # Main program logic follows:
 if __name__ == '__main__':
