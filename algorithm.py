@@ -5,10 +5,26 @@ from servo import *
 import traceback
 import logging
 
+from enum import Enum
+import sys
+
+# Car configurations
+class CarConfig(Enum):
+    Will = 1
+    Sebastian = 2
+    Ethan = 3
+if sys.argc < 1:
+    # Prompt for input
+    use = raw_input("Enter the user of the car " + str(list(map(str, CarConfig))))
+else:
+    use = sys.argv[1]
+carConfig = CarConfig[]
+
 # Configuration
 d = 20 # Centimeters from car to object at which to stop and scan from
 halfW = 8 # Half the width of the car in centimeters.
 # TODO: use this value to prevent the car from running into the wall on an edge
+if carConfig
 middleHoriz = 50 # 60 # The center for the servo motor for the ultrasonic sensor, horizontally
 middleVert = 25 # The center for the ultrasonic sensor vertically.
 sleep_time_short = 0.01 #0.1
