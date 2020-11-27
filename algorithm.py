@@ -13,7 +13,7 @@ class CarConfig(Enum):
     WhereEam = 1
     sbond75 = 2
     Ethan = 3
-if len(sys.argv) > 1:
+if len(sys.argv) <= 1:
     # Prompt for input
     use = raw_input("Enter the user of the car " + str(list(map(str, CarConfig))))
 else:
