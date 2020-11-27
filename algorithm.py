@@ -15,7 +15,7 @@ class CarConfig(Enum):
     Ethan = 3
 if len(sys.argv) <= 1:
     # Prompt for input
-    use = raw_input("Enter the user of the car " + str(list(map(str, CarConfig))))
+    use = input("Enter the user of the car. Must be one of " + str(list(map(str, CarConfig))))
 else:
     use = sys.argv[1]
 carConfig = CarConfig[use]
