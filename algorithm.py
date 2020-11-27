@@ -8,17 +8,17 @@ import logging
 from enum import Enum
 import sys
 
-# Car configurations
+# Car configurations/profiles
 class CarConfig(Enum):
-    Will = 1
-    Sebastian = 2
+    WhereEam = 1
+    sbond75 = 2
     Ethan = 3
 if sys.argc < 1:
     # Prompt for input
     use = raw_input("Enter the user of the car " + str(list(map(str, CarConfig))))
 else:
     use = sys.argv[1]
-carConfig = CarConfig[]
+carConfig = CarConfig[use]
 
 # Configuration
 d = 20 # Centimeters from car to object at which to stop and scan from
