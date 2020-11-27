@@ -94,7 +94,11 @@ if __name__ == '__main__':
         import busio
         import adafruit_mpu6050
 
-        i2c = busio.I2C(board.SCL, board.SDA)
+        # Normally, this would work, but we have GPIO 0 on the RPi as our gyroscope data 
+        # connection.: i2c = busio.I2C(board.SCL, board.SDA)
+        # Instead, we use:
+        i2c = busio.I2C(28, 27)
+
         mpu = adafruit_mpu6050.MPU6050(i2c)
 
     try:

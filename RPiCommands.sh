@@ -1,0 +1,15 @@
+sudo apt-get install i2c-tools python3-smbus 
+# Follow these steps from https://gallaugher.com/makersnack-installing-circuitpython-on-a-raspberry-pi/ :
+# - Press the down arrow on the keyboard until “Interfacing Options” is highlighted, then press return.
+# - Press the down arrow until I2C is highlighted, then press return.
+# - When asked if you want to enable I2C, select <Yes> (use the arrow keys to highlight <Yes> if it’s not already selected), then press return.
+# - Press return again on the highlighted <OK> confirmation.
+
+#sudo apt-get install python3-pyqt5 python3-dev
+sudo pip3 install rpi_ws281x
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+#sudo apt-get install -y libopencv-dev python3-opencv
+sudo apt-get install -y python3-pil python3-tk
+pip3 install RPI.GPIO
+pip3 install adafruit-blinka
+pip3 install adafruit-circuitpython-mpu6050
