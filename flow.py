@@ -22,12 +22,19 @@ def closestKPointsToOrigin(points, K):
         return None
     if K == 1:
         best = points[0]
+        bestDist = best[0]**2 + best[1]**2
         bestIndex = 0
         for i in range(0, len(points)):
             p = points[i]
-            debugUtils.enterREPL()
-            if p[0]**2 + p[1]**2 < best:
+            #print(p)
+            #print(points)
+            #print(p[0])
+            #print(p[0]**2)
+            #print(best)
+            dist = p[0]**2 + p[1]**2
+            if dist < bestDist:
                 best = p
+                bestDist = dist
                 bestIndex = i
         return (best, bestIndex)
     else:
