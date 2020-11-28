@@ -16,7 +16,8 @@ class CarConfig(Enum):
     Ethan = 3
 if len(sys.argv) <= 1:
     # Prompt for input
-    use = input("Enter the user of the car. Must be one of " + str(list(map(str, CarConfig))))
+    use = input("Enter the user of the car. Must be one of " + str(list(map(str, CarConfig))) 
+                    + ", or a dry run will be performed: ")
 else:
     use = sys.argv[1]
 try:
@@ -37,6 +38,9 @@ elif carConfig == CarConfig.sbond75:
     middleVert = 90
 elif carConfig == CarConfig.Ethan:
     pass
+else: # Dry run
+    middleHoriz = 90
+    middleVert = 90
 sleep_time_short = 0.01 #0.1
 sleep_time_long = 0.4 #0.2
 
