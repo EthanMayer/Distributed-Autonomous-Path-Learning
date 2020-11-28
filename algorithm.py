@@ -166,6 +166,9 @@ if __name__ == '__main__':
             # Go in that direction, reaching it once the sensor reports a distance equal to that
             # found distance (Major NOTE: this doesn't work if the shape of an obstacle is a curve
             # that keeps distance the same regardless of sensor position, but that is unlikely):
+            if stop_cond == 2:
+                # Optical flow: prepare
+                flow.prepare()
             while True:
                 # Turn
                 dir = None

@@ -60,6 +60,22 @@ class OpticalFlow:
         self.show_debug = show_debug
 
         self.__initializeFlowParams()
+        self.p0 = None
+
+    # Call this before beginning to turn the car. It locks onto feature points 
+    # in the camera image which will be tracked while turning. 
+    def prepare(self):
+        # Take first frame and find corners in it 
+        ret, old_frame = cap.read() 
+        self.old_gray = cv2.cvtColor(old_frame, 
+                                cv2.COLOR_BGR2GRAY)
+        
+        if self.show_debug:
+            # Create a mask image for drawing purposes 
+            self.mask = np.zeros_like(old_frame) 
+
+        self.p0 = cv2.goodFeaturesToTrack(old_gray, mask = None, 
+                                    **feature_params) 
     
     # Compute the last optical flow and return the flow vector at the point
     # that was centermost in the frame (i.e., is in-line with the distance sensor
@@ -69,6 +85,9 @@ class OpticalFlow:
     #   1. The closest point as a list of two elements representing a 2D vector.
     #   2. The flow vector detected at the closest point to the center.
     def computeCentermostFlow(self):
+        if self.p0 == None:
+            self.prepare()
+        
         ret, frame = self.cap.read() 
         frame_gray = cv2.cvtColor(frame, 
                                 cv2.COLOR_BGR2GRAY) 
@@ -78,7 +97,7 @@ class OpticalFlow:
         p1, st, err = cv2.calcOpticalFlowPyrLK(self.old_gray, 
                                             frame_gray, 
                                             self.p0, None, 
-                                            **lk_params) 
+                                            **self.lk_params) 
     
         # Select good points 
         good_new = p1[st == 1] 
@@ -91,13 +110,13 @@ class OpticalFlow:
                                             good_old)): 
                 a, b = new.ravel() 
                 c, d = old.ravel() 
-                mask = cv2.line(mask, (a, b), (c, d), 
+                self.mask = cv2.line(self.mask, (a, b), (c, d), 
                                 self.color[i].tolist(), 2) 
                 
                 frame = cv2.circle(frame, (a, b), 5, 
                                 self.color[i].tolist(), -1) 
                 
-            img = cv2.add(frame, mask) 
+            img = cv2.add(frame, self.mask) 
         
             cv2.imshow('frame', img) 
         
@@ -147,27 +166,17 @@ class OpticalFlow:
 
     def __initializeFlowParams(self):
         # params for corner detection 
-        feature_params = dict( maxCorners = 100, 
+        self.feature_params = dict( maxCorners = 100, 
                             qualityLevel = 0.3, 
                             minDistance = 7, 
                             blockSize = 7 ) 
         
         # Parameters for lucas kanade optical flow 
-        lk_params = dict( winSize = (15, 15), 
+        self.lk_params = dict( winSize = (15, 15), 
                         maxLevel = 2, 
                         criteria = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 
                                     10, 0.03)) 
         
         if self.show_debug:
             # Create some random colors 
-            self.color = np.random.randint(0, 255, (100, 3)) 
-        
-        # Take first frame and find corners in it 
-        ret, old_frame = cap.read() 
-        self.old_gray = cv2.cvtColor(old_frame, 
-                                cv2.COLOR_BGR2GRAY) 
-        self.p0 = cv2.goodFeaturesToTrack(old_gray, mask = None, 
-                                    **feature_params) 
-        
-        # Create a mask image for drawing purposes 
-        mask = np.zeros_like(old_frame) 
+            self.color = np.random.randint(0, 255, (100, 3))
