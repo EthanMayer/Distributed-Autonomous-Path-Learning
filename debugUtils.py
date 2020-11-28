@@ -1,4 +1,5 @@
 import logging
+import traceback
 
 def enterREPL():
     while True:
