@@ -66,7 +66,7 @@ class OpticalFlow:
     # in the camera image which will be tracked while turning. 
     def prepare(self):
         # Take first frame and find corners in it 
-        ret, old_frame = cap.read() 
+        ret, old_frame = self.cap.read() 
         self.old_gray = cv2.cvtColor(old_frame, 
                                 cv2.COLOR_BGR2GRAY)
         
@@ -162,7 +162,7 @@ class OpticalFlow:
     def __del__(self):
         if self.show_debug:
             cv2.destroyAllWindows() 
-        cap.release()
+        self.cap.release()
 
     def __initializeFlowParams(self):
         # params for corner detection 
