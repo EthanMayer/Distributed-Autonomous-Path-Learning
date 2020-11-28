@@ -19,7 +19,11 @@ if len(sys.argv) <= 1:
     use = input("Enter the user of the car. Must be one of " + str(list(map(str, CarConfig))))
 else:
     use = sys.argv[1]
-carConfig = CarConfig[use]
+try:
+    carConfig = CarConfig[use]
+except KeyError:
+    carConfig = None
+    print("Unknown name given, so this is a dry run: no car motion will happen.")
 
 # Configuration
 d = 20 # Centimeters from car to object at which to stop and scan from
