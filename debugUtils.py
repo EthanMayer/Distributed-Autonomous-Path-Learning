@@ -5,8 +5,8 @@ def enterREPL():
     while True:
         try:
             code = input("> ")
-            eval(code)
+            exec(code)
         except KeyboardInterrupt:
             return
-        finally:
+        except:
             logging.error(traceback.format_exc())

@@ -44,6 +44,7 @@ else: # Dry run
     middleVert = 90
 sleep_time_short = 0.01 #0.1
 sleep_time_long = 0.4 #0.2
+sleep_time_ultrasonic_movement = 0.2
 
 # Algorithm modifiers
 stop_cond = 2 # 1 # Selects whether to stop based on 
@@ -73,7 +74,7 @@ def forward():
         pass
 # Pass `None` for `secs` to just set the PWM output to that until the next time
 # that the motors are set.
-def left_(secs=1):
+def left_(secs=sleep_time_ultrasonic_movement):
     wheels.setMotorModel(-500,-500,2000,2000)       #Left  (<--originally)
     if secs:
         time.sleep(secs)
@@ -81,14 +82,14 @@ def right_(secs=1):
     wheels.setMotorModel(2000,2000,-500,-500)       #Right (<--originally)  
     if secs:
         time.sleep(secs)
-def left(secs=1):
+def left(secs=sleep_time_ultrasonic_movement):
     if carConfig == CarConfig.WhereEam:
         right_(secs)
     elif carConfig == CarConfig.sbond75:
         left_(secs)
     elif carConfig == CarConfig.Ethan:
         pass
-def right(secs=1):
+def right(secs=sleep_time_ultrasonic_movement):
     if carConfig == CarConfig.WhereEam:
         left_(secs)
     elif carConfig == CarConfig.sbond75:
@@ -185,7 +186,7 @@ if __name__ == '__main__':
                 dir = None
                 if destination_angle < 90:
                     print("Turning left")
-                    left(None)
+                    left()
                     dir = -1
                 elif destination_angle == 90:
                     print("Forward but this shouldn't happen")
@@ -193,7 +194,7 @@ if __name__ == '__main__':
                     dir = 0
                 elif destination_angle > 90:
                     print("Turning right")
-                    right(None)
+                    right()
                     dir = 1
                 else:
                     raise Exception("Unexpected case")
