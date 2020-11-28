@@ -85,7 +85,7 @@ class OpticalFlow:
     #   1. The closest point as a list of two elements representing a 2D vector.
     #   2. The flow vector detected at the closest point to the center.
     def computeCentermostFlow(self):
-        if self.p0 == None:
+        if self.p0 is None:
             self.prepare()
         
         ret, frame = self.cap.read() 
