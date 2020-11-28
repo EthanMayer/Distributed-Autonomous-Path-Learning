@@ -123,7 +123,7 @@ if __name__ == '__main__':
             ultrasonic.pwm_S.setServoPwm('0',middleHoriz)
             ultrasonic.pwm_S.setServoPwm('1',middleVert)
             # Allow time to settle:
-            time.sleep(1)
+            time.sleep(2)
 
             while True:
                 # Grab distance from bot to object
