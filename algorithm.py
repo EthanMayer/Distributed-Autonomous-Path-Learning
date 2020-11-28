@@ -228,7 +228,7 @@ if __name__ == '__main__':
                     # Optical flow
                     (closestPointToCenter, flowVector) = flow.computeCentermostFlow()
                     print("Flow reliability (lower is better): " 
-                            + flow.reliabilityOfPoint(closestPointToCenter))
+                            + str(flow.reliabilityOfPoint(closestPointToCenter)))
                     rads = flow.computeRadiansOfCameraRotation(c, flowVector)
                     degrees = math.degrees(rads)
                     print("Turned " + degrees + " degrees")
