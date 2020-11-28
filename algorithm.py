@@ -24,7 +24,8 @@ try:
     carConfig = CarConfig[use]
 except KeyError:
     carConfig = None
-    print("Unknown name given, so this is a dry run: no car motion will happen.")
+    print("Unknown name given, so this is a dry run: no car motion will "
+            + "happen, but the ultrasonic sensor will move.")
 
 # Configuration
 d = 20 # Centimeters from car to object at which to stop and scan from

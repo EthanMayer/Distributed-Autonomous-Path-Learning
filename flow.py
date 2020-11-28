@@ -74,8 +74,8 @@ class OpticalFlow:
             # Create a mask image for drawing purposes 
             self.mask = np.zeros_like(old_frame) 
 
-        self.p0 = cv2.goodFeaturesToTrack(old_gray, mask = None, 
-                                    **feature_params) 
+        self.p0 = cv2.goodFeaturesToTrack(self.old_gray, mask = None, 
+                                    **self.feature_params) 
     
     # Compute the last optical flow and return the flow vector at the point
     # that was centermost in the frame (i.e., is in-line with the distance sensor
