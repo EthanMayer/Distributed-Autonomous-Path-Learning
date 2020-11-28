@@ -1,3 +1,5 @@
+import logging
+
 def enterREPL():
     while True:
         try:
