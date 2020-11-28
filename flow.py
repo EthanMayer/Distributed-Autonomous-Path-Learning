@@ -12,7 +12,7 @@ import cv2
 # ```
 # points = [[3, 3], [5, -1], [-2, 4]]
 # K = 2
-# print(pClosest(points, K))
+# print(closestKPointsToOrigin(points, K)[0])
 # ```
 # will print [[3, 3], [-2, 4]] since those are the 2 closest points to [0, 0], the origin.
 #   2. indices of those items in the list.
@@ -129,7 +129,7 @@ class OpticalFlow:
         # in the frame, i.e. relative to width/2, height/2 as the origin.
         good_new_centered = map(lambda l: [l[0] - self.frame_width / 2, 
                                            l[1] - self.frame_height / 2], good_new)
-        (centermost, centermostIndex) = pClosest(list(good_new_centered), 1)
+        (centermost, centermostIndex) = closestKPointsToOrigin(list(good_new_centered), 1)
 
         # Updating Previous frame and points  
         self.old_gray = frame_gray.copy() 
