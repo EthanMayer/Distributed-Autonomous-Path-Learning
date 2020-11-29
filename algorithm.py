@@ -231,7 +231,7 @@ if __name__ == '__main__':
                             + str(flow.reliabilityOfPoint(closestPointToCenter)))
                     rads = flow.computeRadiansOfCameraRotation(c, flowVector)
                     degrees = math.degrees(rads)
-                    print("Turned " + degrees + " degrees")
+                    print("Turned " + str(degrees) + " degrees")
                     
                     time_diff = current_time - prev_time
                     prev_time = current_time
