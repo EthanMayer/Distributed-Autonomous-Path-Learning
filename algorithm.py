@@ -85,14 +85,14 @@ def left(secs=1):
     if carConfig == CarConfig.WhereEam:
         right_(secs)
     elif carConfig == CarConfig.sbond75:
-        left_(secs)
+        right_(secs)
     elif carConfig == CarConfig.Ethan:
         pass
 def right(secs=1):
     if carConfig == CarConfig.WhereEam:
         left_(secs)
     elif carConfig == CarConfig.sbond75:
-        right_(secs)
+        left_(secs)
     elif carConfig == CarConfig.Ethan:
         pass
 
@@ -190,9 +190,20 @@ if __name__ == '__main__':
             while True:
                 # Turn
                 dir = None
-                print("Turning left")
-                left(None)
-                dir = -1
+                if destination_angle < 90:
+                    print("Turning left")
+                    left(None)
+                    dir = -1
+                elif destination_angle == 90:
+                    print("Forward but this shouldn't happen")
+                    forward()
+                    dir = 0
+                elif destination_angle > 90:
+                    print("Turning right")
+                    right(None)
+                    dir = 1
+                else:
+                    raise Exception("Unexpected case")
                 
                 if stop_cond == 0:
                     # Get current distance as we turn

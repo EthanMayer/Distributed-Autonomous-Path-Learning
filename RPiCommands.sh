@@ -17,3 +17,9 @@ pip3 install adafruit-circuitpython-mpu6050
 # Also, to use the gyroscope, you must to remove/comment out "start_x=1" under /boot/config.txt and then reboot, or else
 # GPIO 0 and 1 which use the gyroscope will not detect anything. Source:
 # https://www.raspberrypi.org/forums/viewtopic.php?t=241637
+# And then add this to /boot/config.txt to enable i2c0 which operates on GPIO 0 and 1:
+# ```
+# Enable all i2c
+# dtparam=i2c1=on
+# dtparam=i2c0=on
+# ```
