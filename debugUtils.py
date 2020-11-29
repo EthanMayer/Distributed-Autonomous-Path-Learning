@@ -1,8 +1,9 @@
 import logging
 import traceback
 
-# Captures local variables used in the callee!
-def enterREPL(locals=locals()):
+# Must pass `locals` parameter as `locals()`, which
+# captures local variables used in the callee!
+def enterREPL(locals):
     while True:
         try:
             code = input("> ")
