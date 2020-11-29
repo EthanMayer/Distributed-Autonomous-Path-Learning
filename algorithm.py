@@ -111,6 +111,7 @@ if __name__ == '__main__':
         # Instead, we use:
         # This doesn't work, todo: i2c = busio.I2C(28, 27)
         # sudo i2cdetect -y 1
+        print(board.__dict__)
 
         mpu = adafruit_mpu6050.MPU6050(i2c)
     elif stop_cond == 2:
