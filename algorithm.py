@@ -43,10 +43,10 @@ else: # Dry run
     middleHoriz = 90
     middleVert = 90
 sleep_time_short = 0.01 #0.1
-sleep_time_long = 0.7 #0.4 #0.2
+sleep_time_long = 0.4 #0.7 #0.4 #0.2
 
 # Algorithm modifiers
-stop_cond = 2 # 1 # Selects whether to stop based on 
+stop_cond = 1 # 1 # Selects whether to stop based on 
                   # distance polling(0) [somewhat unreliable depending on obstacle course] 
                   # or with gyroscope(1) [BROKEN], or optical flow(2).
 dist_epsilon = 30 #1   # For stop_cond == 0
