@@ -3,6 +3,7 @@
 import numpy as np 
 import cv2 
 import debugUtils
+import math
 
 # Helper functions #
 
@@ -201,6 +202,10 @@ class OpticalFlow:
         # Get angle in radians between the sensor vector and the sum of the two 
         # vectors defined above:
         angle = angleBetween(sensorDistVec3D, np.add(sensorDistVec3D, flowVector3D))
+
+        # Now subtract 90 degrees to make the angle be relevant to the car and not just
+        # the angle between those vectors:
+        angle -= math.pi / 2
 
         print(angle)
 
