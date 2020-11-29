@@ -223,7 +223,7 @@ if __name__ == '__main__':
                     current_time = time.time_ns() / 1000 / 1000 / 1000
                     time_diff = current_time - prev_time
                     prev_time = current_time
-                    degrees_total += velZ * time_diff
+                    degrees_total -= velZ * time_diff
                     print("Degrees so far: " + str(degrees_total))
                     if dir == -1:
                         if degrees_total - destination_angle <= angle_epsilon:
