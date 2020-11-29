@@ -73,9 +73,17 @@ class OpticalFlow:
 
     # Call this before beginning to turn the car. It locks onto feature points 
     # in the camera image which will be tracked while turning. 
+    # Returns False if an empty frame was found. If an empty frame is found, this
+    # will be handled automatically in computeCentermostFlow().
     def prepare(self):
-        # Take first frame and find corners in it 
+        # Take first frame and find corners in it
         ret, old_frame = self.cap.read() 
+
+        # Check if frame is not empty
+        if not ret:
+            print("prepare(): Empty frame")
+            return False
+
         self.old_gray = cv2.cvtColor(old_frame, 
                                 cv2.COLOR_BGR2GRAY)
         
@@ -89,15 +97,38 @@ class OpticalFlow:
     # Compute the last optical flow and return the flow vector at the point
     # that was centermost in the frame (i.e., is in-line with the distance sensor
     # on the RPi).
-    # When show_debug was set to True, this method
-    # returns False to request exiting the program, otherwise it returns a pair consisting of:
-    #   1. The closest point as a list of two elements representing a 2D vector.
-    #   2. The flow vector detected at the closest point to the center.
-    def computeCentermostFlow(self):
+    # @param reprepare -- indicates whether to prepare again or return False when no tracking
+    # points are found in the image anymore or if an empty frame 
+    # is captured. Recommended to keep True.
+    # @param show_debug -- When show_debug was set to True, this method
+    # returns True to request exiting the program, or in all cases it may return one of:
+    #   1. A pair consisting of:
+    #     a. The closest point as a list of two elements representing a 2D vector.
+    #     b. The flow vector detected at the closest point to the center.
+    #   2. If reprepare is True, returning False indicates that an empty frame 
+    #   was all that could be captured
+    #   or that no tracking points are left. This means
+    #   you need to try again until you get True. cap.isOpened() may be useful too.
+    def computeCentermostFlow(self, reprepare=True):
         if self.p0 is None:
-            self.prepare()
+            if not reprepare:
+                return False
+            # Wait until we get a non-empty frame while preparing:
+            while self.prepare() == False:
+                self.p0 = None
         
-        ret, frame = self.cap.read() 
+        # Capture a frame
+        while True:
+            ret, frame = self.cap.read() 
+
+            # Check if frame is not empty
+            if not ret:
+                print("computeCentermostFlow(): Empty frame")
+                if not reprepare:
+                    return False
+            else:
+                break
+
         frame_gray = cv2.cvtColor(frame, 
                                 cv2.COLOR_BGR2GRAY) 
     
@@ -131,7 +162,16 @@ class OpticalFlow:
         
             k = cv2.waitKey(25) 
             if k == 27: 
+                return True
+
+        # Check if we have any points left:
+        if len(good_new) == 0:
+            print("computeCentermostFlow(): Re-prepare needed")
+            if not reprepare:
                 return False
+            while self.prepare() == False:
+                self.p0 = None
+            self.computeCentermostFlow(reprepare)
 
         # Find centermost point:
         # Translate all points to be centered
