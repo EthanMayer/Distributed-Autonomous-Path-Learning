@@ -224,6 +224,7 @@ if __name__ == '__main__':
                     time_diff = current_time - prev_time
                     prev_time = current_time
                     degrees_total += velZ * time_diff
+                    print("Degrees so far: " + str(degrees_total))
                     if abs(degrees_total - destination_angle) <= angle_epsilon:
                         break
                 elif stop_cond == 2:
