@@ -195,7 +195,7 @@ class OpticalFlow:
         # Make flowVector into a 3D vector but contained within the plane of the 
         # camera frame, and sensorDistance into a 3D vector going into the frame.
         sensorDistVec3D = [0, 0, sensorDistance]
-        debugUtils.enterREPL()
+        debugUtils.enterREPL(locals())
         flowVector3D = [flowVector[0], flowVector[1], 0]
 
         # Get angle in radians between the sensor vector and the sum of the two 
