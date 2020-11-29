@@ -6,7 +6,7 @@ def enterREPL(locals=locals()):
     while True:
         try:
             code = input("> ")
-            exec(code, locals=locals)
+            exec(code, None, locals=locals)
         except KeyboardInterrupt:
             return
         except:
