@@ -200,7 +200,7 @@ class OpticalFlow:
 
         # Get angle in radians between the sensor vector and the sum of the two 
         # vectors defined above:
-        angle = angleBetween(sensorDistVec3D, sensorDistVec3D + flowVector3D)
+        angle = angleBetween(sensorDistVec3D, np.add(sensorDistVec3D, flowVector3D))
 
         print(angle)
 
