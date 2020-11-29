@@ -113,8 +113,10 @@ if __name__ == '__main__':
         # i2c = busio.I2C(board.SCL, board.SDA)
         
         # Instead, we use:
-        # This doesn't work, todo: 
-        i2c = busio.I2C(28, 27)
+        # This doesn't work, todo: i2c = busio.I2C(28, 27)
+        i2c = busio.I2C(1, 0) 
+        # https://github.com/adafruit/Adafruit_CircuitPython_MPU6050 or try https://github.com/m-rtijn/mpu6050
+        # or use http://abyz.me.uk/rpi/pigpio/ , recommended by Will
         # sudo i2cdetect -y 1
 
         mpu = adafruit_mpu6050.MPU6050(i2c)
