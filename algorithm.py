@@ -46,7 +46,7 @@ sleep_time_short = 0.01 #0.1
 sleep_time_long = 0.4 #0.7 #0.4 #0.2
 
 # Algorithm modifiers
-stop_cond = 2 # 1 # Selects whether to stop based on 
+stop_cond = 1 # 1 # Selects whether to stop based on 
                   # distance polling(0) [somewhat unreliable depending on obstacle course] 
                   # or with gyroscope(1) [BROKEN], or optical flow(2).
 dist_epsilon = 30 #1   # For stop_cond == 0
@@ -110,7 +110,7 @@ if __name__ == '__main__':
         
         # Normally, this would work, but we have GPIO 0 on the RPi as our gyroscope data 
         # connection.: 
-        # i2c = busio.I2C(board.SCL, board.SDA)
+        i2c = busio.I2C(board.SCL, board.SDA)
         
         # Instead, we use:
         # This doesn't work, todo: i2c = busio.I2C(28, 27)
