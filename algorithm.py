@@ -190,21 +190,10 @@ if __name__ == '__main__':
             while True:
                 # Turn
                 dir = None
-                if destination_angle < 90:
-                    print("Turning left")
-                    left(None)
-                    dir = -1
-                elif destination_angle == 90:
-                    print("Forward but this shouldn't happen")
-                    forward()
-                    dir = 0
-                elif destination_angle > 90:
-                    print("Turning right")
-                    right(None)
-                    dir = 1
-                else:
-                    raise Exception("Unexpected case")
-
+                print("Turning right")
+                right(None)
+                dir = 1
+                
                 if stop_cond == 0:
                     # Get current distance as we turn
                     c = ultrasonic.get_distance() 
