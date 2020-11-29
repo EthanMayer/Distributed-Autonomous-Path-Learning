@@ -190,9 +190,9 @@ if __name__ == '__main__':
             while True:
                 # Turn
                 dir = None
-                print("Turning right")
-                right(None)
-                dir = 1
+                print("Turning left")
+                left(None)
+                dir = -1
                 
                 if stop_cond == 0:
                     # Get current distance as we turn
