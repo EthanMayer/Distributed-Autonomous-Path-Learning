@@ -60,8 +60,8 @@ class OpticalFlow:
         #cap = cv2.VideoCapture('sample.mp4')
         self.cap = cv2.VideoCapture(source)
         # Set video capture properties
-        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, frame_width)
-        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, frame_height)
+        #self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, frame_width)
+        #self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, frame_height)
 
         self.source = source
         self.frame_width = frame_width
