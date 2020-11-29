@@ -110,7 +110,7 @@ if __name__ == '__main__':
         
         # Normally, this would work, but we have GPIO 0 on the RPi as our gyroscope data 
         # connection.: 
-        i2c = busio.I2C(board.SCL, board.SDA)
+        #i2c = busio.I2C(board.SCL, board.SDA)
         
         # Instead, we use:
         # This doesn't work, todo: i2c = busio.I2C(28, 27)
