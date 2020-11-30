@@ -81,6 +81,11 @@ class OpticalFlow:
         self.good_new = None
         self.good_old = None
         self.averagePoint = None
+        self.originalPoints = None
+        self.angle = None
+        self.angleOffsetFromPreviousPoints = None # Offset to apply to `angle` when
+        # we re-prepare due to losing feature points; holds the running sum of all angles
+        # we had before.
         
         self.__initializeFlowParams()
         self.p0 = None
@@ -90,6 +95,8 @@ class OpticalFlow:
     # Returns False if an empty frame was found. If an empty frame is found, this
     # will be handled automatically in computeCentermostFlow().
     def prepare(self):
+        if self.angle is not None:
+            self.angleOffsetFromPreviousPoints += self.angle
         self.__setPointChanged(True)
 
         # Take first frame and find corners in it
@@ -109,6 +116,7 @@ class OpticalFlow:
 
         self.p0 = cv2.goodFeaturesToTrack(self.old_gray, mask = None, 
                                     **self.feature_params) 
+        self.originalPoints = self.p0
     
     # Compute the last optical flow and return the flow vector at the point
     # that was centermost in the frame (i.e., is in-line with the distance sensor
@@ -154,9 +162,11 @@ class OpticalFlow:
                                             frame_gray, 
                                             self.p0, None, 
                                             **self.lk_params) 
+        # `st` is the "status": array of 0 or 1 where a 0 means we lost that point from self.p0,
+        # and 1 means we kept it. (source: https://docs.opencv.org/master/dc/d6b/group__video__track.html#ga473e4b886d0bcc6b65831eb88ed93323 )
         #if len(err) > 0:
         #    print("Error in flow: " + str(err)) # This prints often... strange..
-        
+
         # Select good points 
         good_new = p1[st == 1] 
         good_old = self.p0[st == 1] 
@@ -184,6 +194,10 @@ class OpticalFlow:
 
         # Check if we lost any points
         try:
+            # Remove points from original array where status was bad
+            for i in range(0, len(self.originalPoints)):
+                if st[i] == 0: # Point lost
+                    self.originalPoints[i] = None
             if len(self.good_old) < len(self.good_new):
                 self.__setPointChanged(True)
                 print("A point was lost")
@@ -225,7 +239,8 @@ class OpticalFlow:
         return [p[0] - self.frame_width / 2, 
                 p[1] - self.frame_height / 2]
     
-    # Returns the change in camera angle in radians. Must call after having called
+    # Returns the change in camera angle in radians since the last call to
+    # reset(). Calls to this function must be after having called
     # computeCentermostFlow() at least once.
     def computeRadiansOfCameraRotation(self, sensorDistance, flowVector):
         if False:
@@ -244,7 +259,10 @@ class OpticalFlow:
             # Now subtract 90 degrees to make the angle be relevant to the car and not just
             # the angle between those vectors:
             angleChange -= math.pi / 2
-        else:
+
+            print("Change in angle: " + str(math.degrees(angleChange)) + " degrees")
+            return angleChange
+        elif False:
             # Point position method: average all movement of all points #
 
             newAveragePoint = 0
@@ -268,11 +286,44 @@ class OpticalFlow:
 
             # Adjust self.averagePoint:
             self.averagePoint = newAveragePoint
+
+            print("Change in angle: " + str(math.degrees(angleChange)) + " degrees")
+            return angleChange
+        else:
+            # Point position method but keep the offset from the original points instead #
+
+            averageOffsetFromOriginal = 0
+            i = 0
+            while i < len(self.originalPoints):
+                # Check how much this point has moved
+                pnew = self.good_new[i]
+                pold = self.originalPoints[i]
+                if pold == None:
+                    i += 1
+                    continue # This point was lost in the tracking
+                averageOffsetFromOriginal = np.add(averageOffsetFromOriginal, 
+                                                    np.subtract(pnew, pold))
+                i += 1
+            averageOffsetFromOriginal = np.divide(averageOffsetFromOriginal, 
+                                                    i)
+            
+            # Get the angle using the field of view of the camera
+            fovHoriz = 62 # Horizontal degrees
+            # Range of the first value is provided in the second argument here:
+            angle = map_(averageOffsetFromOriginal[0], 
+                                -self.frame_width / 2, self.frame_width / 2,
+                                -fovHoriz / 2, fovHoriz / 2)
+            # `angle` is now from range -fovHoriz / 2 to fovHoriz / 2.
+
+            print("Angle: " + str(math.degrees(angleChange)) + " degrees")
+            return angle
         
-        print("Change in angle: " + str(math.degrees(angleChange)) + " degrees")
 
-        return angleChange
-
+    # Indicates the current frame sequence is no longer being considered.
+    def reset(self):
+        self.angle = None
+        self.__setPointChanged(True)
+    
     # Private methods #
 
     # "Destructor": called upon garbage collection of this object.
@@ -301,3 +352,4 @@ class OpticalFlow:
     def __setPointChanged(self, pointChanged):
         if pointChanged:
             self.averagePoint = None
+            self.originalPoints = None

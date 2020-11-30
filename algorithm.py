@@ -251,17 +251,23 @@ if __name__ == '__main__':
                     (closestPointToCenter, flowVector) = flow.computeCentermostFlow()
                     print("Flow reliability (closer to 0 is better): " 
                             + str(flow.reliabilityOfPoint(closestPointToCenter)))
-                    rads = flow.computeRadiansOfCameraRotation(c, flowVector)
-                    degrees = math.degrees(rads)
                     
-                    degrees_total -= degrees
+                    #rads = flow.computeRadiansOfCameraRotation(c, flowVector)
+                    #degrees = math.degrees(rads)
+                    #degrees_total -= degrees
+                    
+                    radsTotal = flow.computeRadiansOfCameraRotation(c, flowVector)
+                    degrees_total = math.degrees(radsTotal)
+
                     print("At " + str(degrees_total) + " degrees, want "
                             + str(destination_angle) + " degrees")
                     if dir == -1:
                         if degrees_total - destination_angle <= angle_epsilon:
+                            flow.reset()
                             break
                     elif dir == 1:
                         if destination_angle - degrees_total <= angle_epsilon:
+                            flow.reset()
                             break
                 else:
                     raise Exception("Unimplemented stop_cond")
