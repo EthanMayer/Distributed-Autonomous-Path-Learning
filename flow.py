@@ -97,6 +97,7 @@ class OpticalFlow:
     def prepare(self):
         if self.angle is not None:
             self.angleOffsetFromPreviousPoints += self.angle
+            self.angle = None
         self.__setPointChanged(True)
 
         # Take first frame and find corners in it
@@ -310,18 +311,20 @@ class OpticalFlow:
             # Get the angle using the field of view of the camera
             fovHoriz = 62 # Horizontal degrees
             # Range of the first value is provided in the second argument here:
-            angle = map_(averageOffsetFromOriginal[0], 
+            self.angle = map_(averageOffsetFromOriginal[0], 
                                 -self.frame_width / 2, self.frame_width / 2,
                                 -fovHoriz / 2, fovHoriz / 2)
             # `angle` is now from range -fovHoriz / 2 to fovHoriz / 2.
+            print("Angle (radians): " + str(self.angle))
 
-            print("Angle: " + str(math.degrees(angle)) + " degrees")
-            return angle
+            print("Angle: " + str(math.degrees(self.angle)) + " degrees")
+            return self.angleOffsetFromPreviousPoints + self.angle
         
 
     # Indicates the current frame sequence is no longer being considered.
     def reset(self):
         self.angle = None
+        self.angleOffsetFromPreviousPoints = None
         self.__setPointChanged(True)
         self.originalPoints = None
     
