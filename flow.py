@@ -319,7 +319,8 @@ class OpticalFlow:
             print("Angle (radians): " + str(self.angle))
 
             print("Angle: " + str(math.degrees(self.angle)) + " degrees")
-            return self.angleOffsetFromPreviousPoints + self.angle
+            return self.angleOffsetFromPreviousPoints if self.angleOffsetFromPreviousPoints
+                    is not None else 0 + self.angle
         
 
     # Indicates the current frame sequence is no longer being considered.
