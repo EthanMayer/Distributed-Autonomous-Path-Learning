@@ -81,7 +81,9 @@ class OpticalFlow:
         self.good_new = None
         self.good_old = None
         self.averagePoint = None
-        self.originalPoints = None
+        self.good_new_withNones = None # Holds None for points that were removed
+        self.skip = []
+        self.originalPoints = None # Holds None for points that were removed
         self.angle = None
         self.angleOffsetFromPreviousPoints = None # Offset to apply to `angle` when
         # we re-prepare due to losing feature points; holds the running sum of all angles
@@ -117,7 +119,8 @@ class OpticalFlow:
 
         self.p0 = cv2.goodFeaturesToTrack(self.old_gray, mask = None, 
                                     **self.feature_params) 
-        self.originalPoints = self.p0
+        self.originalPoints = self.p0.copy()
+        self.good_new_withNones = self.p0.copy()
     
     # Compute the last optical flow and return the flow vector at the point
     # that was centermost in the frame (i.e., is in-line with the distance sensor
@@ -170,7 +173,20 @@ class OpticalFlow:
 
         # Select good points 
         good_new = p1[st == 1] 
+        # Go through all points in p0 and keep in good_new_withNones the ones that didn't
+        # get set to 0, and update skip counts if so
+        for i in range(0, len(st)):
+            if st == 0: # Point lost
+                # Find where in self.skip that we should place the skip
+                outJ = None
+                for j in range (0, len(self.skip)):
+                    if self.skip[j] == 0:
+                        outJ = j
+                        break
+                if outJ != None:
+                    self.skip[outJ] .............
         good_old = self.p0[st == 1] 
+
 
         if self.show_debug:
             # draw the tracks 
@@ -199,6 +215,7 @@ class OpticalFlow:
             for i in range(0, len(self.originalPoints)):
                 if st[i] == 0: # Point lost
                     self.originalPoints[i] = None
+                    self.good_new_withNones[i] = None
             if len(self.good_old) < len(self.good_new):
                 self.__setPointChanged(True)
                 print("A point was lost")
@@ -274,6 +291,7 @@ class OpticalFlow:
             for i in range(0, len(self.good_old)):
                 # Check how much this point has moved
                 pnew = self.good_new[i]
+                raise Exception("This is broken and needs to use good_new_withNones since some points can be removed")
                 pold = self.good_old[i]
                 newAveragePoint = np.add(newAveragePoint, np.subtract(pnew, pold))
             newAveragePoint = np.divide(newAveragePoint, len(self.good_old))
@@ -332,6 +350,7 @@ class OpticalFlow:
         self.angleOffsetFromPreviousPoints = None
         self.__setPointChanged(True)
         self.originalPoints = None
+        self.skip = []
     
     # Private methods #
 
