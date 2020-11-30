@@ -255,7 +255,7 @@ if __name__ == '__main__':
                     rads = flow.computeRadiansOfCameraRotation(c, flowVector)
                     degrees = math.degrees(rads)
                     degrees_total -= degrees
-                    sleep(0.1)
+                    time.sleep(0.1)
                     
                     #radsTotal = flow.computeRadiansOfCameraRotation(c, flowVector)
                     #degrees_total = math.degrees(radsTotal)
