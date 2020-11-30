@@ -143,8 +143,8 @@ class OpticalFlow:
                                             frame_gray, 
                                             self.p0, None, 
                                             **self.lk_params) 
-        if len(err) > 0:
-            print("Error in flow: " + str(err))
+        #if len(err) > 0:
+        #    print("Error in flow: " + str(err)) # This prints often... strange..
         
         # Select good points 
         good_new = p1[st == 1] 
@@ -221,7 +221,7 @@ class OpticalFlow:
             # the angle between those vectors:
             angle -= math.pi / 2
 
-            print("Angle: " + str(degrees(angle)) + " degrees")
+            print("Angle: " + str(math.degrees(angle)) + " degrees")
 
             return angle
         else:
