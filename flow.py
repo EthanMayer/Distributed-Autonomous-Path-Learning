@@ -244,6 +244,10 @@ class OpticalFlow:
     # reset(). Calls to this function must be after having called
     # computeCentermostFlow() at least once.
     def computeRadiansOfCameraRotation(self, sensorDistance, flowVector):
+        # Constants
+        fovHorizDegrees = 62 # Field of view of the camera, in horizontal degrees
+        fovHoriz = radians(fovHorizDegrees) # Converted to radians
+
         if False:
             # Flow/velocity method #
 
@@ -277,7 +281,6 @@ class OpticalFlow:
             changeInAvg = np.subtract(newAveragePoint, 
                 self.averagePoint if self.averagePoint is not None else newAveragePoint)
             # Get the angle using the field of view of the camera
-            fovHoriz = 62 # Horizontal degrees
             print("changeInAvg: " + str(changeInAvg))
             # Range of the first value is provided in the second argument here:
             angleChange = map_(changeInAvg[0], 
@@ -310,17 +313,17 @@ class OpticalFlow:
             #debugUtils.enterREPL(globals(), locals())
             
             # Get the angle using the field of view of the camera
-            fovHoriz = 62 # Horizontal degrees
             # Range of the first value is provided in the second argument here:
             self.angle = map_(averageOffsetFromOriginal[0], 
                                 -self.frame_width / 2, self.frame_width / 2,
                                 -fovHoriz / 2, fovHoriz / 2)
             # `angle` is now from range -fovHoriz / 2 to fovHoriz / 2.
-            print("Angle (radians): " + str(self.angle))
+            #print("Angle (radians): " + str(self.angle))
 
-            print("Angle: " + str(math.degrees(self.angle)) + " degrees")
-            return self.angleOffsetFromPreviousPoints if self.angleOffsetFromPreviousPoints
-                    is not None else 0 + self.angle
+            print("Angle for this prepare(): " + str(math.degrees(self.angle)) + " degrees")
+            resAngle = (self.angleOffsetFromPreviousPoints if self.angleOffsetFromPreviousPoints is not None else 0) + self.angle
+            print("Angle for this reset(): " + str(math.degrees(resAngle)) + " degrees")
+            return resAngle
         
 
     # Indicates the current frame sequence is no longer being considered.
