@@ -323,6 +323,7 @@ class OpticalFlow:
     def reset(self):
         self.angle = None
         self.__setPointChanged(True)
+        self.originalPoints = None
     
     # Private methods #
 
@@ -352,4 +353,3 @@ class OpticalFlow:
     def __setPointChanged(self, pointChanged):
         if pointChanged:
             self.averagePoint = None
-            self.originalPoints = None
