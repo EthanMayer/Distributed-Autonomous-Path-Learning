@@ -82,6 +82,8 @@ class OpticalFlow:
     # Returns False if an empty frame was found. If an empty frame is found, this
     # will be handled automatically in computeCentermostFlow().
     def prepare(self):
+        self.__setPointChanged(True)
+
         # Take first frame and find corners in it
         ret, old_frame = self.cap.read() 
 
@@ -177,8 +179,8 @@ class OpticalFlow:
             if len(self.good_old) < len(self.good_new):
                 self.__setPointChanged(True)
                 print("A point was lost")
-            else:
-                self.__setPointChanged(False)
+            #else:
+            #    self.__setPointChanged(False)
         except TypeError: # "TypeError: object of type 'NoneType' has no len()"
             self.__setPointChanged(True)
         
