@@ -213,11 +213,15 @@ class OpticalFlow:
 
             print(angle)
         else:
-            # Point position method
+            # Point position method: average all movement of all points
+            average = 0
             for i in range(0, len(good_old)):
                 # Check how much this point has moved
                 pnew = good_new[i]
                 pold = good_old[i]
+                average += pnew - pold
+            average = average / len(good_old)
+                
 
         return angle
 
