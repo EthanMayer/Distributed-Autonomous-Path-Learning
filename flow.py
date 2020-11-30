@@ -298,7 +298,7 @@ class OpticalFlow:
                 # Check how much this point has moved
                 pnew = self.good_new[i]
                 pold = self.originalPoints[i]
-                if pold == None:
+                if pold is None:
                     i += 1
                     continue # This point was lost in the tracking
                 averageOffsetFromOriginal = np.add(averageOffsetFromOriginal, 
