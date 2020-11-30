@@ -54,6 +54,14 @@ def angleBetween(vector_1, vector_2):
     angle = np.arccos(dot_product)
     return angle
 
+# "Re-maps a number from one range to another."
+# (based on https://processing.org/reference/map_.html and
+# https://stackoverflow.com/questions/17134839/how-does-the-map-function-in-processing-work )
+# istart/stop: input starting/stopping values of the range of values it can be in.
+# ostart/stop: the above range but for the expected/resulting converted value.
+def map(value, istart, istop, ostart, ostop):
+    return ostart + (ostop - ostart) * ((value - istart) / (istop - istart))
+
 # Optical flow processing class #
 
 class OpticalFlow:
@@ -253,9 +261,9 @@ class OpticalFlow:
             fovHoriz = 62 # Horizontal degrees
             print("changeInAvg: " + str(changeInAvg))
             # Range of the first value is provided in the second argument here:
-            angleChange = np.interp(changeInAvg[0], 
-                                    [-self.frame_width / 2, self.frame_width / 2], 
-                                    [-fovHoriz / 2, fovHoriz / 2])
+            angleChange = map(changeInAvg[0], 
+                                -self.frame_width / 2, self.frame_width / 2,
+                                -fovHoriz / 2, fovHoriz / 2)
             # `angle` is now from range -fovHoriz / 2 to fovHoriz / 2.
 
             # Adjust self.averagePoint:
