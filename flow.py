@@ -178,7 +178,7 @@ class OpticalFlow:
                 return False
             while self.prepare() == False:
                 self.p0 = None
-            self.computeCentermostFlow(reprepare)
+            return self.computeCentermostFlow(reprepare)
 
         # Find centermost point:
         # Translate all points to be centered
