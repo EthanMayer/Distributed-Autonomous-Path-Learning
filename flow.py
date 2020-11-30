@@ -227,7 +227,7 @@ class OpticalFlow:
         # Updating Previous frame and points  
         self.old_gray = frame_gray.copy() 
         #print(self.p0)
-        self.p0 = good_new.reshape(-1, 1, 2) 
+        self.p0 = good_new.reshape(-1, 1, 2) # Adds a layer of lists.. why?
         #print("Reshaped: " + str(self.p0))
 
         self.good_new = good_new
@@ -293,12 +293,12 @@ class OpticalFlow:
         else:
             # Point position method but keep the offset from the original points instead #
 
-            averageOffsetFromOriginal = 0
+            averageOffsetFromOriginal = [0, 0]
             i = 0
             while i < len(self.originalPoints):
                 # Check how much this point has moved
                 pnew = self.good_new[i]
-                pold = self.originalPoints[i]
+                pold = self.originalPoints[i][0] # [0] to remove the nested list.. why?
                 if pold is None:
                     i += 1
                     continue # This point was lost in the tracking
@@ -307,7 +307,7 @@ class OpticalFlow:
                 i += 1
             averageOffsetFromOriginal = np.divide(averageOffsetFromOriginal, 
                                                     i)
-            debugUtils.enterREPL(globals(), locals())
+            #debugUtils.enterREPL(globals(), locals())
             
             # Get the angle using the field of view of the camera
             fovHoriz = 62 # Horizontal degrees
