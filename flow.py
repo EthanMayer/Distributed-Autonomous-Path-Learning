@@ -69,6 +69,10 @@ class OpticalFlow:
         self.frame_height = frame_height
         self.show_debug = show_debug
 
+        # Lists holding good points to track
+        self.good_new = None
+        self.good_old = None
+        
         self.__initializeFlowParams()
         self.p0 = None
 
@@ -139,7 +143,9 @@ class OpticalFlow:
                                             frame_gray, 
                                             self.p0, None, 
                                             **self.lk_params) 
-    
+        if err:
+            print("Error in flow: " + str(err))
+        
         # Select good points 
         good_new = p1[st == 1] 
         good_old = self.p0[st == 1] 
@@ -183,10 +189,13 @@ class OpticalFlow:
 
         # Updating Previous frame and points  
         self.old_gray = frame_gray.copy() 
-        print(self.p0)
+        #print(self.p0)
         self.p0 = good_new.reshape(-1, 1, 2) 
-        print("Reshaped: " + str(self.p0))
-        return (centermost, np.subtract(centermost, good_old[centermostIndex]), good_new)
+        #print("Reshaped: " + str(self.p0))
+
+        self.good_new = good_new
+        self.good_old = good_old
+        return (centermost, np.subtract(centermost, good_old[centermostIndex]))
 
     # Given a point, this returns how close it is to the center, i.e. how "reliable" it is
     # to use in distance sensor calculations.
@@ -194,9 +203,10 @@ class OpticalFlow:
         return [p[0] - self.frame_width / 2, 
                 p[1] - self.frame_height / 2]
     
-    def computeRadiansOfCameraRotation(self, sensorDistance, flowVector, good_new):
-        # Flow velocity method #
+    def computeRadiansOfCameraRotation(self, sensorDistance, flowVector):
         if True:
+            # Flow/velocity method #
+
             # Make flowVector into a 3D vector but contained within the plane of the 
             # camera frame, and sensorDistance into a 3D vector going into the frame.
             sensorDistVec3D = [0, 0, sensorDistance]
@@ -211,19 +221,21 @@ class OpticalFlow:
             # the angle between those vectors:
             angle -= math.pi / 2
 
-            print(angle)
-        else:
-            # Point position method: average all movement of all points
-            average = 0
-            for i in range(0, len(good_old)):
-                # Check how much this point has moved
-                pnew = good_new[i]
-                pold = good_old[i]
-                average += pnew - pold
-            average = average / len(good_old)
-                
+            print("Angle: " + str(degrees(angle)) + " degrees")
 
-        return angle
+            return angle
+        else:
+            # Point position method: average all movement of all points #
+            averagePoint = 0
+            for i in range(0, len(self.good_old)):
+                # Check how much this point has moved
+                pnew = self.good_new[i]
+                pold = self.good_old[i]
+                averagePoint = np.add(averagePoint, np.subtract(pnew, pold))
+            averagePoint = np.divide(averagePoint, len(self.good_old))
+
+            # 
+        
 
     # Private methods #
 
