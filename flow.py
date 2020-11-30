@@ -315,7 +315,7 @@ class OpticalFlow:
                                 -fovHoriz / 2, fovHoriz / 2)
             # `angle` is now from range -fovHoriz / 2 to fovHoriz / 2.
 
-            print("Angle: " + str(math.degrees(angleChange)) + " degrees")
+            print("Angle: " + str(math.degrees(angle)) + " degrees")
             return angle
         
 
