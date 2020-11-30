@@ -215,6 +215,8 @@ class OpticalFlow:
         return [p[0] - self.frame_width / 2, 
                 p[1] - self.frame_height / 2]
     
+    # Returns the change in camera angle in radians. Must call after having called
+    # computeCentermostFlow() at least once.
     def computeRadiansOfCameraRotation(self, sensorDistance, flowVector):
         if False:
             # Flow/velocity method #
@@ -227,9 +229,14 @@ class OpticalFlow:
 
             # Get angle in radians between the sensor vector and the sum of the two 
             # vectors defined above:
-            angle = angleBetween(sensorDistVec3D, np.add(sensorDistVec3D, flowVector3D))
+            angleChange = angleBetween(sensorDistVec3D, np.add(sensorDistVec3D, flowVector3D))
+
+            # Now subtract 90 degrees to make the angle be relevant to the car and not just
+            # the angle between those vectors:
+            angleChange -= math.pi / 2
         else:
             # Point position method: average all movement of all points #
+
             newAveragePoint = 0
             for i in range(0, len(self.good_old)):
                 # Check how much this point has moved
@@ -244,20 +251,17 @@ class OpticalFlow:
             fovHoriz = 62 # Horizontal degrees
             print("changeInAvg: " + str(changeInAvg))
             # Range of the first value is provided in the second argument here:
-            angle = np.interp(changeInAvg[0], [0, self.frame_width], 
-                                [-fovHoriz / 2, fovHoriz / 2])
+            angleChange = np.interp(changeInAvg[0], 
+                                    [-self.frame_width / 2, self.frame_width / 2], 
+                                    [-fovHoriz / 2, fovHoriz / 2])
             # `angle` is now from range -fovHoriz / 2 to fovHoriz / 2.
 
             # Adjust self.averagePoint:
             self.averagePoint = newAveragePoint
         
-        # Now subtract 90 degrees to make the angle be relevant to the car and not just
-        # the angle between those vectors:
-        angle -= math.pi / 2
+        print("Change in angle: " + str(math.degrees(angleChange)) + " degrees")
 
-        print("Change in angle: " + str(math.degrees(angle)) + " degrees")
-
-        return angle
+        return angleChange
 
     # Private methods #
 
