@@ -72,6 +72,7 @@ class OpticalFlow:
         # Lists holding good points to track
         self.good_new = None
         self.good_old = None
+        self.averagePoint = None
         
         self.__initializeFlowParams()
         self.p0 = None
@@ -171,8 +172,16 @@ class OpticalFlow:
             if k == 27: 
                 return True
 
+        # Check if we lost any points
+        if len(self.good_old) < len(self.good_new):
+            self.__setPointChanged(True)
+            print("A point was lost")
+        else:
+            self.__setPointChanged(False)
+        
         # Check if we have any points left:
         if len(good_new) == 0:
+            self.__setPointChanged(True)
             print("computeCentermostFlow(): Re-prepare needed")
             if not reprepare:
                 return False
@@ -204,7 +213,7 @@ class OpticalFlow:
                 p[1] - self.frame_height / 2]
     
     def computeRadiansOfCameraRotation(self, sensorDistance, flowVector):
-        if True:
+        if False:
             # Flow/velocity method #
 
             # Make flowVector into a 3D vector but contained within the plane of the 
@@ -216,26 +225,35 @@ class OpticalFlow:
             # Get angle in radians between the sensor vector and the sum of the two 
             # vectors defined above:
             angle = angleBetween(sensorDistVec3D, np.add(sensorDistVec3D, flowVector3D))
-
-            # Now subtract 90 degrees to make the angle be relevant to the car and not just
-            # the angle between those vectors:
-            #angle -= math.pi / 2
-
-            print("Angle: " + str(math.degrees(angle)) + " degrees")
-
-            return angle
         else:
             # Point position method: average all movement of all points #
-            averagePoint = 0
+            newAveragePoint = 0
             for i in range(0, len(self.good_old)):
                 # Check how much this point has moved
                 pnew = self.good_new[i]
                 pold = self.good_old[i]
-                averagePoint = np.add(averagePoint, np.subtract(pnew, pold))
-            averagePoint = np.divide(averagePoint, len(self.good_old))
+                newAveragePoint = np.add(newAveragePoint, np.subtract(pnew, pold))
+            newAveragePoint = np.divide(newAveragePoint, len(self.good_old))
 
-            # 
+            changeInAvg = np.subtract(newAveragePoint, 
+                self.averagePoint if self.averagePoint is not None else newAveragePoint)
+            # Get the angle using the field of view of the camera
+            fovHoriz = 62 # Horizontal degrees
+            # Range of the first value is provided in the second argument here:
+            angle = np.interp(changeInAvg[0], [0, self.frame_width], 
+                                [-fovHoriz / 2, fovHoriz / 2])
+            # `angle` is now from range -fovHoriz / 2 to fovHoriz / 2.
+
+            # Adjust self.averagePoint:
+            self.averagePoint = newAveragePoint
         
+        # Now subtract 90 degrees to make the angle be relevant to the car and not just
+        # the angle between those vectors:
+        angle -= math.pi / 2
+
+        print("Change in angle: " + str(math.degrees(angle)) + " degrees")
+
+        return angle
 
     # Private methods #
 
@@ -261,3 +279,7 @@ class OpticalFlow:
         if self.show_debug:
             # Create some random colors 
             self.color = np.random.randint(0, 255, (100, 3))
+    
+    def __setPointChanged(self, pointChanged):
+        if pointChanged:
+            self.averagePoint = None
