@@ -185,7 +185,7 @@ class OpticalFlow:
         self.old_gray = frame_gray.copy() 
         print(self.p0)
         self.p0 = good_new.reshape(-1, 1, 2) 
-        print(self.p0)
+        print("Reshaped: " + str(self.p0))
         return (centermost, np.subtract(centermost, good_old[centermostIndex]), good_new)
 
     # Given a point, this returns how close it is to the center, i.e. how "reliable" it is

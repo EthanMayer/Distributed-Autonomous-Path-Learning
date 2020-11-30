@@ -248,10 +248,10 @@ if __name__ == '__main__':
                     c = ultrasonic.get_distance() 
 
                     # Optical flow
-                    (closestPointToCenter, flowVector) = flow.computeCentermostFlow()
+                    (closestPointToCenter, flowVector, good_new) = flow.computeCentermostFlow()
                     print("Flow reliability (closer to 0 is better): " 
                             + str(flow.reliabilityOfPoint(closestPointToCenter)))
-                    rads = flow.computeRadiansOfCameraRotation(c, flowVector)
+                    rads = flow.computeRadiansOfCameraRotation(c, flowVector, good_new)
                     degrees = math.degrees(rads)
                     print("Turned " + str(degrees) + " degrees")
                     
