@@ -255,13 +255,13 @@ if __name__ == '__main__':
                     rads = flow.computeRadiansOfCameraRotation(c, flowVector)
                     degrees = math.degrees(rads)
                     degrees_total -= degrees
-                    time.sleep(0.5)
                     
                     #radsTotal = flow.computeRadiansOfCameraRotation(c, flowVector)
                     #degrees_total = math.degrees(radsTotal)
 
                     print("At " + str(degrees_total) + " degrees, want "
                             + str(destination_angle) + " degrees")
+                    time.sleep(1)
                     if dir == -1:
                         if degrees_total - destination_angle <= angle_epsilon:
                             flow.reset()
