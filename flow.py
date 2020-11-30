@@ -81,13 +81,6 @@ class OpticalFlow:
         self.good_new = None
         self.good_old = None
         self.averagePoint = None
-        self.good_new_withNones = None # Holds None for points that were removed
-        self.skip = []
-        self.originalPoints = None # Holds None for points that were removed
-        self.angle = None
-        self.angleOffsetFromPreviousPoints = None # Offset to apply to `angle` when
-        # we re-prepare due to losing feature points; holds the running sum of all angles
-        # we had before.
         
         self.__initializeFlowParams()
         self.p0 = None
@@ -119,8 +112,6 @@ class OpticalFlow:
 
         self.p0 = cv2.goodFeaturesToTrack(self.old_gray, mask = None, 
                                     **self.feature_params) 
-        self.originalPoints = self.p0.copy()
-        self.good_new_withNones = self.p0.copy()
     
     # Compute the last optical flow and return the flow vector at the point
     # that was centermost in the frame (i.e., is in-line with the distance sensor
@@ -173,18 +164,6 @@ class OpticalFlow:
 
         # Select good points 
         good_new = p1[st == 1] 
-        # Go through all points in p0 and keep in good_new_withNones the ones that didn't
-        # get set to 0, and update skip counts if so
-        for i in range(0, len(st)):
-            if st == 0: # Point lost
-                # Find where in self.skip that we should place the skip
-                outJ = None
-                for j in range (0, len(self.skip)):
-                    if self.skip[j] == 0:
-                        outJ = j
-                        break
-                if outJ != None:
-                    self.skip[outJ] .............
         good_old = self.p0[st == 1] 
 
 
@@ -211,11 +190,6 @@ class OpticalFlow:
 
         # Check if we lost any points
         try:
-            # Remove points from original array where status was bad
-            for i in range(0, len(self.originalPoints)):
-                if st[i] == 0: # Point lost
-                    self.originalPoints[i] = None
-                    self.good_new_withNones[i] = None
             if len(self.good_old) < len(self.good_new):
                 self.__setPointChanged(True)
                 print("A point was lost")
@@ -284,14 +258,13 @@ class OpticalFlow:
 
             print("Change in angle: " + str(math.degrees(angleChange)) + " degrees")
             return angleChange
-        elif False:
+        elif True:
             # Point position method: average all movement of all points #
 
             newAveragePoint = 0
             for i in range(0, len(self.good_old)):
                 # Check how much this point has moved
                 pnew = self.good_new[i]
-                raise Exception("This is broken and needs to use good_new_withNones since some points can be removed")
                 pold = self.good_old[i]
                 newAveragePoint = np.add(newAveragePoint, np.subtract(pnew, pold))
             newAveragePoint = np.divide(newAveragePoint, len(self.good_old))
@@ -311,46 +284,11 @@ class OpticalFlow:
 
             print("Change in angle: " + str(math.degrees(angleChange)) + " degrees")
             return angleChange
-        else:
-            # Point position method but keep the offset from the original points instead #
-
-            averageOffsetFromOriginal = [0, 0]
-            i = 0
-            while i < len(self.originalPoints):
-                # Check how much this point has moved
-                pnew = self.good_new[i]
-                pold = self.originalPoints[i][0] # [0] to remove the nested list.. why?
-                if pold is None:
-                    i += 1
-                    continue # This point was lost in the tracking
-                averageOffsetFromOriginal = np.add(averageOffsetFromOriginal, 
-                                                    np.subtract(pnew, pold))
-                i += 1
-            averageOffsetFromOriginal = np.divide(averageOffsetFromOriginal, 
-                                                    i)
-            #debugUtils.enterREPL(globals(), locals())
-            
-            # Get the angle using the field of view of the camera
-            # Range of the first value is provided in the second argument here:
-            self.angle = map_(averageOffsetFromOriginal[0], 
-                                -self.frame_width / 2, self.frame_width / 2,
-                                -fovHoriz / 2, fovHoriz / 2)
-            # `angle` is now from range -fovHoriz / 2 to fovHoriz / 2.
-            #print("Angle (radians): " + str(self.angle))
-
-            print("Angle for this prepare(): " + str(math.degrees(self.angle)) + " degrees")
-            resAngle = (self.angleOffsetFromPreviousPoints if self.angleOffsetFromPreviousPoints is not None else 0) + self.angle
-            print("Angle for this reset(): " + str(math.degrees(resAngle)) + " degrees")
-            return resAngle
         
 
     # Indicates the current frame sequence is no longer being considered.
     def reset(self):
-        self.angle = None
-        self.angleOffsetFromPreviousPoints = None
         self.__setPointChanged(True)
-        self.originalPoints = None
-        self.skip = []
     
     # Private methods #
 

@@ -252,12 +252,12 @@ if __name__ == '__main__':
                     print("Flow reliability (closer to 0 is better): " 
                             + str(flow.reliabilityOfPoint(closestPointToCenter)))
                     
-                    #rads = flow.computeRadiansOfCameraRotation(c, flowVector)
-                    #degrees = math.degrees(rads)
-                    #degrees_total -= degrees
+                    rads = flow.computeRadiansOfCameraRotation(c, flowVector)
+                    degrees = math.degrees(rads)
+                    degrees_total -= degrees
                     
-                    radsTotal = flow.computeRadiansOfCameraRotation(c, flowVector)
-                    degrees_total = math.degrees(radsTotal)
+                    #radsTotal = flow.computeRadiansOfCameraRotation(c, flowVector)
+                    #degrees_total = math.degrees(radsTotal)
 
                     print("At " + str(degrees_total) + " degrees, want "
                             + str(destination_angle) + " degrees")
