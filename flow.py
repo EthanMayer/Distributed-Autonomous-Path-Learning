@@ -219,7 +219,7 @@ class OpticalFlow:
 
             # Now subtract 90 degrees to make the angle be relevant to the car and not just
             # the angle between those vectors:
-            angle -= math.pi / 2
+            #angle -= math.pi / 2
 
             print("Angle: " + str(math.degrees(angle)) + " degrees")
 
