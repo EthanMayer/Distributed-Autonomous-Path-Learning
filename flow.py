@@ -143,7 +143,7 @@ class OpticalFlow:
                                             frame_gray, 
                                             self.p0, None, 
                                             **self.lk_params) 
-        if err:
+        if len(err) > 0:
             print("Error in flow: " + str(err))
         
         # Select good points 
