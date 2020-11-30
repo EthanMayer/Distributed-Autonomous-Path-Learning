@@ -246,7 +246,7 @@ class OpticalFlow:
     def computeRadiansOfCameraRotation(self, sensorDistance, flowVector):
         # Constants
         fovHorizDegrees = 62 # Field of view of the camera, in horizontal degrees
-        fovHoriz = radians(fovHorizDegrees) # Converted to radians
+        fovHoriz = math.radians(fovHorizDegrees) # Converted to radians
 
         if False:
             # Flow/velocity method #
