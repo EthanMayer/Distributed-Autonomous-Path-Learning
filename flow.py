@@ -173,11 +173,14 @@ class OpticalFlow:
                 return True
 
         # Check if we lost any points
-        if len(self.good_old) < len(self.good_new):
+        try:
+            if len(self.good_old) < len(self.good_new):
+                self.__setPointChanged(True)
+                print("A point was lost")
+            else:
+                self.__setPointChanged(False)
+        except TypeError: # "TypeError: object of type 'NoneType' has no len()"
             self.__setPointChanged(True)
-            print("A point was lost")
-        else:
-            self.__setPointChanged(False)
         
         # Check if we have any points left:
         if len(good_new) == 0:
