@@ -307,6 +307,7 @@ class OpticalFlow:
                 i += 1
             averageOffsetFromOriginal = np.divide(averageOffsetFromOriginal, 
                                                     i)
+            debugUtils.enterREPL(globals(), locals())
             
             # Get the angle using the field of view of the camera
             fovHoriz = 62 # Horizontal degrees
