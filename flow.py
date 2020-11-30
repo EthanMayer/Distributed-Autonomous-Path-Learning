@@ -242,6 +242,7 @@ class OpticalFlow:
                 self.averagePoint if self.averagePoint is not None else newAveragePoint)
             # Get the angle using the field of view of the camera
             fovHoriz = 62 # Horizontal degrees
+            print("changeInAvg: " + str(changeInAvg))
             # Range of the first value is provided in the second argument here:
             angle = np.interp(changeInAvg[0], [0, self.frame_width], 
                                 [-fovHoriz / 2, fovHoriz / 2])
