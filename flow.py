@@ -90,9 +90,6 @@ class OpticalFlow:
     # Returns False if an empty frame was found. If an empty frame is found, this
     # will be handled automatically in computeCentermostFlow().
     def prepare(self):
-        if self.angle is not None:
-            self.angleOffsetFromPreviousPoints += self.angle
-            self.angle = None
         self.__setPointChanged(True)
 
         # Take first frame and find corners in it
