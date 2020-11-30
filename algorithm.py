@@ -254,9 +254,7 @@ if __name__ == '__main__':
                     rads = flow.computeRadiansOfCameraRotation(c, flowVector)
                     degrees = math.degrees(rads)
                     
-                    time_diff = current_time - prev_time
-                    prev_time = current_time
-                    degrees_total += dir * degrees * time_diff
+                    degrees_total += degrees
                     print("At " + str(degrees_total) + " degrees, want "
                             + str(destination_angle) + " degrees")
                     if dir == -1:
