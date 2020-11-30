@@ -2,3 +2,11 @@ Todos:
 - The bot can get stuck in an enclosed area.
 - Edges of walls with half the robot's width needing to be checked when moving forward
 - Finding the end of the course (BFS)
+
+Ideas
+- [Flow] Points to track can be used instead of flow (velocity) vectors
+- [Gyro] Gyroscope can have its angle increased by a magic value as more shaking is detected by the car turning!
+
+Immediate todos:
+- Everyone: Put rubber bands on Pi
+- Will: test traction on surfaces with a test program

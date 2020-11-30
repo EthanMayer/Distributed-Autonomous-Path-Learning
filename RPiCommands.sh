@@ -23,3 +23,7 @@ pip3 install adafruit-circuitpython-mpu6050
 # dtparam=i2c1=on
 # dtparam=i2c0=on
 # ```
+# Apparently you can't use the camera and the gyro on i2c0 at the same time. 
+# The camera uses the GPU and i2c0 is used for GPU communication. From
+# https://www.raspberrypi.org/documentation/configuration/config-txt/boot.md :
+# "start_x=1 should be specified when using the camera module. Enabling the camera via raspi-config will set this automatically."

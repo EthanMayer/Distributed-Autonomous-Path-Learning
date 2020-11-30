@@ -183,8 +183,10 @@ class OpticalFlow:
 
         # Updating Previous frame and points  
         self.old_gray = frame_gray.copy() 
+        print(self.p0)
         self.p0 = good_new.reshape(-1, 1, 2) 
-        return (centermost, np.subtract(centermost, good_old[centermostIndex]))
+        print(self.p0)
+        return (centermost, np.subtract(centermost, good_old[centermostIndex]), good_new)
 
     # Given a point, this returns how close it is to the center, i.e. how "reliable" it is
     # to use in distance sensor calculations.
@@ -192,22 +194,30 @@ class OpticalFlow:
         return [p[0] - self.frame_width / 2, 
                 p[1] - self.frame_height / 2]
     
-    def computeRadiansOfCameraRotation(self, sensorDistance, flowVector):
-        # Make flowVector into a 3D vector but contained within the plane of the 
-        # camera frame, and sensorDistance into a 3D vector going into the frame.
-        sensorDistVec3D = [0, 0, sensorDistance]
-        #debugUtils.enterREPL(globals(), locals())
-        flowVector3D = [flowVector[0], flowVector[1], 0]
+    def computeRadiansOfCameraRotation(self, sensorDistance, flowVector, good_new):
+        # Flow velocity method #
+        if True:
+            # Make flowVector into a 3D vector but contained within the plane of the 
+            # camera frame, and sensorDistance into a 3D vector going into the frame.
+            sensorDistVec3D = [0, 0, sensorDistance]
+            #debugUtils.enterREPL(globals(), locals())
+            flowVector3D = [flowVector[0], flowVector[1], 0]
 
-        # Get angle in radians between the sensor vector and the sum of the two 
-        # vectors defined above:
-        angle = angleBetween(sensorDistVec3D, np.add(sensorDistVec3D, flowVector3D))
+            # Get angle in radians between the sensor vector and the sum of the two 
+            # vectors defined above:
+            angle = angleBetween(sensorDistVec3D, np.add(sensorDistVec3D, flowVector3D))
 
-        # Now subtract 90 degrees to make the angle be relevant to the car and not just
-        # the angle between those vectors:
-        angle -= math.pi / 2
+            # Now subtract 90 degrees to make the angle be relevant to the car and not just
+            # the angle between those vectors:
+            angle -= math.pi / 2
 
-        print(angle)
+            print(angle)
+        else:
+            # Point position method
+            for i in range(0, len(good_old)):
+                # Check how much this point has moved
+                pnew = good_new[i]
+                pold = good_old[i]
 
         return angle
 

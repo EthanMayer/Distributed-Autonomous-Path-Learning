@@ -44,6 +44,8 @@ else: # Dry run
     middleVert = 90
 sleep_time_short = 0.01 #0.1
 sleep_time_long = 0.4 #0.7 #0.4 #0.2
+end_dist = 10 # If the distance value at each angle is measured to be less than this for each angle,
+# the program exits and the end of the course is considered to be reached.
 
 # Algorithm modifiers
 stop_cond = 1 # 1 # Selects whether to stop based on 
@@ -106,7 +108,7 @@ if __name__ == '__main__':
         import busio
         import adafruit_mpu6050
 
-        print(board.__dict__)
+        #print(board.__dict__)
         
         # Normally, this would work, but we have GPIO 0 on the RPi as our gyroscope data 
         # connection.: 
@@ -166,6 +168,12 @@ if __name__ == '__main__':
             destination_distance = distances[largest_index]
             print("Chose distance " + str(destination_distance))
 
+            # Check for end condition: all polled distance values are less 
+            # than or equal to some constant end_dist:
+            if destination_distance <= end_dist:
+                print("End reached")
+                break
+
             # Move sensor back to middle
             ultrasonic.pwm_S.setServoPwm('0',middleHoriz)
 
@@ -224,6 +232,8 @@ if __name__ == '__main__':
                     time_diff = current_time - prev_time
                     prev_time = current_time
                     degrees_total -= velZ * time_diff
+                    # Problem: large amount of error due to car shaking? 
+                    # Moving the car physically by hand doesn't cause huge imprecisions.
                     print("Degrees so far: " + str(degrees_total))
                     if dir == -1:
                         if degrees_total - destination_angle <= angle_epsilon:
