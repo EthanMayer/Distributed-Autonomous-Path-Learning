@@ -235,8 +235,8 @@ if __name__ == '__main__':
                     current_time = time.time_ns() / 1000 / 1000 / 1000
                     time_diff = current_time - prev_time
                     prev_time = current_time
-                    correctionFactor = linearAccelZ * 0.1
-                    degrees_total -= velZ * time_diff + correctionFactor
+                    correctionFactor = linearAccelZ * 0.1 if linearAccelZ > 1 else 1
+                    degrees_total -= velZ * time_diff * correctionFactor
                     # Problem: large amount of error due to car shaking? 
                     # Moving the car physically by hand doesn't cause huge imprecisions.
                     print("Degrees so far: " + str(degrees_total))
