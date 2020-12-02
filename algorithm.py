@@ -238,7 +238,7 @@ if __name__ == '__main__':
                     print("Linear accel: ",linearAccelX,linearAccelY,linearAccelZ)
                     print("Angular velocity: ",velX,velY,velZ)
                     time.sleep(0.4)
-                    correctionFactor = abs(linearAccelZ) * 0.01 if abs(linearAccelZ) > 10 else 1
+                    correctionFactor = abs(linearAccelZ) * 0.1 if abs(linearAccelZ) > 5 else 1
                     if (correctionFactor > 1):
                         print("Correction:", correctionFactor)
                     degrees_total -= velZ * time_diff * correctionFactor
