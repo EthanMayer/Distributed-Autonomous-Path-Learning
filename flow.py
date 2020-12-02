@@ -4,6 +4,7 @@ import numpy as np
 import cv2 
 import debugUtils
 import math
+import time
 
 # Helper functions #
 
@@ -65,16 +66,18 @@ def map_(value, istart, istop, ostart, ostop):
 # Optical flow processing class #
 
 class OpticalFlow:
-    def __init__(self, source=0, frame_width=500, frame_height=600, show_debug=False):
+    def __init__(self, source=0, frame_width=None, frame_height=None, show_debug=False):
         #cap = cv2.VideoCapture('sample.mp4')
         self.cap = cv2.VideoCapture(source)
         # Set video capture properties
-        #self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, frame_width)
-        #self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, frame_height)
+        if frame_width is not None:
+            self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, frame_width)
+        if frame_height is not None:
+            self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, frame_height)
 
         self.source = source
-        self.frame_width = frame_width
-        self.frame_height = frame_height
+        self.frame_width = frame_width if frame_width is not None else self.cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+        self.frame_height = frame_height if frame_height is not None else self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
         self.show_debug = show_debug
 
         # Lists holding good points to track
@@ -84,6 +87,9 @@ class OpticalFlow:
         
         self.__initializeFlowParams()
         self.p0 = None
+        
+        self.angle_ = None
+        self.change_ = None
 
     # Call this before beginning to turn the car. It locks onto feature points 
     # in the camera image which will be tracked while turning. 
@@ -165,6 +171,33 @@ class OpticalFlow:
 
 
         if self.show_debug:
+            font = cv2.FONT_HERSHEY_SIMPLEX 
+
+  
+            # org 
+
+            org = (50, 50) 
+
+  
+            # fontScale 
+
+            fontScale = 1
+
+   
+            # Blue color in BGR 
+
+            color = (255, 0, 0) 
+
+  
+            # Line thickness of 2 px 
+
+            thickness = 2
+
+   
+            
+            
+            
+            
             # draw the tracks 
             #print(good_new)
             for i, (new, old) in enumerate(zip(good_new,  
@@ -177,13 +210,17 @@ class OpticalFlow:
                 frame = cv2.circle(frame, (a, b), 5, 
                                 self.color[i].tolist(), -1) 
                 
-            img = cv2.add(frame, self.mask) 
-        
-            cv2.imshow('frame', img) 
-        
-            k = cv2.waitKey(25) 
-            if k == 27: 
-                return True
+            img = cv2.add(frame, self.mask)
+            if self.angle_ is not None and self.change_ is not None:
+                img = cv2.putText(img, 'Angle: ' + str(math.degrees(self.angle_)), org, font, fontScale, color, thickness, cv2.LINE_AA)
+                img = cv2.putText(img, 'Change: ' + str(self.change_), (org[0], org[1]+50), font, fontScale, color, thickness, cv2.LINE_AA)
+                #img = cv2.putText(img, 'frame width: ' + str(self.frame_width), (org[0], org[1]+100), font, fontScale, color, thickness, cv2.LINE_AA)
+            cv2.imshow('frame', img)
+            
+            
+            #k = cv2.waitKey(25) 
+            #if k == 27: 
+            #    return True
 
         # Check if we lost any points
         try:
@@ -233,7 +270,7 @@ class OpticalFlow:
     # computeCentermostFlow() at least once.
     def computeRadiansOfCameraRotation(self, sensorDistance, flowVector):
         # Constants
-        fovHorizDegrees = 62 # Field of view of the camera, in horizontal degrees
+        fovHorizDegrees = 75 # 180 # 62 # Field of view of the camera, in horizontal degrees
         fovHoriz = math.radians(fovHorizDegrees) # Converted to radians
 
         if False:
@@ -259,27 +296,29 @@ class OpticalFlow:
             # Point position method: average all movement of all points #
 
             newAveragePoint = 0
-            for i in range(0, len(self.good_old)):
+            m=1#len(self.good_old)
+            for i in range(0, m):
                 # Check how much this point has moved
                 pnew = self.good_new[i]
                 pold = self.good_old[i]
                 newAveragePoint = np.add(newAveragePoint, np.subtract(pnew, pold))
-            newAveragePoint = np.divide(newAveragePoint, len(self.good_old))
+            newAveragePoint = np.divide(newAveragePoint, m)
 
-            changeInAvg = np.subtract(newAveragePoint, 
-                self.averagePoint if self.averagePoint is not None else newAveragePoint)
+            changeInAvg = np.subtract(self.good_new[0], self.good_old[0] )
+             #   self.averagePoint if self.averagePoint is not None else newAveragePoint)
             # Get the angle using the field of view of the camera
-            print("changeInAvg: " + str(changeInAvg))
+            print_("changeInAvg: " + str(changeInAvg))
+            self.change_ = changeInAvg
             # Range of the first value is provided in the second argument here:
             angleChange = map_(changeInAvg[0], 
-                                -self.frame_width / 2, self.frame_width / 2,
-                                -fovHoriz / 2, fovHoriz / 2)
+                                0, self.frame_width,
+                                0, fovHoriz)
             # `angle` is now from range -fovHoriz / 2 to fovHoriz / 2.
 
             # Adjust self.averagePoint:
             self.averagePoint = newAveragePoint
 
-            print("Change in angle: " + str(math.degrees(angleChange)) + " degrees")
+            print_("Change in angle: " + str(math.degrees(angleChange)) + " degrees")
             return angleChange
         
 
@@ -315,3 +354,20 @@ class OpticalFlow:
     def __setPointChanged(self, pointChanged):
         if pointChanged:
             self.averagePoint = None
+            
+if __name__ == "__main__":
+    def print_(x):
+        #print(x)
+        pass
+    
+    ang = 0
+    flow = OpticalFlow(source=0, show_debug=True)
+    while flow.cap.isOpened():
+        (centermost, flowVector) = flow.computeCentermostFlow()
+        #print(ret)
+        ang += flow.computeRadiansOfCameraRotation(40, flowVector)
+        flow.angle_ = ang
+        print_(math.degrees(ang))
+        s=0.1
+        #s=1
+        #time.sleep(s)
