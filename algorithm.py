@@ -228,19 +228,22 @@ if __name__ == '__main__':
                     # Grab current angular velocity, in a tuple containing
                     # x, y, and z in degrees per second.
                     (velX,velY,velZ) = mpu.gyro # z is left to right rotation
-                    # Grab linear acceleration, which can be used to check how much we're shaking as we turn,
-                    # and used to arbitrarily increase the amount of degrees recorded since shaking
-                    # causes the gyro to lose some accuracy this way. linearAccelZ is up and down?
-                    (linearAccelX,linearAccelY,linearAccelZ) = mpu.acceleration
-                    current_time = time.time_ns() / 1000 / 1000 / 1000
-                    time_diff = current_time - prev_time
-                    prev_time = current_time
-                    print("Linear accel: ",linearAccelX,linearAccelY,linearAccelZ)
-                    print("Angular velocity: ",velX,velY,velZ)
-                    time.sleep(0.4)
-                    correctionFactor = abs(linearAccelZ) * 0.1 if abs(linearAccelZ) > 5 else 1
-                    if (correctionFactor > 1):
-                        print("Correction:", correctionFactor)
+                    if False: # Bump correction
+                        # Grab linear acceleration, which can be used to check how much we're shaking as we turn,
+                        # and used to arbitrarily increase the amount of degrees recorded since shaking
+                        # causes the gyro to lose some accuracy this way. linearAccelZ is up and down?
+                        (linearAccelX,linearAccelY,linearAccelZ) = mpu.acceleration
+                        current_time = time.time_ns() / 1000 / 1000 / 1000
+                        time_diff = current_time - prev_time
+                        prev_time = current_time
+                        print("Linear accel: ",linearAccelX,linearAccelY,linearAccelZ)
+                        print("Angular velocity: ",velX,velY,velZ)
+                        time.sleep(0.4)
+                        correctionFactor = abs(linearAccelZ) * 0.1 if abs(linearAccelZ) > 5 else 1
+                        if (correctionFactor > 1):
+                            print("Correction:", correctionFactor)
+                    else:
+                        correctionFactor = 1.5
                     degrees_total -= velZ * time_diff * correctionFactor
                     # Problem: large amount of error due to car shaking? 
                     # Moving the car physically by hand doesn't cause huge imprecisions.
