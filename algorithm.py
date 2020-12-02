@@ -48,7 +48,7 @@ end_dist = 10 # If the distance value at each angle is measured to be less than 
 # the program exits and the end of the course is considered to be reached.
 
 # Algorithm modifiers
-stop_cond = 2 # 1 # Selects whether to stop based on 
+stop_cond = 1 # 1 # Selects whether to stop based on 
                   # distance polling(0) [somewhat unreliable depending on obstacle course] 
                   # or with gyroscope(1) [BROKEN], or optical flow(2).
 dist_epsilon = 30 #1   # For stop_cond == 0
@@ -228,10 +228,15 @@ if __name__ == '__main__':
                     # Grab current angular velocity, in a tuple containing
                     # x, y, and z in degrees per second.
                     (velX,velY,velZ) = mpu.gyro # z is left to right rotation
+                    # Grab linear acceleration, which can be used to check how much we're shaking as we turn,
+                    # and used to arbitrarily increase the amount of degrees recorded since shaking
+                    # causes the gyro to lose some accuracy this way. linearAccelZ is up and down?
+                    (linearAccelX,linearAccelY,linearAccelZ) = mpu.acceleration
                     current_time = time.time_ns() / 1000 / 1000 / 1000
                     time_diff = current_time - prev_time
                     prev_time = current_time
-                    degrees_total -= velZ * time_diff
+                    correctionFactor = linearAccelZ * 0.1
+                    degrees_total -= velZ * time_diff + correctionFactor
                     # Problem: large amount of error due to car shaking? 
                     # Moving the car physically by hand doesn't cause huge imprecisions.
                     print("Degrees so far: " + str(degrees_total))
