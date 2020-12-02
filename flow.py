@@ -355,11 +355,12 @@ class OpticalFlow:
         if pointChanged:
             self.averagePoint = None
             
+
+def print_(x):
+    #print(x)
+    pass
+
 if __name__ == "__main__":
-    def print_(x):
-        #print(x)
-        pass
-    
     ang = 0
     flow = OpticalFlow(source=0, show_debug=True)
     while flow.cap.isOpened():
