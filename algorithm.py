@@ -236,7 +236,8 @@ if __name__ == '__main__':
                     time_diff = current_time - prev_time
                     prev_time = current_time
                     print("Linear accel: ",linearAccelX,linearAccelY,linearAccelZ)
-                    correctionFactor = linearAccelZ * 0.1 if linearAccelZ > 1 else 1
+                    sleep(0.4)
+                    correctionFactor = linearAccelZ * 0.01 if linearAccelZ > 10 else 1
                     degrees_total -= velZ * time_diff * correctionFactor
                     # Problem: large amount of error due to car shaking? 
                     # Moving the car physically by hand doesn't cause huge imprecisions.
