@@ -274,7 +274,7 @@ if __name__ == '__main__':
 
                     print("At " + str(degrees_total) + " degrees, want "
                             + str(destination_angle) + " degrees")
-                    time.sleep(1)
+                    time.sleep(0.1)
                     if dir == -1:
                         if degrees_total - destination_angle <= angle_epsilon:
                             flow.reset()
