@@ -232,7 +232,9 @@ if __name__ == '__main__':
                         # Grab linear acceleration, which can be used to check how much we're shaking as we turn,
                         # and used to arbitrarily increase the amount of degrees recorded since shaking
                         # causes the gyro to lose some accuracy this way. linearAccelZ is up and down?
-                        (linearAccelX,linearAccelY,linearAccelZ) = mpu.acceleration
+                        (linearAccelX,linearAccelY,linearAccelZ) = mpu.acceleration # meters/s^2
+                        # linearAccelZ shows gravity too, varies around 9.81, we need to correct this if needed,
+                        # correct it against a gyro value or if it is flat then use the value then.
                         print("Linear accel: ",linearAccelX,linearAccelY,linearAccelZ)
                         print("Angular velocity: ",velX,velY,velZ)
                         correctionFactor = abs(linearAccelZ) * 0.1 if abs(linearAccelZ) > 5 else 1
