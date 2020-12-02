@@ -239,6 +239,8 @@ if __name__ == '__main__':
                     print("Angular velocity: ",velX,velY,velZ)
                     time.sleep(0.4)
                     correctionFactor = abs(linearAccelZ) * 0.01 if abs(linearAccelZ) > 10 else 1
+                    if (correctionFactor > 1):
+                        print("Correction:", correctionFactor)
                     degrees_total -= velZ * time_diff * correctionFactor
                     # Problem: large amount of error due to car shaking? 
                     # Moving the car physically by hand doesn't cause huge imprecisions.
