@@ -214,13 +214,13 @@ class OpticalFlow:
             if self.angle_ is not None and self.change_ is not None:
                 img = cv2.putText(img, 'Angle: ' + str(math.degrees(self.angle_)), org, font, fontScale, color, thickness, cv2.LINE_AA)
                 img = cv2.putText(img, 'Change: ' + str(self.change_), (org[0], org[1]+50), font, fontScale, color, thickness, cv2.LINE_AA)
-                #img = cv2.putText(img, 'frame width: ' + str(self.frame_width), (org[0], org[1]+100), font, fontScale, color, thickness, cv2.LINE_AA)
+                img = cv2.putText(img, 'frame width: ' + str(self.frame_width), (org[0], org[1]+100), font, fontScale, color, thickness, cv2.LINE_AA)
             cv2.imshow('frame', img)
             
             
-            #k = cv2.waitKey(25) 
-            #if k == 27: 
-            #    return True
+            k = cv2.waitKey(25) 
+            if k == 27: 
+                return True
 
         # Check if we lost any points
         try:
