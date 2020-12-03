@@ -208,12 +208,16 @@ if __name__ == '__main__':
 
                 # Save this angle
                 recordedPath.append(destination_angle)
-                
+
                 # Check for end condition: all polled distance values are less 
                 # than or equal to some constant end_dist:
                 if destination_distance <= end_dist:
                     print("End reached")
 
+                    # Write the path (as an array of serialized bytes) to a file:
+                    timestr = time.strftime("%Y%m%d-%H%M%S")
+                    with open("path_" + timestr, "w") as f:
+                        outputRobotPath(array.array('B', recordedPath), f)
                     # Connect to the server and send the path
                     client = Client()
                     client.sendPath(recordedPath)
