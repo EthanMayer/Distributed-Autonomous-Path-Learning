@@ -100,12 +100,12 @@ def forward():
         pass
 # Pass `None` for `secs` to just set the PWM output to that until the next time
 # that the motors are set.
-def left_(secs=1):
-    wheels.setMotorModel(-500,-500,2000,2000)       #Left  (<--originally)
+def left_(secs=1, speed=0.1):
+    wheels.setMotorModel(-500*speed,-500*speed,2000*speed,2000*speed)       #Left  (<--originally)
     if secs:
         time.sleep(secs)
-def right_(secs=1):
-    wheels.setMotorModel(2000,2000,-500,-500)       #Right (<--originally)  
+def right_(secs=1, speed=0.1):
+    wheels.setMotorModel(2000*speed,2000*speed,-500*speed,-500*speed)       #Right (<--originally)  
     if secs:
         time.sleep(secs)
 def left(secs=1):
