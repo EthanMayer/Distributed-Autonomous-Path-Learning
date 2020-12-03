@@ -10,6 +10,7 @@ import pickle
 import array
 import struct
 from utils import *
+import time
 
 # Sources for some of this code:
 # https://docs.python.org/3/howto/sockets.html
@@ -33,6 +34,8 @@ class ClientThread:
                 data = self.clientsocket.recv(RECV_BUFSIZE)
                 def handler():
                     data = self.clientsocket.recv(RECV_BUFSIZE) # Change the outer `data`
+                    if len(data) == 0:
+                        time.sleep(0.4) # Avoid burning CPU
                     return data
                 runCommand(data, self._do_stuff, handler)
         finally:

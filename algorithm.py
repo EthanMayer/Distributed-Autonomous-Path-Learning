@@ -8,24 +8,42 @@ import logging
 from enum import Enum
 import sys
 import math
+from networking.client import *
 
 # Car configurations/profiles
 class CarConfig(Enum):
     WhereEam = 1
     sbond75 = 2
     Ethan = 3
+# Get `use` for which CarConfig to use:
 if len(sys.argv) <= 1:
     # Prompt for input
     use = input("Enter the user of the car. Must be one of " + str(list(map(str, CarConfig))) 
                     + ", or a dry run will be performed: ")
 else:
     use = sys.argv[1]
+# Verify `use`:
 try:
     carConfig = CarConfig[use]
 except KeyError:
     carConfig = None
     print("Unknown name given, so this is a dry run: no car motion will "
             + "happen, but the ultrasonic sensor will move.")
+
+# Get `carNumber`:
+isReceivingVehicle = None
+if len(sys.argv) <= 2:
+    carNumber = input("Is this the navigation vehicle or the receiving vehicle? Enter"
+                        + "1 for navigation (or press enter), 2 for receiving: ")
+else:
+    carNumber = sys.argv[2]
+# Verify `carNumber`:
+if len(carNumber) == 0 or carNumber == "1":
+    isReceivingVehicle = False
+elif carNumber == "2":
+    isReceivingVehicle = True
+else:
+    raise Exception("Invalid vehicle number given: " + str(carNumber))
 
 # Configuration
 d = 20 # Centimeters from car to object at which to stop and scan from
@@ -102,6 +120,13 @@ def right(secs=1):
 if __name__ == '__main__':
     print ('Program is starting ... ')
 
+    # If we are the receiving vehicle, we need to wait for a path first.
+    if isReceivingVehicle:
+        client = Client()
+        receivedPath = client.receivePath()
+    else:
+        receivedPath = None
+
     # Initialize sensors
     if stop_cond == 1:
         import board
@@ -150,36 +175,51 @@ if __name__ == '__main__':
             # Stop
             wheels.setMotorModel(0,0,0,0)                   #Stop
             
-            # Look around, checking distances
-            end = 180
-            distances = []
-            #angles = [0, 45, 75, 90, end - 75, end - 45, end]
-            angles = [0, 30, 60, 90, end - 60, end - 30, end]
-            for angle in angles: # range(start, stop, separator)
-                ultrasonic.pwm_S.setServoPwm('0',angle)
-                time.sleep(sleep_time_long)
-                dist = ultrasonic.get_distance()
-                distances.append(dist)
-                print("Recorded distance " + str(dist) + " for angle " + str(angle))
+            if not isReceivingVehicle: # Then we are the navigation vehicle. We are forging 
+                # a new path!
+                # Look around, checking distances
+                end = 180
+                distances = []
+                #angles = [0, 45, 75, 90, end - 75, end - 45, end]
+                angles = [0, 30, 60, 90, end - 60, end - 30, end]
+                for angle in angles: # range(start, stop, separator)
+                    ultrasonic.pwm_S.setServoPwm('0',angle)
+                    time.sleep(sleep_time_long)
+                    dist = ultrasonic.get_distance()
+                    distances.append(dist)
+                    print("Recorded distance " + str(dist) + " for angle " + str(angle))
 
-            # Get the largest distance's index and value
-            largest_index = max(range(len(distances)), key=distances.__getitem__)
-            destination_angle = angles[largest_index]
-            destination_distance = distances[largest_index]
-            print("Chose distance " + str(destination_distance))
+                # Get the largest distance's index and value
+                largest_index = max(range(len(distances)), key=distances.__getitem__)
+                destination_angle = angles[largest_index]
+                destination_distance = distances[largest_index]
+                print("Chose distance " + str(destination_distance))
 
-            # Check for end condition: all polled distance values are less 
-            # than or equal to some constant end_dist:
-            if destination_distance <= end_dist:
-                print("End reached")
-                break
+                # Check for end condition: all polled distance values are less 
+                # than or equal to some constant end_dist:
+                if destination_distance <= end_dist:
+                    print("End reached")
+                    break
 
-            # Move sensor back to middle
-            ultrasonic.pwm_S.setServoPwm('0',middleHoriz)
+                # Move sensor back to middle
+                ultrasonic.pwm_S.setServoPwm('0',middleHoriz)
 
-            # Wait to allow the sensor to settle
-            # (important to prevent reading a larger value again)
-            time.sleep(0.1)
+                # Wait to allow the sensor to settle
+                # (important to prevent reading a larger value again)
+                time.sleep(0.1)
+            else: # Then we are the receiving vehicle, so we have a path already.
+                distances = None
+                largest_index = None
+                destination_distance = None
+
+                # Check for end condition: all angles popped
+                if len(receivedPath) == 0:
+                    print("End reached")
+                    break
+
+                # "Dequeue" an item off the path:
+                destination_angle = receivedPath.pop(0) # Pop off index 0 from the array
+                # (see https://docs.python.org/3/library/array.html for more info)
 
             # Prepare gyro or optical flow variables
             if stop_cond == 1 or stop_cond == 2:
@@ -214,6 +254,12 @@ if __name__ == '__main__':
                     raise Exception("Unexpected case")
                 
                 if stop_cond == 0:
+                    if isReceivingVehicle:
+                        # Not supported
+                        raise Exception("Receiving vehicle cannot use distances"
+                                            + " since they are not currently sent"
+                                            + " by the navigation vehicle")
+                    
                     # Get current distance as we turn
                     c = ultrasonic.get_distance() 
 

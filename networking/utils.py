@@ -111,35 +111,37 @@ def unpack_array(fmt, data):
 # an array.array in Python) into big-endian byte order.
 def pack_array(arr):
     #elemSize = arr.itemsize #struct.calcsize('!' + arr.typecode)
-    with io.StringIO() as output:
+    with io.BytesIO() as output:
         for elem in arr:
-            output.write(str(struct.pack('>' + arr.typecode, elem)))
+            output.write(struct.pack('>' + arr.typecode, elem))
         return output.getvalue()
 
 # Robot commands #
 
 import commands
 
+# @param path -- array.array
 def outputRobotPath(path, outputIO):
     pathBytes = pack_array(path)
     # Write length of bytes
-    print(str(len(pathBytes)) + " ", file=outputIO)
+    outputIO.write(bytes(str(len(pathBytes)) + " ", encoding='utf-8'))
     # Write bytes
     outputIO.write(pathBytes)
 
+# @param path -- list
 def makeRobotPathCommand(path, command):
     replyBytes = None
-    with io.StringIO() as output:
+    with io.BytesIO() as output:
         commandBytes = str(command.value)
         # Write bytes
-        output.write(commandBytes + ' ')
+        output.write(bytes(commandBytes + ' ', encoding='utf-8'))
 
         # Write path
         outputRobotPath(array.array('B', path), output)
 
         replyBytes = output.getvalue() # Bytes object containing entire buffer
     #print(type(replyBytes))
-    return bytes(replyBytes, encoding='utf-8')
+    return replyBytes
 
 def runCommand(data, callback, handler):
     # Read in the length specified in the packet as ASCII and convert it to an int,
