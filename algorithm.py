@@ -8,6 +8,7 @@ import logging
 from enum import Enum
 import sys
 import math
+import networking.client
 from networking.client import *
 
 # Car configurations/profiles
