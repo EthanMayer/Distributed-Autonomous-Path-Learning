@@ -118,8 +118,6 @@ def pack_array(arr):
 
 # Robot commands #
 
-import commands
-
 # @param path -- array.array
 def outputRobotPath(path, outputIO):
     pathBytes = pack_array(path)
