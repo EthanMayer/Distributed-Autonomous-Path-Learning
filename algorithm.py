@@ -17,7 +17,7 @@ class CarConfig(Enum):
     sbond75 = 2
     Ethan = 3
 # Get `use` for which CarConfig to use:
-if len(sys.argv) <= 1:
+if len(sys.argv) <= 1: # If we don't have a 1st arg
     # Prompt for input
     use = input("Enter the user of the car. Must be one of " + str(list(map(str, CarConfig))) 
                     + ", or a dry run will be performed: ")
@@ -33,7 +33,7 @@ except KeyError:
 
 # Get `carNumber`:
 isReceivingVehicle = None
-if len(sys.argv) <= 2:
+if len(sys.argv) <= 2: # If we don't have a 2nd arg
     carNumber = input("Is this the navigation vehicle or the receiving vehicle? Enter"
                         + "1 for navigation (or press enter), 2 for receiving: ")
 else:
@@ -45,6 +45,12 @@ elif carNumber == "2":
     isReceivingVehicle = True
 else:
     raise Exception("Invalid vehicle number given: " + str(carNumber))
+
+# Get `debugWindowEnabled` (requires Raspberry Pi's desktop environment to be logged into):
+if len(sys.argv) >= 4: # If we have a 3rd arg
+    debugWindowEnabled = sys.argv[3] == "1"
+else:
+    debugWindowEnabled = False
 
 # Configuration
 d = 20 # Centimeters from car to object at which to stop and scan from
@@ -150,7 +156,7 @@ if __name__ == '__main__':
         mpu = adafruit_mpu6050.MPU6050(i2c)
     elif stop_cond == 2:
         import flow
-        flow = flow.OpticalFlow(show_debug=(carConfig == None))
+        flow = flow.OpticalFlow(show_debug=debugWindowEnabled)
 
     try:
         while True:
