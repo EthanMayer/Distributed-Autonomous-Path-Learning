@@ -88,7 +88,7 @@ wheels=Motor()
 # second: back-right
 # third: front-left
 # fourth: back-left
-def forward(speed=0.5):
+def forward(speed=0.3):
     # wheels.setMotorModel(2000,2000,2000,2000)       #Forward (<--originally)
     # wheels.setMotorModel(-2000,-2000,-2000,-2000)       #Forward (different on Will's bot)
     if carConfig == CarConfig.WhereEam:
