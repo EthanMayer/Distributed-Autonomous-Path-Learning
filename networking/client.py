@@ -39,10 +39,14 @@ class Client:
         # Receive the path
         self.path = unpack_array('B', dataRest)
         return self.path
-        
+    
+    def close(self):
+        self.s.shutdown(socket.SHUT_RDWR)
+        self.s.close()
+    
     # "Destructor": called upon garbage collection of this object.
     def __del__(self):
-        self.s.close()
+        self.close()
 
 
 if __name__ == "__main__":

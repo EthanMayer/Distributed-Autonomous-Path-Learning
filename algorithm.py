@@ -135,6 +135,8 @@ if __name__ == '__main__':
         receivedPath = client.receivePath()
     else:
         receivedPath = None
+        recordedPath = []
+        client = None
 
     # Initialize sensors
     if stop_cond == 1:
@@ -204,10 +206,17 @@ if __name__ == '__main__':
                 destination_distance = distances[largest_index]
                 print("Chose distance " + str(destination_distance))
 
+                # Save this angle
+                recordedPath.append(destination_angle)
+                
                 # Check for end condition: all polled distance values are less 
                 # than or equal to some constant end_dist:
                 if destination_distance <= end_dist:
                     print("End reached")
+
+                    # Connect to the server and send the path
+                    client = Client()
+                    client.sendPath(recordedPath)
                     break
 
                 # Move sensor back to middle
@@ -356,3 +365,6 @@ if __name__ == '__main__':
         wheels.setMotorModel(0,0,0,0)
         ultrasonic.pwm_S.setServoPwm('0',middleHoriz)
         ultrasonic.pwm_S.setServoPwm('1',middleVert)
+
+        if client:
+            client.close()
