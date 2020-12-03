@@ -150,7 +150,7 @@ if __name__ == '__main__':
         mpu = adafruit_mpu6050.MPU6050(i2c)
     elif stop_cond == 2:
         import flow
-        flow = flow.OpticalFlow(show_debug=True)
+        flow = flow.OpticalFlow(show_debug=(carConfig == None))
 
     try:
         while True:

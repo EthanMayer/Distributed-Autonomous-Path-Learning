@@ -1,6 +1,6 @@
 import socket
-from commands import *
-from utils import *
+from .commands import *
+from .utils import *
 import time
 import io
 import array

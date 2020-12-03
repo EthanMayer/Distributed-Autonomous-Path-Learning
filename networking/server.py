@@ -4,12 +4,12 @@
 import signal
 import socket
 import threading
-from commands import *
+from .commands import *
 import io
-import pickle
+#import pickle
 import array
 import struct
-from utils import *
+from .utils import *
 import time
 
 # Sources for some of this code:

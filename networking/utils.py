@@ -1,7 +1,7 @@
 import struct
 import array
 import io
-from commands import *
+from .commands import *
 import time
 
 # Separator for use within buffers sent over the network.
