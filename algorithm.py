@@ -53,7 +53,7 @@ else:
     debugWindowEnabled = False
 
 # Configuration
-d = 30 #20 # Centimeters from car to object at which to stop and scan from
+d = 25 #30 #20 # Centimeters from car to object at which to stop and scan from
 halfW = 8 # Half the width of the car in centimeters.
 # TODO: use this value to prevent the car from running into the wall on an edge
 if carConfig == CarConfig.WhereEam:
