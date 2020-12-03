@@ -77,7 +77,7 @@ stop_cond = 2 # 1 # Selects whether to stop based on
                   # distance polling(0) [somewhat unreliable depending on obstacle course] 
                   # or with gyroscope(1) [BROKEN], or optical flow(2).
 dist_epsilon = 30 #1   # For stop_cond == 0
-angle_epsilon = 5      # For stop_cond == 1
+angle_epsilon = 1      # For stop_cond == 1
 
 # Utilities
 ultrasonic=Ultrasonic()
