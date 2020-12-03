@@ -53,7 +53,7 @@ else:
     debugWindowEnabled = False
 
 # Configuration
-d = 26 #20 # Centimeters from car to object at which to stop and scan from
+d = 30 #20 # Centimeters from car to object at which to stop and scan from
 halfW = 8 # Half the width of the car in centimeters.
 # TODO: use this value to prevent the car from running into the wall on an edge
 if carConfig == CarConfig.WhereEam:
@@ -88,14 +88,16 @@ wheels=Motor()
 # second: back-right
 # third: front-left
 # fourth: back-left
-def forward():
+def forward(speed=0.5):
     # wheels.setMotorModel(2000,2000,2000,2000)       #Forward (<--originally)
     # wheels.setMotorModel(-2000,-2000,-2000,-2000)       #Forward (different on Will's bot)
     if carConfig == CarConfig.WhereEam:
         # Need to compensate for not going straight, using an offset:
-        wheels.setMotorModel(1500,1000,1600,1700)
+        wheels.setMotorModel(int(1500*speed),int(1000*speed),
+                             int(1600*speed),int(1700*speed))
     elif carConfig == CarConfig.sbond75:
-        wheels.setMotorModel(-2000,-2000,-2000,-2000)
+        wheels.setMotorModel(int(-2000*speed),int(-2000*speed),
+                             int(-2000*speed),int(-2000*speed))
     elif carConfig == CarConfig.Ethan:
         pass
 # Pass `None` for `secs` to just set the PWM output to that until the next time
