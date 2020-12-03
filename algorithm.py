@@ -127,6 +127,15 @@ def right(secs=1):
     elif carConfig == CarConfig.Ethan:
         pass
 
+def getUltrasonicDistance():
+    # Average out some values to ensure the reading is sensible since it can fluctuate
+    # in complex obstacle courses.
+    avg = 0
+    count = 10
+    for i in range(0, count):
+        avg += ultrasonic.get_distance()
+    return avg / count
+
 # Main program logic follows:
 if __name__ == '__main__':
     print ('Program is starting ... ')
@@ -174,7 +183,7 @@ if __name__ == '__main__':
 
             while True:
                 # Grab distance from bot to object
-                c = ultrasonic.get_distance()   
+                c = getUltrasonicDistance()   
                 print("dist: " + str(c)) 
 
                 if c <= d:
@@ -198,7 +207,7 @@ if __name__ == '__main__':
                 for angle in angles: # range(start, stop, separator)
                     ultrasonic.pwm_S.setServoPwm('0',angle)
                     time.sleep(sleep_time_long)
-                    dist = ultrasonic.get_distance()
+                    dist = getUltrasonicDistance()
                     distances.append(dist)
                     print("Recorded distance " + str(dist) + " for angle " + str(angle))
 
@@ -285,7 +294,7 @@ if __name__ == '__main__':
                                             + " by the navigation vehicle")
                     
                     # Get current distance as we turn
-                    c = ultrasonic.get_distance() 
+                    c = getUltrasonicDistance() 
 
                     if abs(c - destination_distance) <= dist_epsilon:
                         break
@@ -330,7 +339,7 @@ if __name__ == '__main__':
                     current_time = time.time_ns() / 1000 / 1000 / 1000
 
                     # Get current distance as we turn
-                    c = ultrasonic.get_distance() 
+                    c = getUltrasonicDistance() 
 
                     # Optical flow
                     (closestPointToCenter, flowVector) = flow.computeCentermostFlow()
