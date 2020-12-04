@@ -1,0 +1,992 @@
+dist: 54.4 adjusted: 54.4
+Thread-6 sleeping for 0.020000 seconds...
+Thread-6 sleeping for 0.020000 seconds...
+Thread-6 sleeping for 0.020000 seconds...
+Thread-6 sleeping for 0.020000 seconds...
+Thread-6 sleeping for 0.020000 seconds...
+Thread-6 sleeping for 0.020000 seconds...
+Thread-6 sleeping for 0.020000 seconds...
+dist: 30.4 adjusted: 30.4
+Thread-6 sleeping for 0.020000 seconds...
+Thread-6 sleeping for 0.020000 seconds...
+Thread-6 sleeping for 0.020000 seconds...
+Thread-6 sleeping for 0.020000 seconds...
+Thread-6 sleeping for 0.020000 seconds...
+Thread-6 sleeping for 0.020000 seconds...
+Thread-6 sleeping for 0.020000 seconds...
+dist: 19.1 adjusted: 19.1
+Not going straight because it is blocked
+Thread-6 sleeping for 0.020000 seconds...
+Adjusted
+dist: 15.8 adjusted: 31.6
+Adjusted
+dist: 13.5 adjusted: 27.0
+c <= d
+Time going forward: 1.6817799569998897
+Potential turnaround, distance 93.4 for angle 0
+Avoided turnaround
+Potential turnaround, distance 102.8 for angle 10
+Avoided turnaround
+Potential turnaround, distance 79.6 for angle 20
+Avoided turnaround
+Potential turnaround, distance 34.6 for angle 30
+Avoided turnaround
+Potential turnaround, distance 38.1 for angle 40
+Avoided turnaround
+Recorded distance 40.5 for angle 50
+Recorded distance 59.8 for angle 60
+Recorded distance 60.5 for angle 70
+Recorded distance 19.9 for angle 80
+Recorded distance 13.9 for angle 90
+Recorded distance 13.0 for angle 100
+Recorded distance 12.0 for angle 110
+Recorded distance 12.3 for angle 120
+Recorded distance 12.8 for angle 130
+Recorded distance 13.0 for angle 140
+Recorded distance 15.1 for angle 150
+Recorded distance 40.9 for angle 160
+Recorded distance 40.0 for angle 170
+Recorded distance 36.6 for angle 180
+Chose angle 70 with distance 60.5
+Turning left
+At 89.35101270675659 degrees, want 70 degrees
+At 88.59832406044006 degrees, want 70 degrees
+At 87.63645529747009 degrees, want 70 degrees
+At 86.96978330612183 degrees, want 70 degrees
+At 85.33269882202148 degrees, want 70 degrees
+At 94.02153074741364 degrees, want 70 degrees
+At 93.58391761779785 degrees, want 70 degrees
+At 92.75066256523132 degrees, want 70 degrees
+At 92.7228856086731 degrees, want 70 degrees
+No movement
+At 92.71599769592285 degrees, want 70 degrees
+No movement
+At 92.61418998241425 degrees, want 70 degrees
+At 92.39807903766632 degrees, want 70 degrees
+At 92.15349555015564 degrees, want 70 degrees
+At 92.28282451629639 degrees, want 70 degrees
+At 92.1971994638443 degrees, want 70 degrees
+No movement
+At 92.23032116889954 degrees, want 70 degrees
+No movement
+At 92.15793550014496 degrees, want 70 degrees
+No movement
+At 92.24513590335846 degrees, want 70 degrees
+No movement
+At 92.3671156167984 degrees, want 70 degrees
+At 92.4217826128006 degrees, want 70 degrees
+No movement
+At 92.38955497741699 degrees, want 70 degrees
+No movement
+At 92.31531143188477 degrees, want 70 degrees
+No movement
+At 92.2752034664154 degrees, want 70 degrees
+No movement
+At 91.97341203689575 degrees, want 70 degrees
+At 91.77917003631592 degrees, want 70 degrees
+At 91.28076195716858 degrees, want 70 degrees
+At 91.04857921600342 degrees, want 70 degrees
+At 91.24396920204163 degrees, want 70 degrees
+At 91.14828586578369 degrees, want 70 degrees
+No movement
+At 91.04205965995789 degrees, want 70 degrees
+At 91.05081081390381 degrees, want 70 degrees
+No movement
+At 91.04136943817139 degrees, want 70 degrees
+No movement
+At 91.09614372253418 degrees, want 70 degrees
+No movement
+At 91.0851502418518 degrees, want 70 degrees
+No movement
+At 91.06008052825928 degrees, want 70 degrees
+No movement
+Increasing turn speed
+At 91.06801986694336 degrees, want 70 degrees
+No movement
+At 90.88430643081665 degrees, want 70 degrees
+At 90.70207715034485 degrees, want 70 degrees
+At 90.78434944152832 degrees, want 70 degrees
+No movement
+At 90.8635926246643 degrees, want 70 degrees
+No movement
+At 90.85750937461853 degrees, want 70 degrees
+No movement
+At 90.79097986221313 degrees, want 70 degrees
+No movement
+At 90.83434581756592 degrees, want 70 degrees
+No movement
+At 90.52481174468994 degrees, want 70 degrees
+At 90.68640232086182 degrees, want 70 degrees
+At 90.52487254142761 degrees, want 70 degrees
+At 90.43396711349487 degrees, want 70 degrees
+No movement
+At 89.88438248634338 degrees, want 70 degrees
+At 89.39022302627563 degrees, want 70 degrees
+At 89.33196902275085 degrees, want 70 degrees
+No movement
+At 88.77541065216064 degrees, want 70 degrees
+At 88.40230107307434 degrees, want 70 degrees
+At 87.86584496498108 degrees, want 70 degrees
+At 87.39731311798096 degrees, want 70 degrees
+At 87.08286166191101 degrees, want 70 degrees
+At 85.37146210670471 degrees, want 70 degrees
+At 84.23273205757141 degrees, want 70 degrees
+At 83.89787435531616 degrees, want 70 degrees
+At 83.79356861114502 degrees, want 70 degrees
+At 83.7944483757019 degrees, want 70 degrees
+No movement
+At 82.78810143470764 degrees, want 70 degrees
+At 82.00039386749268 degrees, want 70 degrees
+At 82.11435556411743 degrees, want 70 degrees
+At 81.74871325492859 degrees, want 70 degrees
+At 81.33719801902771 degrees, want 70 degrees
+At 81.27286791801453 degrees, want 70 degrees
+No movement
+At 80.76218605041504 degrees, want 70 degrees
+At 79.97403860092163 degrees, want 70 degrees
+At 79.77910995483398 degrees, want 70 degrees
+At 79.84248518943787 degrees, want 70 degrees
+No movement
+At 79.40991640090942 degrees, want 70 degrees
+At 79.36999797821045 degrees, want 70 degrees
+No movement
+At 79.2083215713501 degrees, want 70 degrees
+At 78.47152948379517 degrees, want 70 degrees
+At 77.24550247192383 degrees, want 70 degrees
+At 76.38149499893188 degrees, want 70 degrees
+At 75.14605522155762 degrees, want 70 degrees
+At 74.24029469490051 degrees, want 70 degrees
+At 73.74621033668518 degrees, want 70 degrees
+At 73.1571614742279 degrees, want 70 degrees
+At 72.81059145927429 degrees, want 70 degrees
+At 72.83307552337646 degrees, want 70 degrees
+No movement
+At 72.95660376548767 degrees, want 70 degrees
+At 72.80041694641113 degrees, want 70 degrees
+At 72.63836860656738 degrees, want 70 degrees
+At 72.66467928886414 degrees, want 70 degrees
+No movement
+At 72.51855254173279 degrees, want 70 degrees
+At 72.62590527534485 degrees, want 70 degrees
+At 72.53118753433228 degrees, want 70 degrees
+No movement
+At 72.73581862449646 degrees, want 70 degrees
+At 72.89376854896545 degrees, want 70 degrees
+At 72.79250979423523 degrees, want 70 degrees
+At 72.88854002952576 degrees, want 70 degrees
+No movement
+Increasing turn speed
+At 72.75958299636841 degrees, want 70 degrees
+At 72.62952089309692 degrees, want 70 degrees
+At 72.19959497451782 degrees, want 70 degrees
+At 71.50007128715515 degrees, want 70 degrees
+At 71.35153412818909 degrees, want 70 degrees
+At 70.31815767288208 degrees, want 70 degrees
+Travelled: [136.7004958255267, -10.212485264187166]
+degrees_entire: -69.15493212640285
+forwardCounterTotal: 157
+Time turning: 8.458486794999772
+Thread-7 sleeping for 0.020000 seconds...
+Thread-7 sleeping for 0.020000 seconds...
+Thread-7 sleeping for 0.020000 seconds...
+Thread-7 sleeping for 0.020000 seconds...
+Thread-7 sleeping for 0.020000 seconds...
+Thread-7 sleeping for 0.020000 seconds...
+dist: 39.5 adjusted: 39.5
+Thread-7 sleeping for 0.020000 seconds...
+Thread-7 sleeping for 0.020000 seconds...
+Thread-7 sleeping for 0.020000 seconds...
+Thread-7 sleeping for 0.020000 seconds...
+Thread-7 sleeping for 0.020000 seconds...
+Thread-7 sleeping for 0.020000 seconds...
+Thread-7 sleeping for 0.020000 seconds...
+dist: 52.0 adjusted: 52.0
+Thread-7 sleeping for 0.020000 seconds...
+Thread-7 sleeping for 0.020000 seconds...
+Thread-7 sleeping for 0.020000 seconds...
+Thread-7 sleeping for 0.020000 seconds...
+Thread-7 sleeping for 0.020000 seconds...
+Thread-7 sleeping for 0.020000 seconds...
+Thread-7 sleeping for 0.020000 seconds...
+dist: 35.3 adjusted: 35.3
+Thread-7 sleeping for 0.020000 seconds...
+Thread-7 sleeping for 0.020000 seconds...
+Thread-7 sleeping for 0.020000 seconds...
+Thread-7 sleeping for 0.020000 seconds...
+Thread-7 sleeping for 0.020000 seconds...
+Thread-7 sleeping for 0.020000 seconds...
+Thread-7 sleeping for 0.020000 seconds...
+dist: 31.6 adjusted: 31.6
+Thread-7 sleeping for 0.020000 seconds...
+Adjusted
+dist: 23.3 adjusted: 46.6
+Adjusted
+dist: 19.8 adjusted: 39.6
+Adjusted
+dist: 18.1 adjusted: 36.2
+Adjusted
+dist: 17.0 adjusted: 34.0
+dist: 16.8 adjusted: 16.8
+Not going straight because it is blocked
+dist: 27.1 adjusted: 27.1
+dist: 30.4 adjusted: 30.4
+Adjusted
+dist: 28.1 adjusted: 56.2
+Adjusted
+dist: 26.3 adjusted: 52.6
+Adjusted
+dist: 26.5 adjusted: 53.0
+dist: 26.0 adjusted: 26.0
+Not going straight because it is blocked
+dist: 27.4 adjusted: 27.4
+Adjusted
+dist: 17.9 adjusted: 35.8
+Adjusted
+dist: 5.3 adjusted: 10.6
+c <= d
+Time going forward: 4.341219493000608
+Potential turnaround, distance 75.1 for angle 0
+Avoided turnaround
+Potential turnaround, distance 74.6 for angle 10
+Avoided turnaround
+Potential turnaround, distance 74.0 for angle 20
+Avoided turnaround
+Potential turnaround, distance 23.7 for angle 30
+Avoided turnaround
+Potential turnaround, distance 22.9 for angle 40
+Avoided turnaround
+Potential turnaround, distance 22.3 for angle 50
+Avoided turnaround
+Potential turnaround, distance 22.0 for angle 60
+Avoided turnaround
+Recorded distance 24.0 for angle 70
+Recorded distance 24.3 for angle 80
+Recorded distance 24.2 for angle 90
+Recorded distance 31.7 for angle 100
+Recorded distance 6.0 for angle 110
+Recorded distance 5.0 for angle 120
+Recorded distance 5.0 for angle 130
+Recorded distance 4.0 for angle 140
+Recorded distance 4.1 for angle 150
+Recorded distance 5.0 for angle 160
+Recorded distance 6.0 for angle 170
+Recorded distance 25.9 for angle 180
+Chose angle 100 with distance 31.7
+Turning right
+At 90.12082099914551 degrees, want 100 degrees
+At 90.09706735610962 degrees, want 100 degrees
+No movement
+At 89.54883456230164 degrees, want 100 degrees
+At 89.5521354675293 degrees, want 100 degrees
+No movement
+At 85.74505984783173 degrees, want 100 degrees
+At 85.25860369205475 degrees, want 100 degrees
+At 87.49053597450256 degrees, want 100 degrees
+At 87.71705389022827 degrees, want 100 degrees
+At 87.93687611818314 degrees, want 100 degrees
+At 87.85042941570282 degrees, want 100 degrees
+No movement
+At 87.55235731601715 degrees, want 100 degrees
+At 87.520332634449 degrees, want 100 degrees
+No movement
+At 87.46241837739944 degrees, want 100 degrees
+No movement
+At 87.48019874095917 degrees, want 100 degrees
+No movement
+At 87.40305036306381 degrees, want 100 degrees
+No movement
+At 87.38564193248749 degrees, want 100 degrees
+No movement
+At 87.2848704457283 degrees, want 100 degrees
+At 87.27938711643219 degrees, want 100 degrees
+No movement
+At 87.22487837076187 degrees, want 100 degrees
+No movement
+At 87.39784866571426 degrees, want 100 degrees
+At 87.41248905658722 degrees, want 100 degrees
+No movement
+At 87.32389569282532 degrees, want 100 degrees
+No movement
+At 87.58632481098175 degrees, want 100 degrees
+At 87.53426492214203 degrees, want 100 degrees
+No movement
+At 87.44500637054443 degrees, want 100 degrees
+No movement
+At 87.42159962654114 degrees, want 100 degrees
+No movement
+At 87.42891848087311 degrees, want 100 degrees
+No movement
+Increasing turn speed
+At 87.56994187831879 degrees, want 100 degrees
+At 87.59202003479004 degrees, want 100 degrees
+No movement
+At 87.62096464633942 degrees, want 100 degrees
+No movement
+At 87.62015104293823 degrees, want 100 degrees
+No movement
+At 87.67022877931595 degrees, want 100 degrees
+No movement
+At 87.67009824514389 degrees, want 100 degrees
+No movement
+At 87.75811225175858 degrees, want 100 degrees
+No movement
+At 87.71457016468048 degrees, want 100 degrees
+No movement
+At 87.73935198783875 degrees, want 100 degrees
+No movement
+At 87.93284386396408 degrees, want 100 degrees
+At 87.82586306333542 degrees, want 100 degrees
+At 87.81526744365692 degrees, want 100 degrees
+No movement
+At 87.97751069068909 degrees, want 100 degrees
+At 87.90826588869095 degrees, want 100 degrees
+No movement
+At 87.88327127695084 degrees, want 100 degrees
+No movement
+At 87.87322998046875 degrees, want 100 degrees
+No movement
+At 87.92304664850235 degrees, want 100 degrees
+No movement
+At 87.96077370643616 degrees, want 100 degrees
+No movement
+At 87.8024473786354 degrees, want 100 degrees
+At 87.79134392738342 degrees, want 100 degrees
+No movement
+At 87.9710179567337 degrees, want 100 degrees
+At 87.96263873577118 degrees, want 100 degrees
+No movement
+Increasing turn speed
+At 87.9948154091835 degrees, want 100 degrees
+No movement
+At 88.1773254275322 degrees, want 100 degrees
+At 88.04994285106659 degrees, want 100 degrees
+At 88.14150363206863 degrees, want 100 degrees
+No movement
+At 88.04914176464081 degrees, want 100 degrees
+No movement
+At 87.86613553762436 degrees, want 100 degrees
+At 88.04679661989212 degrees, want 100 degrees
+At 88.2244884967804 degrees, want 100 degrees
+At 88.0206960439682 degrees, want 100 degrees
+At 88.07183414697647 degrees, want 100 degrees
+No movement
+At 88.05472791194916 degrees, want 100 degrees
+No movement
+At 88.0811396241188 degrees, want 100 degrees
+No movement
+At 88.1446248292923 degrees, want 100 degrees
+No movement
+At 87.92186558246613 degrees, want 100 degrees
+At 87.91195303201675 degrees, want 100 degrees
+No movement
+At 88.01545321941376 degrees, want 100 degrees
+At 88.11165779829025 degrees, want 100 degrees
+No movement
+At 87.92550981044769 degrees, want 100 degrees
+At 87.78241038322449 degrees, want 100 degrees
+At 87.89709717035294 degrees, want 100 degrees
+At 87.92594790458679 degrees, want 100 degrees
+No movement
+At 87.85139590501785 degrees, want 100 degrees
+No movement
+At 87.85563290119171 degrees, want 100 degrees
+No movement
+At 87.91494816541672 degrees, want 100 degrees
+No movement
+At 87.84496754407883 degrees, want 100 degrees
+No movement
+At 87.84662067890167 degrees, want 100 degrees
+No movement
+At 88.02197188138962 degrees, want 100 degrees
+At 87.90279239416122 degrees, want 100 degrees
+At 87.83674210309982 degrees, want 100 degrees
+No movement
+Increasing turn speed
+At 87.85290241241455 degrees, want 100 degrees
+No movement
+At 87.71684378385544 degrees, want 100 degrees
+At 87.78331875801086 degrees, want 100 degrees
+No movement
+At 87.82925873994827 degrees, want 100 degrees
+No movement
+At 87.78469562530518 degrees, want 100 degrees
+No movement
+At 87.69161850214005 degrees, want 100 degrees
+No movement
+At 87.66398549079895 degrees, want 100 degrees
+No movement
+At 87.58610039949417 degrees, want 100 degrees
+No movement
+At 87.78671085834503 degrees, want 100 degrees
+At 87.7088212966919 degrees, want 100 degrees
+No movement
+At 87.82003462314606 degrees, want 100 degrees
+At 87.68101215362549 degrees, want 100 degrees
+At 87.65633672475815 degrees, want 100 degrees
+No movement
+At 87.75352746248245 degrees, want 100 degrees
+No movement
+At 87.76521027088165 degrees, want 100 degrees
+No movement
+At 87.78638988733292 degrees, want 100 degrees
+No movement
+At 87.77883678674698 degrees, want 100 degrees
+No movement
+At 87.79381692409515 degrees, want 100 degrees
+No movement
+At 88.2093134522438 degrees, want 100 degrees
+At 88.20578187704086 degrees, want 100 degrees
+No movement
+At 88.38242590427399 degrees, want 100 degrees
+At 88.35818231105804 degrees, want 100 degrees
+No movement
+Increasing turn speed
+At 88.34163576364517 degrees, want 100 degrees
+No movement
+At 88.30952972173691 degrees, want 100 degrees
+No movement
+At 88.27651977539062 degrees, want 100 degrees
+No movement
+At 88.23309659957886 degrees, want 100 degrees
+No movement
+At 88.31443905830383 degrees, want 100 degrees
+No movement
+At 87.8779649734497 degrees, want 100 degrees
+At 87.81040996313095 degrees, want 100 degrees
+No movement
+At 87.78244078159332 degrees, want 100 degrees
+No movement
+At 87.91718423366547 degrees, want 100 degrees
+At 88.00003856420517 degrees, want 100 degrees
+No movement
+At 88.17681580781937 degrees, want 100 degrees
+At 88.12915205955505 degrees, want 100 degrees
+No movement
+At 88.1758064031601 degrees, want 100 degrees
+No movement
+At 88.1836947798729 degrees, want 100 degrees
+No movement
+At 88.24813485145569 degrees, want 100 degrees
+No movement
+At 88.40617954730988 degrees, want 100 degrees
+At 88.27294617891312 degrees, want 100 degrees
+At 88.39766800403595 degrees, want 100 degrees
+At 88.39419901371002 degrees, want 100 degrees
+No movement
+At 88.62539201974869 degrees, want 100 degrees
+At 88.38990926742554 degrees, want 100 degrees
+At 87.94241219758987 degrees, want 100 degrees
+At 87.95126974582672 degrees, want 100 degrees
+No movement
+At 88.17528426647186 degrees, want 100 degrees
+At 87.95298725366592 degrees, want 100 degrees
+At 88.01322162151337 degrees, want 100 degrees
+No movement
+At 88.00607085227966 degrees, want 100 degrees
+No movement
+Increasing turn speed
+At 87.9145610332489 degrees, want 100 degrees
+No movement
+At 87.87703961133957 degrees, want 100 degrees
+No movement
+At 88.22961151599884 degrees, want 100 degrees
+At 87.93797224760056 degrees, want 100 degrees
+At 87.98554927110672 degrees, want 100 degrees
+No movement
+At 88.20951014757156 degrees, want 100 degrees
+At 88.07108402252197 degrees, want 100 degrees
+At 88.18614184856415 degrees, want 100 degrees
+At 87.92308062314987 degrees, want 100 degrees
+At 88.1174647808075 degrees, want 100 degrees
+At 87.98897713422775 degrees, want 100 degrees
+At 88.05303007364273 degrees, want 100 degrees
+No movement
+At 88.21852684020996 degrees, want 100 degrees
+At 88.00570249557495 degrees, want 100 degrees
+At 87.94261336326599 degrees, want 100 degrees
+No movement
+At 87.95337617397308 degrees, want 100 degrees
+No movement
+At 87.9293954372406 degrees, want 100 degrees
+No movement
+At 87.84465193748474 degrees, want 100 degrees
+No movement
+At 87.64699101448059 degrees, want 100 degrees
+At 88.00211012363434 degrees, want 100 degrees
+At 88.00909727811813 degrees, want 100 degrees
+No movement
+At 87.89350748062134 degrees, want 100 degrees
+At 87.92355984449387 degrees, want 100 degrees
+No movement
+At 87.92921304702759 degrees, want 100 degrees
+No movement
+At 88.32610934972763 degrees, want 100 degrees
+At 88.13098937273026 degrees, want 100 degrees
+At 88.02315205335617 degrees, want 100 degrees
+At 87.99767285585403 degrees, want 100 degrees
+No movement
+At 88.04308265447617 degrees, want 100 degrees
+No movement
+At 88.04662317037582 degrees, want 100 degrees
+No movement
+At 88.07129681110382 degrees, want 100 degrees
+No movement
+At 88.13385039567947 degrees, want 100 degrees
+No movement
+Increasing turn speed
+At 88.07007014751434 degrees, want 100 degrees
+No movement
+At 88.15973997116089 degrees, want 100 degrees
+No movement
+At 88.18654328584671 degrees, want 100 degrees
+No movement
+At 88.20562899112701 degrees, want 100 degrees
+No movement
+At 88.28498035669327 degrees, want 100 degrees
+No movement
+At 88.34729164838791 degrees, want 100 degrees
+No movement
+At 88.56703966856003 degrees, want 100 degrees
+At 89.99679386615753 degrees, want 100 degrees
+At 91.22337967157364 degrees, want 100 degrees
+At 92.98566341400146 degrees, want 100 degrees
+At 94.93133157491684 degrees, want 100 degrees
+At 95.57121858000755 degrees, want 100 degrees
+At 96.3488931208849 degrees, want 100 degrees
+At 98.40442188084126 degrees, want 100 degrees
+At 99.64873932301998 degrees, want 100 degrees
+Travelled: [146.66407659275595, -36.379775118027574]
+degrees_entire: -59.50619280338287
+forwardCounterTotal: 185
+Time turning: 15.067337796999709
+Thread-8 sleeping for 0.020000 seconds...
+Thread-8 sleeping for 0.020000 seconds...
+Thread-8 sleeping for 0.020000 seconds...
+Thread-8 sleeping for 0.020000 seconds...
+Adjusted
+dist: 21.1 adjusted: 42.2
+Thread-8 sleeping for 0.020000 seconds...
+Thread-8 sleeping for 0.020000 seconds...
+Thread-8 sleeping for 0.020000 seconds...
+Thread-8 sleeping for 0.020000 seconds...
+Thread-8 sleeping for 0.020000 seconds...
+Thread-8 sleeping for 0.020000 seconds...
+Adjusted
+dist: 21.9 adjusted: 43.8
+Thread-8 sleeping for 0.020000 seconds...
+Thread-8 sleeping for 0.020000 seconds...
+Thread-8 sleeping for 0.020000 seconds...
+Thread-8 sleeping for 0.020000 seconds...
+Thread-8 sleeping for 0.020000 seconds...
+Thread-8 sleeping for 0.020000 seconds...
+dist: 22.5 adjusted: 22.5
+Not going straight because it is blocked
+Thread-8 sleeping for 0.020000 seconds...
+Thread-8 sleeping for 0.020000 seconds...
+Thread-8 sleeping for 0.020000 seconds...
+dist: 9.2 adjusted: 9.2
+Not going straight because it is blocked
+Thread-8 sleeping for 0.020000 seconds...
+Thread-8 sleeping for 0.020000 seconds...
+Thread-8 sleeping for 0.020000 seconds...
+Adjusted
+dist: 3.8 adjusted: 7.6
+c <= d
+Time going forward: 1.1046473679998599
+Potential turnaround, distance 72.9 for angle 0
+Avoided turnaround
+Potential turnaround, distance 71.5 for angle 10
+Avoided turnaround
+Potential turnaround, distance 23.1 for angle 20
+Avoided turnaround
+Potential turnaround, distance 22.3 for angle 30
+Avoided turnaround
+Potential turnaround, distance 23.0 for angle 40
+Avoided turnaround
+Potential turnaround, distance 22.7 for angle 50
+Avoided turnaround
+Recorded distance 22.0 for angle 60
+Recorded distance 22.1 for angle 70
+Recorded distance 23.2 for angle 80
+Recorded distance 82.9 for angle 90
+Recorded distance 4.0 for angle 100
+Recorded distance 3.8 for angle 110
+Recorded distance 3.0 for angle 120
+Recorded distance 2.4 for angle 130
+Recorded distance 2.8 for angle 140
+Recorded distance 3.1 for angle 150
+Recorded distance 4.2 for angle 160
+Recorded distance 28.4 for angle 170
+Recorded distance 22.0 for angle 180
+Prevented going forward. Choosing next largest angle
+Chose angle 170 with distance 28.4
+Turning right
+At 90.62107801437378 degrees, want 170 degrees
+At 90.61834573745728 degrees, want 170 degrees
+No movement
+At 90.61813831329346 degrees, want 170 degrees
+No movement
+At 90.61891794204712 degrees, want 170 degrees
+No movement
+At 90.53943157196045 degrees, want 170 degrees
+No movement
+computeCentermostFlow(): Re-prepare needed
+At 90.65815106034279 degrees, want 170 degrees
+At 90.69989830255508 degrees, want 170 degrees
+No movement
+At 90.61820536851883 degrees, want 170 degrees
+No movement
+At 90.6673313677311 degrees, want 170 degrees
+No movement
+At 90.73329716920853 degrees, want 170 degrees
+No movement
+At 90.66106885671616 degrees, want 170 degrees
+No movement
+At 90.67555636167526 degrees, want 170 degrees
+No movement
+At 90.71921780705452 degrees, want 170 degrees
+No movement
+At 90.66390484571457 degrees, want 170 degrees
+No movement
+At 90.67780986428261 degrees, want 170 degrees
+No movement
+At 90.66842347383499 degrees, want 170 degrees
+No movement
+At 90.66717624664307 degrees, want 170 degrees
+No movement
+At 90.68191230297089 degrees, want 170 degrees
+No movement
+Increasing turn speed
+At 90.63960537314415 degrees, want 170 degrees
+No movement
+At 90.66852673888206 degrees, want 170 degrees
+No movement
+At 90.69808602333069 degrees, want 170 degrees
+No movement
+At 90.65132081508636 degrees, want 170 degrees
+No movement
+At 90.6745308637619 degrees, want 170 degrees
+No movement
+At 90.68005934357643 degrees, want 170 degrees
+No movement
+At 90.67076236009598 degrees, want 170 degrees
+No movement
+At 90.79798266291618 degrees, want 170 degrees
+At 90.73890030384064 degrees, want 170 degrees
+No movement
+At 90.73180049657822 degrees, want 170 degrees
+No movement
+At 91.132388189435 degrees, want 170 degrees
+At 91.02976061403751 degrees, want 170 degrees
+At 90.95246940851212 degrees, want 170 degrees
+No movement
+At 91.0199598222971 degrees, want 170 degrees
+No movement
+At 90.96992924809456 degrees, want 170 degrees
+No movement
+At 90.98150700330734 degrees, want 170 degrees
+No movement
+At 90.94934552907944 degrees, want 170 degrees
+No movement
+At 90.97036018967628 degrees, want 170 degrees
+No movement
+At 90.90933501720428 degrees, want 170 degrees
+No movement
+Increasing turn speed
+At 90.97255289554596 degrees, want 170 degrees
+No movement
+At 90.96068054437637 degrees, want 170 degrees
+No movement
+At 90.92145591974258 degrees, want 170 degrees
+No movement
+At 90.97309425473213 degrees, want 170 degrees
+No movement
+At 91.01486586034298 degrees, want 170 degrees
+No movement
+At 90.85162460803986 degrees, want 170 degrees
+At 91.11899770796299 degrees, want 170 degrees
+At 91.70074492692947 degrees, want 170 degrees
+At 91.79619088768959 degrees, want 170 degrees
+No movement
+At 91.89288876950741 degrees, want 170 degrees
+No movement
+At 91.92604847252369 degrees, want 170 degrees
+No movement
+At 91.83637261390686 degrees, want 170 degrees
+No movement
+At 91.93340577185154 degrees, want 170 degrees
+No movement
+At 91.87549106776714 degrees, want 170 degrees
+No movement
+At 91.86135336756706 degrees, want 170 degrees
+No movement
+At 91.88772574067116 degrees, want 170 degrees
+No movement
+At 91.87770590186119 degrees, want 170 degrees
+No movement
+At 91.9128392636776 degrees, want 170 degrees
+No movement
+At 91.9116485863924 degrees, want 170 degrees
+No movement
+Increasing turn speed
+At 91.86130419373512 degrees, want 170 degrees
+No movement
+At 91.93357586860657 degrees, want 170 degrees
+No movement
+At 92.06001587212086 degrees, want 170 degrees
+At 92.09110468626022 degrees, want 170 degrees
+No movement
+At 92.0500847697258 degrees, want 170 degrees
+No movement
+At 91.96971662342548 degrees, want 170 degrees
+No movement
+At 92.0232830196619 degrees, want 170 degrees
+No movement
+At 92.09202982485294 degrees, want 170 degrees
+No movement
+At 92.01791748404503 degrees, want 170 degrees
+No movement
+At 91.99698977172375 degrees, want 170 degrees
+No movement
+At 92.01115228235722 degrees, want 170 degrees
+No movement
+At 92.02309168875217 degrees, want 170 degrees
+No movement
+At 92.03147001564503 degrees, want 170 degrees
+No movement
+At 92.02920466661453 degrees, want 170 degrees
+No movement
+At 91.97995036840439 degrees, want 170 degrees
+No movement
+At 92.04897165298462 degrees, want 170 degrees
+No movement
+At 91.88658848404884 degrees, want 170 degrees
+At 91.99836820363998 degrees, want 170 degrees
+At 92.04092726111412 degrees, want 170 degrees
+No movement
+Increasing turn speed
+At 92.02807500958443 degrees, want 170 degrees
+No movement
+At 92.03038819134235 degrees, want 170 degrees
+No movement
+At 91.99792005121708 degrees, want 170 degrees
+No movement
+At 92.01876483857632 degrees, want 170 degrees
+No movement
+At 92.01234988868237 degrees, want 170 degrees
+No movement
+At 92.04860977828503 degrees, want 170 degrees
+No movement
+At 92.0181280374527 degrees, want 170 degrees
+No movement
+At 92.01697200536728 degrees, want 170 degrees
+No movement
+At 92.01346300542355 degrees, want 170 degrees
+No movement
+At 92.01025620102882 degrees, want 170 degrees
+No movement
+At 92.05395340919495 degrees, want 170 degrees
+No movement
+At 92.03898578882217 degrees, want 170 degrees
+No movement
+At 92.05127097666264 degrees, want 170 degrees
+No movement
+At 92.24748015403748 degrees, want 170 degrees
+At 92.72730991244316 degrees, want 170 degrees
+At 93.02152421325445 degrees, want 170 degrees
+At 92.99257837235928 degrees, want 170 degrees
+No movement
+At 92.92063359171152 degrees, want 170 degrees
+No movement
+At 92.94107280671597 degrees, want 170 degrees
+No movement
+Increasing turn speed
+At 92.91474413126707 degrees, want 170 degrees
+No movement
+At 92.88075305521488 degrees, want 170 degrees
+No movement
+At 92.92694684118032 degrees, want 170 degrees
+No movement
+At 92.91996985673904 degrees, want 170 degrees
+No movement
+At 92.95969750732183 degrees, want 170 degrees
+No movement
+At 92.98171285539865 degrees, want 170 degrees
+No movement
+At 92.94260546565056 degrees, want 170 degrees
+No movement
+At 92.91395176202059 degrees, want 170 degrees
+No movement
+At 92.97867055982351 degrees, want 170 degrees
+No movement
+At 92.93357837945223 degrees, want 170 degrees
+No movement
+At 92.9690121486783 degrees, want 170 degrees
+No movement
+At 92.94934138655663 degrees, want 170 degrees
+No movement
+At 92.92579885572195 degrees, want 170 degrees
+No movement
+At 92.96590022742748 degrees, want 170 degrees
+No movement
+At 92.94242642819881 degrees, want 170 degrees
+No movement
+At 93.31537038087845 degrees, want 170 degrees
+At 93.65842200815678 degrees, want 170 degrees
+At 93.66197001188993 degrees, want 170 degrees
+No movement
+Increasing turn speed
+At 93.65752905607224 degrees, want 170 degrees
+No movement
+At 93.79219003021717 degrees, want 170 degrees
+At 94.38166458159685 degrees, want 170 degrees
+At 94.53548560850322 degrees, want 170 degrees
+At 94.49424239806831 degrees, want 170 degrees
+No movement
+At 94.4756470900029 degrees, want 170 degrees
+No movement
+At 94.62518750689924 degrees, want 170 degrees
+At 94.51900097541511 degrees, want 170 degrees
+At 94.49991934932768 degrees, want 170 degrees
+No movement
+At 94.55056638456881 degrees, want 170 degrees
+No movement
+At 94.55918588675559 degrees, want 170 degrees
+No movement
+At 95.00571037642658 degrees, want 170 degrees
+At 95.4380917456001 degrees, want 170 degrees
+At 95.40880626998842 degrees, want 170 degrees
+No movement
+At 95.42504827491939 degrees, want 170 degrees
+No movement
+At 95.56884496472776 degrees, want 170 degrees
+computeCentermostFlow(): Re-prepare needed
+At 95.61496722511947 degrees, want 170 degrees
+No movement
+At 95.85335123352706 degrees, want 170 degrees
+At 96.18881869129837 degrees, want 170 degrees
+At 96.39532911591232 degrees, want 170 degrees
+At 96.62363964132965 degrees, want 170 degrees
+At 96.56927484087646 degrees, want 170 degrees
+No movement
+At 96.68464737944305 degrees, want 170 degrees
+At 96.81843060068786 degrees, want 170 degrees
+At 96.81682306341827 degrees, want 170 degrees
+No movement
+At 96.68582665733993 degrees, want 170 degrees
+At 96.80124211125076 degrees, want 170 degrees
+At 97.04117017798126 degrees, want 170 degrees
+At 97.08416598848999 degrees, want 170 degrees
+No movement
+At 97.27359342388809 degrees, want 170 degrees
+At 97.33607548289001 degrees, want 170 degrees
+No movement
+At 97.33410852961242 degrees, want 170 degrees
+No movement
+At 97.38926905207336 degrees, want 170 degrees
+No movement
+At 97.36344563774765 degrees, want 170 degrees
+No movement
+Increasing turn speed
+At 97.33420866541564 degrees, want 170 degrees
+No movement
+At 97.3343016486615 degrees, want 170 degrees
+No movement
+At 97.67312812618911 degrees, want 170 degrees
+At 97.67843979410827 degrees, want 170 degrees
+No movement
+At 97.7300741057843 degrees, want 170 degrees
+No movement
+At 97.79001745395362 degrees, want 170 degrees
+No movement
+At 98.12633696012199 degrees, want 170 degrees
+At 98.42013272456825 degrees, want 170 degrees
+At 99.10283493809402 degrees, want 170 degrees
+At 99.21790796332061 degrees, want 170 degrees
+At 99.31907596997917 degrees, want 170 degrees
+At 99.33850678615272 degrees, want 170 degrees
+No movement
+At 99.27423435263336 degrees, want 170 degrees
+No movement
+At 99.22823178581893 degrees, want 170 degrees
+No movement
+At 99.25663414411247 degrees, want 170 degrees
+No movement
+At 99.22275426797569 degrees, want 170 degrees
+No movement
+At 99.64320707134902 degrees, want 170 degrees
+At 99.69955715350807 degrees, want 170 degrees
+No movement
+At 100.05172359757125 degrees, want 170 degrees
+At 100.25949734263122 degrees, want 170 degrees
+At 100.86669492535293 degrees, want 170 degrees
+At 100.94322103075683 degrees, want 170 degrees
+No movement
+At 101.0142673831433 degrees, want 170 degrees
+No movement
+At 102.48428019694984 degrees, want 170 degrees
+At 106.11946734599769 degrees, want 170 degrees
+At 111.82970437221229 degrees, want 170 degrees
+At 121.8128791730851 degrees, want 170 degrees
+At 130.89492830447853 degrees, want 170 degrees
+At 135.45852097682655 degrees, want 170 degrees
+At 138.19632682017982 degrees, want 170 degrees
+At 141.3531759660691 degrees, want 170 degrees
+At 143.2970944326371 degrees, want 170 degrees
+At 148.8885614555329 degrees, want 170 degrees
+At 152.26058813743293 degrees, want 170 degrees
+At 159.53022840432823 degrees, want 170 degrees
+At 163.31550213508308 degrees, want 170 degrees
+At 167.17104527167976 degrees, want 170 degrees
+At 168.61510681919754 degrees, want 170 degrees
+At 166.52497219853103 degrees, want 170 degrees
+At 170.9426813106984 degrees, want 170 degrees
+Travelled: [157.8278716741635, -55.33682339512864]
+degrees_entire: 21.436488507315516
+forwardCounterTotal: 207
+Time turning: 15.669563339000888
+Thread-9 sleeping for 0.020000 seconds...
+Thread-9 sleeping for 0.020000 seconds...
+Thread-9 sleeping for 0.020000 seconds...
+Adjusted
+dist: 4.6 adjusted: 9.2
+c <= d
+Time going forward: 0.13937987999997858
+Recorded distance 26.1 for angle 0
+Recorded distance 25.4 for angle 10
+Recorded distance 26.5 for angle 20
+Recorded distance 28.0 for angle 30
+Recorded distance 6.7 for angle 40
+Recorded distance 5.9 for angle 50
+Recorded distance 5.0 for angle 60
+Recorded distance 4.2 for angle 70
+Recorded distance 4.0 for angle 80
+Recorded distance 4.1 for angle 90
+Recorded distance 5.1 for angle 100
+Recorded distance 6.9 for angle 110
+Recorded distance 19.3 for angle 120
+Recorded distance 18.0 for angle 130
+Recorded distance 17.0 for angle 140
+Recorded distance 17.9 for angle 150
+Recorded distance 15.3 for angle 160
+Recorded distance 14.9 for angle 170
+Recorded distance 15.0 for angle 180
+Chose angle 30 with distance 28.0
+Turning left
+OpenCV Error: Assertion failed ((npoints = prevPtsMat.checkVector(2, CV_32F, true)) >= 0) in calc, file /build/opencv-L65chJ/opencv-3.2.0+dfsg/modules/video/src/lkpyramid.cpp, line 1231
+ERROR:root:Traceback (most recent call last):
+  File "algorithm.py", line 528, in <module>
+    (closestPointToCenter, flowVector) = flow.computeCentermostFlow()
+  File "/home/pi/Distributed-Autonomous-Path-Learning/flow.py", line 162, in computeCentermostFlow
+    **self.lk_params)
+cv2.error: /build/opencv-L65chJ/opencv-3.2.0+dfsg/modules/video/src/lkpyramid.cpp:1231: error: (-215) (npoints = prevPtsMat.checkVector(2, CV_32F, true)) >= 0 in function calc
+
+
+Traceback (most recent call last):
+  File "algorithm.py", line 528, in <module>
+    (closestPointToCenter, flowVector) = flow.computeCentermostFlow()
+  File "/home/pi/Distributed-Autonomous-Path-Learning/flow.py", line 162, in computeCentermostFlow
+    **self.lk_params) 
+cv2.error: /build/opencv-L65chJ/opencv-3.2.0+dfsg/modules/video/src/lkpyramid.cpp:1231: error: (-215) (npoints = prevPtsMat.checkVector(2, CV_32F, true)) >= 0 in function calc
+
+pi@embeddedpi46:~/Distributed-Autonomous-Path-Learning $ 
