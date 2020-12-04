@@ -227,21 +227,20 @@ try:
                 break
 
     else:  # Then we are the receiving vehicle, so we have a path already.
-        forward(1)
+        forward()
         time.sleep(0.5)
-        right(1)
+        right()
         time.sleep(0.1)
-        forward(1)
+        forward()
         time.sleep(0.1)
-        right(1)
+        right()
         time.sleep(0.1)
-        forward(1)
+        forward()
         time.sleep(0.1)
-        right(1)
+        right()
         time.sleep(0.5)
-        forward(1)
+        forward()
         time.sleep(0.5)
-        stop()
         # while True:
         #     # Check for end condition: all angles popped
         #     if len(recordedPath) == 0:
@@ -254,7 +253,7 @@ try:
 
 finally:
     logging.error(traceback.format_exc())
-    wheels.setMotorModel(0, 0, 0, 0)
+    stop()
     ultrasonic.pwm_S.setServoPwm('0', middleHoriz)
     ultrasonic.pwm_S.setServoPwm('1', middleVert)
 
