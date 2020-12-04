@@ -12,10 +12,12 @@ class Client:
         # now connect to the web server on port 8080 - the normal http port
         ip = input("Enter IP to connect to (port 8080 will be used): ")
         self.s.connect((ip, 8080))
+        print("Connected")
     
     def sendPath(self, path):
         msg = makeRobotPathCommand(path, NetworkCommand.uploadPath)
         self.s.send(msg)
+        print("Sent path:",path)
 
     def receivePath(self):
         RECV_BUFSIZE = 4096  # maximum amount of data to be received at a time
@@ -48,10 +50,12 @@ class Client:
     def __del__(self):
         self.close()
 
-
-if __name__ == "__main__":
+def main():
     c = Client()
     time.sleep(2)
     c.sendPath([90,1,2,3])
     p = c.receivePath()
     print(p)
+
+if __name__ == "__main__":
+    main()

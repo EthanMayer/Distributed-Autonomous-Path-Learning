@@ -54,7 +54,6 @@ class CarConfig(Enum):
     sbond75 = 2
     Ethan = 3
 
-
 # Get `use` for which CarConfig to use:
 if len(sys.argv) <= 3:
     # Prompt for input
@@ -91,8 +90,9 @@ elif carConfig == CarConfig.Ethan:
 
 # If we are the receiving vehicle, we need to wait for a path first.
 if isReceivingVehicle:
-    # client = Client()
-    # recordedPath = client.receivePath()
+    print("unimplemented")
+    client = Client()
+    recordedPath = client.receivePath()
 else:
     recordedPath = []
 

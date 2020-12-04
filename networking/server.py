@@ -67,7 +67,7 @@ class ClientThread:
                 client.send(replyBytes)
         
 
-if __name__ == "__main__":
+def main():
     s = None
     try:
         # create an INET, STREAMing socket
@@ -77,7 +77,8 @@ if __name__ == "__main__":
         #s.connect(("www.python.org", 80))
 
         # bind the socket to a public host, and a well-known port
-        s.bind((socket.gethostname(), 8080))
+        #socket.gethostname()
+        s.bind(('', 8080))
         # become a server socket
         s.listen(5)
 
@@ -97,3 +98,6 @@ if __name__ == "__main__":
     finally:
         s.shutdown(socket.SHUT_RDWR)
         s.close()
+
+if __name__ == "__main__":
+    main()
