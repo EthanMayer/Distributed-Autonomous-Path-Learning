@@ -59,7 +59,7 @@ else:
     debugWindowEnabled = False
 
 # Configuration
-d = 25 #30 #20 # Centimeters from car to object at which to stop and scan from
+d = 27 #25 #30 #20 # Centimeters from car to object at which to stop and scan from
 halfW = 8 # Half the width of the car in centimeters.
 # TODO: use this value to prevent the car from running into the wall on an edge
 if carConfig == CarConfig.WhereEam:
@@ -107,7 +107,7 @@ wheels=Motor()
 #    elif carConfig == CarConfig.Ethan:
 #        pass
 # [New]
-forwardSpeed = 0.13
+forwardSpeed = 0.10 #0.15
 def forward(speed=forwardSpeed):
     wheels.setMotorModel(int(-4095*speed), int(-4095*speed),
                          int(-4095*speed), int(-4095*speed))
