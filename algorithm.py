@@ -12,6 +12,7 @@ import networking.client
 from networking.client import *
 
 from timeit import default_timer as timer
+import functools 
 
 # Car configurations/profiles
 class CarConfig(Enum):
@@ -209,16 +210,18 @@ if __name__ == '__main__':
                 # Move forward
                 # [New]
                 speed = forwardSpeed
-                forward()
+                forward(speed)
                 start_time = timer()
                 flag = True
+                distances = []
                 while True:
                     offset = 32
                     movement = 20
+                    distances_prev = distances
                     for angle in range(middleHoriz - offset, middleHoriz + offset, movement):
                         ultrasonic.pwm_S.setServoPwm('0', angle)
                         c = getUltrasonicDistance()  # Grab distance from bot to object
-                        if angle-middleHoriz > 30:
+                        if abs(angle-middleHoriz) > 30:
                             adj = abs(2*c) # Angles further off center are less important if they are close
                         else:
                             adj = c
@@ -226,11 +229,12 @@ if __name__ == '__main__':
                         if adj <= d:
                             flag = False
                             break
+                        distances.append(c)
                         time.sleep(0.11)
                     for angle in range(middleHoriz + offset, middleHoriz - offset, -movement):
                         ultrasonic.pwm_S.setServoPwm('0', angle)
                         c = getUltrasonicDistance()  # Grab distance from bot to object
-                        if angle-middleHoriz > 30:
+                        if abs(angle-middleHoriz) > 30:
                             adj = abs(2*c) # Angles further off center are less important if they are close
                         else:
                             adj = c
@@ -238,7 +242,13 @@ if __name__ == '__main__':
                         if adj <= d:
                             flag = False
                             break
+                        distances.append(c)
                         time.sleep(0.11)
+                    # Check if all distances were the same across the arrays by a threshold
+                    if functools.reduce(lambda a,b: a and b, np.isclose(distances, distances_prev, 2)):
+                        # Speed up
+                        speed += 0.0013
+                        forward(speed)
                     if not flag:
                         break
                 end_time = timer()
