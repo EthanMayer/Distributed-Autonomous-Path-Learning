@@ -284,8 +284,10 @@ if __name__ == '__main__':
                 movement = 15
                 distances_prev = distances
                 distances = []
+                global adjustedCount
                 adjustedCount = 0
                 def scan(dir): # Returns whether to continue or not.
+                    global adjustedCount
                     start = (middleHoriz - offset) if dir==1 else (middleHoriz + offset)
                     end = (middleHoriz + offset) if dir==1 else (middleHoriz - offset)
                     inc = movement if dir==1 else -movement
