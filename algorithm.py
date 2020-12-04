@@ -248,6 +248,7 @@ if __name__ == '__main__':
                     # Check if all distances were the same across the arrays by a threshold
                     if functools.reduce(lambda a,b: a and b, np.isclose(distances, distances_prev, 2)):
                         # Speed up
+                        print("Speeding up")
                         speed += 0.0013
                         forward(speed)
                     if not flag:
@@ -394,13 +395,15 @@ if __name__ == '__main__':
                     elif dir == 1:
                         if destination_angle - degrees_total <= angle_epsilon:
                             break
-                    if degrees_total - degrees_total_prev < 0.02:
+                    if degrees_total - degrees_total_prev < 0.04:
                         noMovementCounter += 1
+                        print("No movement")
                         if noMovementCounter > 30:
                             # Bump up how much we turn
                             speed += 0.005
                             turn(speed)
                             noMovementCounter = 0
+                            print("Increasing turn speed")
                 elif stop_cond == 2:
                     #current_time = time.time_ns() / 1000 / 1000 / 1000
 
