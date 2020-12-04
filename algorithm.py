@@ -354,7 +354,7 @@ if __name__ == '__main__':
                 destination_angle = None
                 largest_index = None
                 i = 0
-                for angle in range(middleHoriz - 90, middleHoriz + 90, 10): 
+                for angle in range(middleHoriz - 90, middleHoriz + 90 + 10, 10): # + 10 bceause last value is excluded
                     #for angle in angles: # range(start, stop, separator)
                     ultrasonic.pwm_S.setServoPwm('0',angle)
                     time.sleep(sleep_time_long)
