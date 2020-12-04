@@ -283,6 +283,8 @@ if __name__ == '__main__':
                 offset = 40 #32
                 movement = 15
                 distances_prev = distances
+                distances = []
+                adjustedCount = 0
                 def scan(dir): # Returns whether to continue or not.
                     start = (middleHoriz - offset) if dir==1 else (middleHoriz + offset)
                     end = (middleHoriz + offset) if dir==1 else (middleHoriz - offset)
@@ -292,6 +294,7 @@ if __name__ == '__main__':
                         c = getUltrasonicDistance()  # Grab distance from bot to object
                         if abs(angle-middleHoriz) > 10 and c < 30:
                             print("Adjusted")
+                            adjustedCount += 1
                             adj = abs(2*c) # Angles further off center are less important if they are close
                         else:
                             adj = c
@@ -309,6 +312,9 @@ if __name__ == '__main__':
                     break
                 c, shouldContinue = scan(-1)
                 if not shouldContinue:
+                    break
+                if adjustedCount > 4: # Stop because we're probably hitting a wall now
+                    print("Probably hitting a wall, stopping")
                     break
                 # Check if all distances were the same across the arrays by a threshold
                 if functools.reduce(lambda a,b: a and b, np.isclose(distances, distances_prev, 0.5)):
