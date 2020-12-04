@@ -315,16 +315,17 @@ if __name__ == '__main__':
                 c, shouldContinue = scan(-1)
                 if not shouldContinue:
                     break
-                if adjustedCount > 4: # Stop because we're probably hitting a wall now
+                if adjustedCount > 5: # Stop because we're probably hitting a wall now
                     print("Probably hitting a wall, stopping")
                     break
                 # Check if all distances were the same across the arrays by a threshold
-                if functools.reduce(lambda a,b: a and b, np.isclose(distances, distances_prev, 0.5)):
-                    # Speed up
-                    print("Speeding up")
-                    speed += forwardSpeedup
-                    forward(speed)
-                    forwardSpeed = (forwardSpeed + speed) / 2 # Approach the new speed here
+                if len(distances) == len(distances_prev):
+                    if functools.reduce(lambda a,b: a and b, np.isclose(distances, distances_prev, 0.5)):
+                        # Speed up
+                        print("Speeding up")
+                        speed += forwardSpeedup
+                        forward(speed)
+                        forwardSpeed = (forwardSpeed + speed) / 2 # Approach the new speed here
             print("c <= d")
             end_time = timer()
             print("Time going forward: " + str(end_time - start_time))
