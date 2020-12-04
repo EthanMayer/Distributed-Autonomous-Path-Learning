@@ -393,15 +393,6 @@ if __name__ == '__main__':
                     elif dir == 1:
                         if destination_angle - degrees_total <= angle_epsilon:
                             break
-                    if abs(degrees_total - degrees_total_prev) < 0.4:
-                        noMovementCounter += 1
-                        print("No movement")
-                        if noMovementCounter > 30:
-                            # Bump up how much we turn
-                            speed += 0.005
-                            turn(speed)
-                            noMovementCounter = 0
-                            print("Increasing turn speed")
                 elif stop_cond == 2:
                     #current_time = time.time_ns() / 1000 / 1000 / 1000
 
@@ -433,6 +424,17 @@ if __name__ == '__main__':
                             break
                 else:
                     raise Exception("Unimplemented stop_cond")
+
+                if stop_cond == 1 or stop_cond == 2:
+                    if abs(degrees_total - degrees_total_prev) < 0.1:
+                        noMovementCounter += 1
+                        print("No movement")
+                        if noMovementCounter > 30:
+                            # Bump up how much we turn
+                            speed += 0.005
+                            turn(speed)
+                            noMovementCounter = 0
+                            print("Increasing turn speed")
             
             # Track how much we turned overall since the start of the course.
             if stop_cond == 1 or stop_cond == 2:
