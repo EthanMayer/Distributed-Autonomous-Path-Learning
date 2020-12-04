@@ -117,6 +117,7 @@ forwardSpeedOrig += 0.02
 forwardSpeed = forwardSpeedOrig
 forwardSpeedup = 0.013 #0.007
 #forwardMutex = Lock()
+global forwardCounter
 forwardCounter = 0
 forwardCounterTotal = forwardCounter
 travelled = [0, 0] # 2D vector of how far we travelled and in what direction
@@ -129,6 +130,7 @@ class ForwardSpeedManagerThread(Thread):
         self.stop = False
  
     def run(self):
+        global forwardCounter
         #while forwardSpeed-self.counter > forwardSpeedOrig and not self.stop:
         while forwardSpeed-self.counter > forwardSpeed * 0.7 and not self.stop:
             # for i in range(1, self.val):
