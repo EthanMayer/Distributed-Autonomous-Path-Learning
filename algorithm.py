@@ -153,9 +153,9 @@ try:
                 ultrasonic.pwm_S.setServoPwm('0', angle)
                 time.sleep(0.5)
                 dist = getUltrasonicDistance()
-                if dist > largest_dist:
-                    largest_dist = dist
-                    largest_angle = angle
+                if dist > destination_distance:
+                    destination_distance = dist
+                    destination_angle = angle
                 print("Recorded distance " + str(dist) + " for angle " + str(angle))
             print("Chose angle " + str(destination_angle))
             recordedPath.append([destination_angle - middleHoriz, destination_distance])
