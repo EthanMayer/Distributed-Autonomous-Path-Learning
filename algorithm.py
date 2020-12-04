@@ -107,7 +107,7 @@ wheels=Motor()
 #    elif carConfig == CarConfig.Ethan:
 #        pass
 # [New]
-def forward(speed=0.5):
+def forward(speed=0.13):
     wheels.setMotorModel(int(-4095*speed), int(-4095*speed),
                          int(-4095*speed), int(-4095*speed))
 # Pass `None` for `secs` to just set the PWM output to that until the next time
@@ -207,8 +207,7 @@ if __name__ == '__main__':
 
                 # Move forward
                 # [New]
-                speed = 0.15
-                forward(speed)
+                forward()
                 start_time = timer()
                 flag = True
                 while True:
@@ -325,7 +324,7 @@ if __name__ == '__main__':
             elif destination_angle == 90:
                 print("Forward but this shouldn't happen")
                 speed = 0.15
-                forward(speed)
+                forward()
                 dir = 0
             elif destination_angle > 90:
                 print("Turning right")
