@@ -429,9 +429,9 @@ if __name__ == '__main__':
                     if abs(degrees_total - degrees_total_prev) < 0.1:
                         noMovementCounter += 1
                         print("No movement")
-                        if noMovementCounter > 30:
+                        if noMovementCounter > 15:
                             # Bump up how much we turn
-                            speed += 0.005
+                            speed += 0.01
                             turn(speed)
                             noMovementCounter = 0
                             print("Increasing turn speed")
