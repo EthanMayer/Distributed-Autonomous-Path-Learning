@@ -115,6 +115,7 @@ wheels=Motor()
 # [New]
 forwardSpeedOrig = 0.125 #0.15
 forwardSpeedOrig += 0.02
+forwardSpeedOrig += 0.02
 forwardSpeed = forwardSpeedOrig
 forwardSpeedup = 0.013 #0.007
 #forwardMutex = Lock()
