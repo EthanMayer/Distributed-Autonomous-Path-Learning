@@ -30,13 +30,13 @@ def stop():
 
 
 def left(speed=0.5):
-    wheels.setMotorModel(int(-4095*speed), int(-4095*speed),
-                         int(4095*speed), int(4095*speed))
+    wheels.setMotorModel(int(4095*speed), int(4095*speed),
+                         int(-4095*speed), int(-4095*speed))
 
 
 def right(speed=0.5):
-    wheels.setMotorModel(int(4095*speed), int(4095*speed),
-                         int(-4095*speed), int(-4095*speed))
+    wheels.setMotorModel(int(-4095*speed), int(-4095*speed),
+                         int(4095*speed), int(4095*speed))
 
 
 def getUltrasonicDistance():
@@ -53,6 +53,7 @@ class CarConfig(Enum):
     WhereEam = 1
     sbond75 = 2
     Ethan = 3
+
 
 # Get `use` for which CarConfig to use:
 if len(sys.argv) <= 3:
@@ -156,23 +157,25 @@ try:
                 if dist > destination_distance:
                     destination_distance = dist
                     destination_angle = angle
-                print("Recorded distance " + str(dist) + " for angle " + str(angle))
+                print("Recorded distance " + str(dist) +
+                      " for angle " + str(angle))
             print("Chose angle " + str(destination_angle))
-            recordedPath.append([destination_angle - middleHoriz, destination_distance])
+            recordedPath.append(
+                [destination_angle - middleHoriz, destination_distance])
 
             start_time = timer()
             current_degree = 0
             # Turn
             if destination_angle < 0:
                 print("Turning left")
-                left()
+                left(0.25)
             elif destination_angle == 0:
                 print("Forward but this shouldn't happen")
-                forward()
+                forward(0.25)
                 dir = 0
             elif destination_angle > 0:
                 print("Turning right")
-                right()
+                right(0.25)
 
             if turn_method == 0:
                 while True:
@@ -187,7 +190,8 @@ try:
                     (dRoll, dPitch, dYaw) = mpu.gyro
                     end_time = timer()
                     current_degree -= (end_time - start_time) * dYaw
-                    print("At " + str(current_degree) + " degrees out of " + str(destination_angle) + " degrees")
+                    print("At " + str(current_degree) + " degrees out of " +
+                          str(destination_angle) + " degrees")
                     if abs(current_degree - destination_angle) <= angle_epsilon:
                         stop()
                         break
@@ -197,8 +201,10 @@ try:
                     # Get current distance as we turn
                     c = getUltrasonicDistance()
                     (closestPointToCenter, flowVector) = flow.computeCentermostFlow()
-                    current_degree -= math.degrees(flow.computeRadiansOfCameraRotation(c, flowVector))
-                    print("At " + str(current_degree) + " degrees out of " + str(destination_angle) + " degrees")
+                    current_degree -= math.degrees(
+                        flow.computeRadiansOfCameraRotation(c, flowVector))
+                    print("At " + str(current_degree) + " degrees out of " +
+                          str(destination_angle) + " degrees")
                     if abs(current_degree - destination_angle) <= angle_epsilon:
                         stop()
                         break
