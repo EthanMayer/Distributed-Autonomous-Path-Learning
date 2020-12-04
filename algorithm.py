@@ -276,7 +276,7 @@ if __name__ == '__main__':
                     time.sleep(sleep_time_long)
                     dist = getUltrasonicDistance()
                     if destination_distance is None or dist > destination_distance: # Record a new largest distance
-                        if degrees_entire + (angle - middleHoriz) > 180: # Then we would turn around, don't!
+                        if degrees_entire + (angle - middleHoriz) > 90: # Then we would turn around, don't!
                             print("Avoided turnaround")
                             distances.append(0)
                             continue
