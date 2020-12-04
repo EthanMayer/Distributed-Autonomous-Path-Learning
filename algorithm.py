@@ -9,6 +9,7 @@ import logging
 from enum import Enum
 import sys
 import math
+from math import radians, degrees
 import networking.client
 from networking.client import *
 
