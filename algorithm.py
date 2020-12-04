@@ -570,9 +570,10 @@ if __name__ == '__main__':
                 degrees_entire += degrees_total - 90
                 print("degrees_entire:", degrees_entire)
                 forwardCounterTotal += forwardCounter
+                print("forwardCounterTotal:", forwardCounterTotal)
                 forwardCounter = 0
                 threshold = forwardCounterTotal / 2
-                if travelled[0] > threshold and travelled[1] > threshold:
+                if abs(travelled[0]) > threshold and abs(travelled[1]) > threshold:
                     print("Travelled diagonally, resetting degrees_entire to 0")
                     #if forwardCounter > 20 and abs(degrees_entire) > 0:
                     degrees_entire = 0 # Reset because once we go far enough in a diagonal direction since we actually 
