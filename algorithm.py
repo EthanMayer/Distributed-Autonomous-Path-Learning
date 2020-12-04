@@ -141,7 +141,7 @@ class ForwardSpeedManagerThread(Thread):
             self.counter += 0.001
 
 turnSpeed = 0.21 # WORKS but super slow: 0.20 # 0.25
-turnSpeed += 0.05
+turnSpeed += 0.034
 global motionThreads
 motionThreads = []
 def stopMotionThreads():
