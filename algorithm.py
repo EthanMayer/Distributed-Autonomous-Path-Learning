@@ -1,4 +1,5 @@
 import time
+from time import sleep
 from Motor import *
 from Ultrasonic import *
 from servo import *
@@ -114,6 +115,8 @@ turnSpeed = 0.21 # WORKS but super slow: 0.20 # 0.25
 def forward(speed=forwardSpeed):
     wheels.setMotorModel(int(-4095*speed), int(-4095*speed),
                          int(-4095*speed), int(-4095*speed))
+def stop():
+    wheels.setMotorModel(0, 0, 0, 0)
 # Pass `None` for `secs` to just set the PWM output to that until the next time
 # that the motors are set.
 def left_(secs=1, speed=0.6):
@@ -348,7 +351,12 @@ if __name__ == '__main__':
             elif destination_angle == 90:
                 print("Forward but this shouldn't happen")
                 speed = forwardSpeed
-                forward()
+                #forward()
+                # This actually happened once, let's turn to fix it:
+                turn(turnSpeed)
+                time.sleep(0.1)
+                stop()
+                continue # Let's try this again
                 dir = 0
             elif destination_angle > 90:
                 print("Turning right")
