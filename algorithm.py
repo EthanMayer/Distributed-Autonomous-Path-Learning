@@ -91,9 +91,8 @@ elif carConfig == CarConfig.Ethan:
 
 # If we are the receiving vehicle, we need to wait for a path first.
 if isReceivingVehicle:
-    print("unimplemented")
-    client = Client()
-    recordedPath = client.receivePath()
+    # client = Client()
+    # recordedPath = client.receivePath()
 else:
     recordedPath = []
 
