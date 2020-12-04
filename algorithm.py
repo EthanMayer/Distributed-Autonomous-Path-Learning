@@ -364,14 +364,14 @@ if __name__ == '__main__':
                         # only activate this if the distance isn't big (second part after the first `if`)
                         if abs(degrees_entire + (angle - middleHoriz)) > 90: # Then we would turn around, don't!
                             print("Potential turnaround, distance", dist, "for angle", angle)
-                            if dist < 50:
-                                #res = input("Avoid turnaround (y/n)? ")
-                                if True: #if res == "y":
-                                    print("Avoided turnaround")
-                                    distances.append(0)
-                                    angles.append(angle)
-                                    i += 1
-                                    continue
+                            #if dist < 50:
+                            #res = input("Avoid turnaround (y/n)? ")
+                            if True: #if res == "y":
+                                print("Avoided turnaround")
+                                distances.append(0)
+                                angles.append(angle)
+                                i += 1
+                                continue
                         destination_distance = dist
                         destination_angle = angle
                         largest_index = i
