@@ -48,10 +48,12 @@ class Client:
     def __del__(self):
         self.close()
 
-
-if __name__ == "__main__":
+def main():
     c = Client()
     time.sleep(2)
     c.sendPath([90,1,2,3])
     p = c.receivePath()
     print(p)
+
+if __name__ == "__main__":
+    main()
