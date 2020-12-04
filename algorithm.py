@@ -13,6 +13,7 @@ from networking.client import *
 
 from timeit import default_timer as timer
 import functools 
+import numpy as np
 
 # Car configurations/profiles
 class CarConfig(Enum):
@@ -245,7 +246,7 @@ if __name__ == '__main__':
                         distances.append(c)
                         time.sleep(0.11)
                     # Check if all distances were the same across the arrays by a threshold
-                    if functools.reduce(lambda a,b: a and b, numpy.isclose(distances, distances_prev, 2)):
+                    if functools.reduce(lambda a,b: a and b, np.isclose(distances, distances_prev, 2)):
                         # Speed up
                         speed += 0.0013
                         forward(speed)
