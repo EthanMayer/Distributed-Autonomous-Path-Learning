@@ -75,7 +75,7 @@ except KeyError:
 
 # Configuration
 d = 25  # Centimeters from car to object at which to stop and scan from
-turn_method = 2  # distance polling(0), gyroscope(1), optical flow(2)
+turn_method = 0  # distance polling(0), gyroscope(1), optical flow(2)
 dist_epsilon = 30  # For distance polling(0)
 angle_epsilon = 1  # For gyroscope(1)
 
@@ -160,14 +160,14 @@ try:
             start_time = timer()
             current_degree = 0
             # Turn
-            if destination_angle < 90:
+            if destination_angle < 0:
                 print("Turning left")
                 left()
-            elif destination_angle == 90:
+            elif destination_angle == 0:
                 print("Forward but this shouldn't happen")
                 forward()
                 dir = 0
-            elif destination_angle > 90:
+            elif destination_angle > 0:
                 print("Turning right")
                 right()
 
