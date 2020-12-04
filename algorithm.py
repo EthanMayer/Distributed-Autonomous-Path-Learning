@@ -315,10 +315,11 @@ if __name__ == '__main__':
                 flow.prepare()
             # Turn
             dir = None
+            turnSpeed = 0.17 # 0.25
             if destination_angle < 90:
                 print("Turning left")
                 #left(None)
-                speed = -0.25
+                speed = -turnSpeed
                 turn(speed)
                 dir = -1
             elif destination_angle == 90:
@@ -329,7 +330,7 @@ if __name__ == '__main__':
             elif destination_angle > 90:
                 print("Turning right")
                 #right(None)
-                speed = 0.25
+                speed = turnSpeed
                 turn(speed)
                 dir = 1
             else:
@@ -371,7 +372,7 @@ if __name__ == '__main__':
                     #current_time = time.time_ns() / 1000 / 1000 / 1000
 
                     # Get current distance as we turn
-                    c = getUltrasonicDistance() 
+                    #c = getUltrasonicDistance() 
 
                     # Optical flow
                     (closestPointToCenter, flowVector) = flow.computeCentermostFlow()
