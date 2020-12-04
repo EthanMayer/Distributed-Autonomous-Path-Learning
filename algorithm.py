@@ -354,8 +354,9 @@ if __name__ == '__main__':
                     dist = getUltrasonicDistance()
                     if destination_distance is None or dist > destination_distance: # Record a new largest distance
                         if abs(degrees_entire + (angle - middleHoriz)) > 90: # Then we would turn around, don't!
-                            res = input("Avoid turnaround (y/n)? ")
-                            if res == "y":
+                            #res = input("Avoid turnaround (y/n)? ")
+                            if True: #if res == "y":
+                                print("Avoided turnaround")
                                 distances.append(0)
                                 angles.append(angle)
                                 i += 1
