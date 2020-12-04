@@ -12,10 +12,17 @@ import struct
 from .utils import *
 import time
 
+# Configuration #
+sendLastPathWhenNewCarConnects = True
+# #
+
 # Sources for some of this code:
 # https://docs.python.org/3/howto/sockets.html
 # https://gist.github.com/dp7k/a496ef8e8a32f713900fd5fe1e12d41a
 # https://docs.python.org/3/library/socket.html#socket.socket.listen
+
+# Last car path that was uploaded. Currently is an array of angles encoded as bytes.
+lastPath = None
 
 # Represents a single client connected to the server.
 class ClientThread:
@@ -26,8 +33,14 @@ class ClientThread:
             self.clientsocket_str = '%s:%d' % (address[0],address[1])
             self.allClients = allClients
 
-            # Car path that was uploaded. Currently is an array of angles encoded as bytes.
+            # Car path that was uploaded from this client. Currently is an array of angles encoded as bytes.
             self.path = None
+
+            if sendLastPathWhenNewCarConnects:
+                # Send this client the lastPath, if any:
+                if lastPath:
+                    replyBytes = makeRobotPathCommand(lastPath, NetworkCommand.setPath)
+                    self.clientsocket.send(replyBytes)
 
             # main loop: receive/send data from this client
             while True:
@@ -53,6 +66,7 @@ class ClientThread:
         
         # Receive the uploadPath
         self.path = unpack_array('>B', dataRest)
+        lastPath = self.path
 
         # We have received uploadPath so now we send a bunch of setPath's:
         # Send the path to all clients except the sender.

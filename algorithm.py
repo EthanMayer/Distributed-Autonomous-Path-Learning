@@ -172,8 +172,8 @@ if __name__ == '__main__':
         recordedDurations = []
         client = None
 
-    # How much we have turned since the start of the course, relative to 90 degrees being ahead
-    degrees_entire = 90
+    # How much we have turned since the start of the course, relative to 0 degrees being ahead
+    degrees_entire = 0
 
     # Initialize sensors
     if stop_cond == 1:
@@ -273,7 +273,7 @@ if __name__ == '__main__':
                     time.sleep(sleep_time_long)
                     dist = getUltrasonicDistance()
                     if destination_distance is None or dist > destination_distance: # Record a new largest distance
-                        if abs(degrees_entire + (angle - middleHoriz)) > 180: # Then we would turn around, don't!
+                        if degrees_entire + (angle - middleHoriz) > 180: # Then we would turn around, don't!
                             print("Avoided turnaround")
                             distances.append(0)
                             continue
