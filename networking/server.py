@@ -77,7 +77,8 @@ def main():
         #s.connect(("www.python.org", 80))
 
         # bind the socket to a public host, and a well-known port
-        s.bind((socket.gethostname(), 8080))
+        #socket.gethostname()
+        s.bind(('', 8080))
         # become a server socket
         s.listen(5)
 
