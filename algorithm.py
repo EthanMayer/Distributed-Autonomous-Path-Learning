@@ -82,7 +82,7 @@ angle_epsilon = 1  # For gyroscope(1)
 
 if carConfig == CarConfig.WhereEam:
     middleHoriz = 75
-    middleVert = 60
+    middleVert = 55
 elif carConfig == CarConfig.sbond75:
     middleHoriz = 90
     middleVert = 90
