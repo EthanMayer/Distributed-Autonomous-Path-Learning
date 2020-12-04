@@ -15,6 +15,7 @@ from networking.client import *
 from timeit import default_timer as timer
 import functools 
 import numpy as np
+import threading
 from threading import Thread, Lock
 
 # Car configurations/profiles
@@ -130,8 +131,8 @@ class ForwardSpeedManagerThread(Thread):
     
             # Sleep for random time between 1 ~ 3 second
             #secondsToSleep = randint(1, 5)
-            secondsToSleep=0.1
-            print('%s sleeping for %d seconds...' % (self.getName(), secondsToSleep))
+            secondsToSleep=0.05
+            print('%s sleeping for %f seconds...' % (self.getName(), secondsToSleep))
             time.sleep(secondsToSleep)
 
             # Slow down
@@ -141,6 +142,8 @@ class ForwardSpeedManagerThread(Thread):
 turnSpeed = 0.21 # WORKS but super slow: 0.20 # 0.25
 motionThreads = []
 def stopMotionThreads():
+    if threading.current_thread() is not threading.main_thread():
+        return # Main thread is the only one who stops the other threads
     if len(motionThreads) > 0:
         # Override the threads
         for t in motionThreads:
