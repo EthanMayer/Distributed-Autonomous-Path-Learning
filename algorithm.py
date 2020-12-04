@@ -431,7 +431,7 @@ if __name__ == '__main__':
                         print("No movement")
                         if noMovementCounter > 15:
                             # Bump up how much we turn
-                            speed += 0.01
+                            speed += np.sign(speed)*0.01
                             turn(speed)
                             noMovementCounter = 0
                             print("Increasing turn speed")
