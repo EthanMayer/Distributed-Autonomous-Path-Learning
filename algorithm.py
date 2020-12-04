@@ -219,7 +219,8 @@ try:
                 # Write the path (as an array of serialized bytes) to a file:
                 timestr = time.strftime("%Y%m%d-%H%M%S")
                 with open("path_" + timestr, "w") as f:
-                    outputRobotPath(array.array('B', recordedPath), f)
+                    for path in recordedPath:
+                        f.write(str(path[0]) + "," + str(path[1]))
 
                 # Connect to the server and send the path
                 # client = Client()
