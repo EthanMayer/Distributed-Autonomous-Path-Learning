@@ -87,8 +87,8 @@ elif carConfig == CarConfig.Ethan:
 # If we are the receiving vehicle, we need to wait for a path first.
 if isReceivingVehicle:
     print("receiver")
-    # client = Client()
-    # recordedPath = client.receivePath()
+    client = Client()
+    recordedPath = client.receivePath()
 else:
     recordedPath = []
 
@@ -223,34 +223,35 @@ try:
                         f.write(str(path[0]) + "," + str(path[1]))
 
                 # Connect to the server and send the path
-                # client = Client()
-                # client.sendPath(recordedPath)
+                client = Client()
+                client.sendPath(recordedPath)
                 break
 
-    else:  # Then we are the receiving vehicle, so we have a path already.
-        forward(0.15)
-        time.sleep(2.75)
-        turn(0.25)
-        time.sleep(0.5)
-        forward(0.15)
-        time.sleep(0.22)
-        turn(0.25)
-        time.sleep(0.5)
-        forward(0.15)
-        time.sleep(0.23)
-        turn(0.25)
-        time.sleep(2.5)
-        forward(0.15)
-        time.sleep(4)
-        # while True:
-        #     # Check for end condition: all angles popped
-        #     if len(recordedPath) == 0:
-        #         print("End reached")
-        #         break
-
-        #     # "Dequeue" first item off the path:
-        #     destination_angle = recordedPath.pop(0)
-
+    # else:  # Then we are the receiving vehicle, so we have a path already.
+        # format: hardcoded
+        # forward(0.15)
+        # time.sleep(2.75)
+        # turn(0.25)
+        # time.sleep(0.5)
+        # forward(0.15)
+        # time.sleep(0.22)
+        # turn(0.25)
+        # time.sleep(0.5)
+        # forward(0.15)
+        # time.sleep(0.23)
+        # turn(0.25)
+        # time.sleep(2.5)
+        # forward(0.15)
+        # time.sleep(4)
+        
+        # sudo code for reading entire array from chanel
+        # while more:
+        #     pop(0) array
+        #     forwardspeeed = array[1]
+        #     forwardtime = array[0]
+        #     pop(0) array
+        #     turnspeed = array[1]
+        #     turntime = array[0]
 
 finally:
     logging.error(traceback.format_exc())
