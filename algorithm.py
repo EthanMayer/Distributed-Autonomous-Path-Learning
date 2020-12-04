@@ -227,20 +227,20 @@ try:
                 break
 
     else:  # Then we are the receiving vehicle, so we have a path already.
-        forward()
+        forward(0.15)
+        time.sleep(3.0063337100000354)
+        right(0.25)
         time.sleep(0.5)
-        right()
-        time.sleep(0.1)
-        forward()
-        time.sleep(0.1)
-        right()
-        time.sleep(0.1)
-        forward()
-        time.sleep(0.1)
-        right()
+        forward(0.15)
+        time.sleep(0.2202078860000256)
+        right(0.25)
         time.sleep(0.5)
-        forward()
-        time.sleep(0.5)
+        forward(0.15)
+        time.sleep(0.22861658500005433)
+        right(0.25)
+        time.sleep(2.5)
+        forward(0.15)
+        time.sleep(3)
         # while True:
         #     # Check for end condition: all angles popped
         #     if len(recordedPath) == 0:
