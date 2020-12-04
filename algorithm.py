@@ -142,8 +142,10 @@ class ForwardSpeedManagerThread(Thread):
 
 turnSpeed = 0.21 # WORKS but super slow: 0.20 # 0.25
 turnSpeed += 0.05
+global motionThreads
 motionThreads = []
 def stopMotionThreads():
+    global motionThreads
     if threading.current_thread() is not threading.main_thread():
         return # Main thread is the only one who stops the other threads
     if len(motionThreads) > 0:
@@ -154,6 +156,7 @@ def stopMotionThreads():
             t.join()
         motionThreads = []
 def forward(speed=forwardSpeed):
+    global motionThreads
     if carConfig is None:
         return
     stopMotionThreads()
