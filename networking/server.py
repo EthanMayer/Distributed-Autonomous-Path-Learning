@@ -66,8 +66,7 @@ class ClientThread:
                 print("sendPath:", replyBytes)
                 client.send(replyBytes)
         
-
-if __name__ == "__main__":
+def main():
     s = None
     try:
         # create an INET, STREAMing socket
@@ -97,3 +96,6 @@ if __name__ == "__main__":
     finally:
         s.shutdown(socket.SHUT_RDWR)
         s.close()
+
+if __name__ == "__main__":
+    main()
