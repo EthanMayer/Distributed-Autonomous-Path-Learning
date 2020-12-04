@@ -11,6 +11,8 @@ import math
 import networking.client
 from networking.client import *
 
+from timeit import default_timer as timer
+
 # Car configurations/profiles
 class CarConfig(Enum):
     WhereEam = 1
@@ -73,7 +75,7 @@ else: # Dry run
     middleVert = 90
 sleep_time_short = 0.01 #0.1
 sleep_time_long = 0.4 #0.7 #0.4 #0.2
-end_dist = 10 # If the distance value at each angle is measured to be less than this for each angle,
+#end_dist = 10 # If the distance value at each angle is measured to be less than this for each angle,
 # the program exits and the end of the course is considered to be reached.
 
 # Algorithm modifiers
@@ -92,18 +94,22 @@ wheels=Motor()
 # second: back-right
 # third: front-left
 # fourth: back-left
-def forward(speed=0.3):
-    # wheels.setMotorModel(2000,2000,2000,2000)       #Forward (<--originally)
-    # wheels.setMotorModel(-2000,-2000,-2000,-2000)       #Forward (different on Will's bot)
-    if carConfig == CarConfig.WhereEam:
-        # Need to compensate for not going straight, using an offset:
-        wheels.setMotorModel(int(1500*speed),int(1000*speed),
-                             int(1600*speed),int(1700*speed))
-    elif carConfig == CarConfig.sbond75:
-        wheels.setMotorModel(int(-2000*speed),int(-2000*speed),
-                             int(-2000*speed),int(-2000*speed))
-    elif carConfig == CarConfig.Ethan:
-        pass
+#def forward(speed=0.3):
+#    # wheels.setMotorModel(2000,2000,2000,2000)       #Forward (<--originally)
+#    # wheels.setMotorModel(-2000,-2000,-2000,-2000)       #Forward (different on Will's bot)
+#    if carConfig == CarConfig.WhereEam:
+#        # Need to compensate for not going straight, using an offset:
+#        wheels.setMotorModel(int(1500*speed),int(1000*speed),
+#                             int(1600*speed),int(1700*speed))
+#    elif carConfig == CarConfig.sbond75:
+#        wheels.setMotorModel(int(-2000*speed),int(-2000*speed),
+#                             int(-2000*speed),int(-2000*speed))
+#    elif carConfig == CarConfig.Ethan:
+#        pass
+# [New]
+def forward(speed=0.5):
+    wheels.setMotorModel(int(-4095*speed), int(-4095*speed),
+                         int(-4095*speed), int(-4095*speed))
 # Pass `None` for `secs` to just set the PWM output to that until the next time
 # that the motors are set.
 def left_(secs=1, speed=0.6):
@@ -130,6 +136,11 @@ def right(secs=1):
         left_(secs)
     elif carConfig == CarConfig.Ethan:
         pass
+# [New]
+def turn(speed=0.5):
+    if carConfig is not None:
+        wheels.setMotorModel(int(-4095*speed), int(-4095*speed),
+                            int(4095*speed), int(4095*speed))
 
 def getUltrasonicDistance():
     # Average out some values to ensure the reading is sensible since it can fluctuate
@@ -151,6 +162,7 @@ if __name__ == '__main__':
     else:
         receivedPath = None
         recordedPath = []
+        recordedDurations = []
         client = None
 
     # Initialize sensors
@@ -194,8 +206,29 @@ if __name__ == '__main__':
                     break
 
                 # Move forward
-                forward()      #Forward
-                time.sleep(sleep_time_short) # Rest CPU for a bit
+                # [New]
+                speed = 0.15
+                forward(speed)
+                start_time = timer()
+                while True:
+                    for angle in range(middleHoriz - 20, middleHoriz + 30, 10):
+                        ultrasonic.pwm_S.setServoPwm('0', angle)
+                        c = getUltrasonicDistance()  # Grab distance from bot to object
+                        print("dist: " + str(c))
+                        if c <= d:
+                            break
+                        time.sleep(0.11)
+                    for angle in range(middleHoriz + 20, middleHoriz - 30, -10):
+                        ultrasonic.pwm_S.setServoPwm('0', angle)
+                        c = getUltrasonicDistance()  # Grab distance from bot to object
+                        print("dist: " + str(c))
+                        if c <= d:
+                            break
+                        time.sleep(0.11)
+                end_time = timer()
+                print("Time going forward: " + str(end_time - start_time))
+                recordedDurations.append((end_time - start_time, speed))
+                #time.sleep(sleep_time_short) # Rest CPU for a bit
             print("c <= d")
 
             # Stop
@@ -207,26 +240,27 @@ if __name__ == '__main__':
                 end = 180
                 distances = []
                 #angles = [0, 45, 75, 90, end - 75, end - 45, end]
-                angles = [0, 30, 60, 90, end - 60, end - 30, end]
-                for angle in angles: # range(start, stop, separator)
+                #[Old] angles = [0, 30, 60, 90, end - 60, end - 30, end]
+                destination_distance = None
+                destination_angle = None
+                for angle in range(middleHoriz - 90, middleHoriz + 90, 10): 
+                    #for angle in angles: # range(start, stop, separator)
                     ultrasonic.pwm_S.setServoPwm('0',angle)
                     time.sleep(sleep_time_long)
                     dist = getUltrasonicDistance()
+                    if destination_distance is None or dist > destination_distance:
+                        destination_distance = dist
+                        destination_angle = angle
                     distances.append(dist)
                     print("Recorded distance " + str(dist) + " for angle " + str(angle))
-
-                # Get the largest distance's index and value
-                largest_index = max(range(len(distances)), key=distances.__getitem__)
-                destination_angle = angles[largest_index]
-                destination_distance = distances[largest_index]
-                print("Chose distance " + str(destination_distance))
+                print("Chose angle " + str(destination_angle) + " with distance " + str(destination_distance))
 
                 # Save this angle
                 recordedPath.append(destination_angle)
 
                 # Check for end condition: all polled distance values are less 
-                # than or equal to some constant end_dist:
-                if destination_distance <= end_dist:
+                # than or equal to `d`:
+                if destination_distance <= d:
                     print("End reached")
 
                     # Write the path (as an array of serialized bytes) to a file:
@@ -260,36 +294,43 @@ if __name__ == '__main__':
 
             # Prepare gyro or optical flow variables
             if stop_cond == 1 or stop_cond == 2:
-                time_total = 0
                 degrees_total = 90
+                speed = 0
 
                 # ( https://stackoverflow.com/questions/1938048/high-precision-clock-in-python )
-                prev_time = time.time_ns() / 1000 / 1000 / 1000  # ns to seconds
+                #prev_time = time.time_ns() / 1000 / 1000 / 1000  # ns to seconds
             
+            start_time = timer()
+
             # Go in that direction, reaching it once the sensor reports a distance equal to that
             # found distance (Major NOTE: this doesn't work if the shape of an obstacle is a curve
             # that keeps distance the same regardless of sensor position, but that is unlikely):
             if stop_cond == 2:
                 # Optical flow: prepare
                 flow.prepare()
+            # Turn
+            dir = None
+            if destination_angle < 90:
+                print("Turning left")
+                #left(None)
+                speed = -0.25
+                turn(speed)
+                dir = -1
+            elif destination_angle == 90:
+                print("Forward but this shouldn't happen")
+                speed = 0.15
+                forward(speed)
+                dir = 0
+            elif destination_angle > 90:
+                print("Turning right")
+                #right(None)
+                speed = 0.25
+                turn(speed)
+                dir = 1
+            else:
+                raise Exception("Unexpected case")
+            # Check for the condition to stop turning (stop_cond)
             while True:
-                # Turn
-                dir = None
-                if destination_angle < 90:
-                    print("Turning left")
-                    left(None)
-                    dir = -1
-                elif destination_angle == 90:
-                    print("Forward but this shouldn't happen")
-                    forward()
-                    dir = 0
-                elif destination_angle > 90:
-                    print("Turning right")
-                    right(None)
-                    dir = 1
-                else:
-                    raise Exception("Unexpected case")
-                
                 if stop_cond == 0:
                     if isReceivingVehicle:
                         # Not supported
@@ -310,29 +351,11 @@ if __name__ == '__main__':
                     # Gyroscope
                     # Grab current angular velocity, in a tuple containing
                     # x, y, and z in degrees per second.
-                    (velX,velY,velZ) = mpu.gyro # z is left to right rotation
-                    if False: # Bump correction
-                        # Grab linear acceleration, which can be used to check how much we're shaking as we turn,
-                        # and used to arbitrarily increase the amount of degrees recorded since shaking
-                        # causes the gyro to lose some accuracy this way. linearAccelZ is up and down?
-                        (linearAccelX,linearAccelY,linearAccelZ) = mpu.acceleration # meters/s^2
-                        # linearAccelZ shows gravity too, varies around 9.81, we need to correct this if needed,
-                        # correct it against a gyro value or if it is flat then use the value then.
-                        print("Linear accel: ",linearAccelX,linearAccelY,linearAccelZ)
-                        print("Angular velocity: ",velX,velY,velZ)
-                        correctionFactor = abs(linearAccelZ) * 0.1 if abs(linearAccelZ) > 5 else 1
-                        if (correctionFactor > 1):
-                            print("Correction:", correctionFactor)
-                    else:
-                        correctionFactor = 1.5
-                    time.sleep(0.4)
-                    current_time = time.time_ns() / 1000 / 1000 / 1000
-                    time_diff = current_time - prev_time
-                    prev_time = current_time
-                    degrees_total -= velZ * time_diff * correctionFactor
-                    # Problem: large amount of error due to car shaking? 
-                    # Moving the car physically by hand doesn't cause huge imprecisions.
-                    print("Degrees so far: " + str(degrees_total))
+                    (dRoll, dPitch, dYaw) = mpu.gyro
+                    end_time = timer()
+                    degrees_total -= (end_time - start_time) * dYaw
+                    print("At " + str(degrees_total) + " degrees, want " +
+                          str(destination_angle) + " degrees")
                     if dir == -1:
                         if degrees_total - destination_angle <= angle_epsilon:
                             break
@@ -340,7 +363,7 @@ if __name__ == '__main__':
                         if destination_angle - degrees_total <= angle_epsilon:
                             break
                 elif stop_cond == 2:
-                    current_time = time.time_ns() / 1000 / 1000 / 1000
+                    #current_time = time.time_ns() / 1000 / 1000 / 1000
 
                     # Get current distance as we turn
                     c = getUltrasonicDistance() 
@@ -370,12 +393,11 @@ if __name__ == '__main__':
                             break
                 else:
                     raise Exception("Unimplemented stop_cond")
-
-                    
-                    # TODO: Can handle this by moving right here by a smaller amount if needed.
-
+            
+            end_time = timer()
+            print("Time turning: " + str(end_time - start_time))
+            recordedDurations.append((end_time - start_time, speed))
             # Go forward again, until we reach a wall, in which case we look around again as above.
-            # TODO: However, we may have reached the end. Need to check for this somehow.
 
     #except KeyboardInterrupt:  # When 'Ctrl+C' is pressed, this will be executed.
     #except Exception as e:
