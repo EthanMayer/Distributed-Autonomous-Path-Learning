@@ -156,6 +156,8 @@ try:
                 print("Recorded distance " + str(dist) +
                       " for angle " + str(angle))
             print("Chose angle " + str(destination_angle))
+            ultrasonic.pwm_S.setServoPwm('0', middleHoriz)
+            time.sleep(0.5)
 
             start_time = timer()
             current_degree = 0
@@ -175,8 +177,6 @@ try:
                 turn(speed)
 
             if turn_method == 0:
-                ultrasonic.pwm_S.setServoPwm('0', middleHoriz)
-                time.sleep(0.5)
                 while True:
                     # Get current distance as we turn
                     c = getUltrasonicDistance()
