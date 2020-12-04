@@ -152,9 +152,8 @@ try:
                 dist = getUltrasonicDistance()
                 if dist > destination_distance:
                     destination_distance = dist
-                    destination_angle = angle
-                print("Recorded distance " + str(dist) +
-                      " for angle " + str(angle))
+                    destination_angle = angle - middleHoriz
+                print("Recorded distance " + str(dist) + " for angle " + str(angle))
             print("Chose angle " + str(destination_angle))
             ultrasonic.pwm_S.setServoPwm('0', middleHoriz)
             time.sleep(0.5)
@@ -236,21 +235,6 @@ try:
         data = recordedPath.pop(0)
         turn(data[1])
         time.sleep(data[0])
-        # format: hardcoded
-        # forward(0.15)
-        # time.sleep(2.75)
-        # turn(0.25)
-        # time.sleep(0.5)
-        # forward(0.15)
-        # time.sleep(0.22)
-        # turn(0.25)
-        # time.sleep(0.5)
-        # forward(0.15)
-        # time.sleep(0.23)
-        # turn(0.25)
-        # time.sleep(2.5)
-        # forward(0.15)
-        # time.sleep(4)
 
 finally:
     logging.error(traceback.format_exc())
