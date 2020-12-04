@@ -151,7 +151,7 @@ try:
             destination_angle = 0
             for angle in range(middleHoriz - 90, middleHoriz + 90, 10):
                 ultrasonic.pwm_S.setServoPwm('0', angle)
-                time.sleep(0.11)
+                time.sleep(0.5)
                 dist = getUltrasonicDistance()
                 if dist > largest_dist:
                     largest_dist = dist
@@ -235,5 +235,5 @@ finally:
     ultrasonic.pwm_S.setServoPwm('0', middleHoriz)
     ultrasonic.pwm_S.setServoPwm('1', middleVert)
 
-    if client:
-        client.close()
+    # if client:
+    #     client.close()
