@@ -360,15 +360,19 @@ if __name__ == '__main__':
                     time.sleep(sleep_time_long)
                     dist = getUltrasonicDistance()
                     if destination_distance is None or dist > destination_distance: # Record a new largest distance
+                        # 90 works but we need to be a little more picky because sometimes it's ok, in order to complete the semicircle. So we will
+                        # only activate this if the distance isn't big (second part after the first `if`)
                         if abs(degrees_entire + (angle - middleHoriz)) > 90: # Then we would turn around, don't!
-                            #res = input("Avoid turnaround (y/n)? ")
-                            if True: #if res == "y":
-                                print("Avoided turnaround")
-                                distances.append(0)
-                                angles.append(angle)
-                                i += 1
-                                continue
-                        destination_distance = dist
+                            print("Potential turnaround, distance", dist, "for angle", angle)
+                            if dist < 50:
+                                #res = input("Avoid turnaround (y/n)? ")
+                                if True: #if res == "y":
+                                    print("Avoided turnaround")
+                                    distances.append(0)
+                                    angles.append(angle)
+                                    i += 1
+                                    continue
+                            destination_distance = dist
                         destination_angle = angle
                         largest_index = i
                     distances.append(dist)
