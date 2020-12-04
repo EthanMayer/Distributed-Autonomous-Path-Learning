@@ -245,7 +245,7 @@ if __name__ == '__main__':
                         distances.append(c)
                         time.sleep(0.11)
                     # Check if all distances were the same across the arrays by a threshold
-                    if functools.reduce(lambda a,b: a and b, np.isclose(distances, distances_prev, 2)):
+                    if functools.reduce(lambda a,b: a and b, numpy.isclose(distances, distances_prev, 2)):
                         # Speed up
                         speed += 0.0013
                         forward(speed)
