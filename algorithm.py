@@ -142,7 +142,7 @@ class ForwardSpeedManagerThread(Thread):
 
 turnSpeedOrig = 0.21 # WORKS but super slow: 0.20 # 0.25
 turnSpeed = turnSpeedOrig
-turnSpeed += 0.034
+turnSpeed += 0.03
 global motionThreads
 motionThreads = []
 def stopMotionThreads():
@@ -341,12 +341,13 @@ if __name__ == '__main__':
                     time.sleep(sleep_time_long)
                     dist = getUltrasonicDistance()
                     if destination_distance is None or dist > destination_distance: # Record a new largest distance
-                        if degrees_entire + (angle - middleHoriz) > 90: # Then we would turn around, don't!
-                            print("Avoided turnaround")
-                            distances.append(0)
-                            angles.append(angle)
-                            i += 1
-                            continue
+                        if abs(degrees_entire + (angle - middleHoriz)) > 90: # Then we would turn around, don't!
+                            res = input("Avoid turnaround (y/n)? ")
+                            if res == "y":
+                                distances.append(0)
+                                angles.append(angle)
+                                i += 1
+                                continue
                         destination_distance = dist
                         destination_angle = angle
                         largest_index = i
