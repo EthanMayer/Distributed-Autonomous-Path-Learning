@@ -204,57 +204,49 @@ if __name__ == '__main__':
             # Allow time to settle:
             time.sleep(sleep_time_long) # 3
 
+            # Move forward
+            # [New]
+            speed = forwardSpeed
+            forward(speed)
+            start_time = timer()
+            distances = []
             while True:
-                # Grab distance from bot to object
-                c = getUltrasonicDistance()   
-                print("dist: " + str(c)) 
-
-                if c <= d:
+                offset = 32
+                movement = 15
+                distances_prev = distances
+                def scan(dir): # Returns whether to continue or not.
+                    start = (middleHoriz - offset) if dir==1 else (middleHoriz + offset)
+                    end = (middleHoriz + offset) if dir==1 else (middleHoriz - offset)
+                    inc = movement if dir==1 else -movement
+                    for angle in range(start, end, inc):
+                        ultrasonic.pwm_S.setServoPwm('0', angle)
+                        c = getUltrasonicDistance()  # Grab distance from bot to object
+                        if abs(angle-middleHoriz) > 30 and c < 20:
+                            adj = abs(2*c) # Angles further off center are less important if they are close
+                        else:
+                            adj = c
+                        print("dist: " + str(c), "adjusted:", adj)
+                        if adj <= d:
+                            return False # Exit
+                        distances.append(c)
+                        time.sleep(0.11)
+                    return True
+                if not scan(1):
                     break
-
-                # Move forward
-                # [New]
-                speed = forwardSpeed
-                forward(speed)
-                start_time = timer()
-                distances = []
-                while True:
-                    offset = 32
-                    movement = 20
-                    distances_prev = distances
-                    def scan(dir): # Returns whether to continue or not.
-                        start = (middleHoriz - offset) if dir==1 else (middleHoriz + offset)
-                        end = (middleHoriz + offset) if dir==1 else (middleHoriz - offset)
-                        inc = movement if dir==1 else -movement
-                        for angle in range(start, end, inc):
-                            ultrasonic.pwm_S.setServoPwm('0', angle)
-                            c = getUltrasonicDistance()  # Grab distance from bot to object
-                            if abs(angle-middleHoriz) > 30 and c < 20:
-                                adj = abs(2*c) # Angles further off center are less important if they are close
-                            else:
-                                adj = c
-                            print("dist: " + str(c), "adjusted:", adj)
-                            if adj <= d:
-                                return False # Exit
-                            distances.append(c)
-                            time.sleep(0.11)
-                        return True
-                    if not scan(1):
-                        break
-                    if not scan(-1):
-                        break
-                    # Check if all distances were the same across the arrays by a threshold
-                    if functools.reduce(lambda a,b: a and b, np.isclose(distances, distances_prev, 0.5)):
-                        # Speed up
-                        print("Speeding up")
-                        speed += 0.007
-                        forward(speed)
-                        forwardSpeed = speed
-                end_time = timer()
-                print("Time going forward: " + str(end_time - start_time))
-                recordedDurations.append((end_time - start_time, speed))
-                #time.sleep(sleep_time_short) # Rest CPU for a bit
+                if not scan(-1):
+                    break
+                # Check if all distances were the same across the arrays by a threshold
+                if functools.reduce(lambda a,b: a and b, np.isclose(distances, distances_prev, 0.5)):
+                    # Speed up
+                    print("Speeding up")
+                    speed += 0.007
+                    forward(speed)
+                    forwardSpeed = speed
             print("c <= d")
+            end_time = timer()
+            print("Time going forward: " + str(end_time - start_time))
+            recordedDurations.append((end_time - start_time, speed))
+            #time.sleep(sleep_time_short) # Rest CPU for a bit
 
             # Stop
             wheels.setMotorModel(0,0,0,0)                   #Stop
