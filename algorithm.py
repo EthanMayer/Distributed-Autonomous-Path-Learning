@@ -126,7 +126,8 @@ class ForwardSpeedManagerThread(Thread):
         self.stop = False
  
     def run(self):
-        while forwardSpeed-self.counter > forwardSpeedOrig and not self.stop:
+        #while forwardSpeed-self.counter > forwardSpeedOrig and not self.stop:
+        while forwardSpeed-self.counter > 0.00001 and not self.stop:
             # for i in range(1, self.val):
                 #print('Value %d in thread %s' % (i, self.getName()))
     
