@@ -328,10 +328,13 @@ if __name__ == '__main__':
                 # Look around, checking distances
                 end = 180
                 distances = []
+                angles = []
                 #angles = [0, 45, 75, 90, end - 75, end - 45, end]
                 #[Old] angles = [0, 30, 60, 90, end - 60, end - 30, end]
                 destination_distance = None
                 destination_angle = None
+                largest_index = None
+                i = 0
                 for angle in range(middleHoriz - 90, middleHoriz + 90, 10): 
                     #for angle in angles: # range(start, stop, separator)
                     ultrasonic.pwm_S.setServoPwm('0',angle)
@@ -341,11 +344,34 @@ if __name__ == '__main__':
                         if degrees_entire + (angle - middleHoriz) > 90: # Then we would turn around, don't!
                             print("Avoided turnaround")
                             distances.append(0)
+                            angles.append(angle)
+                            i += 1
                             continue
                         destination_distance = dist
                         destination_angle = angle
+                        largest_index = i
                     distances.append(dist)
+                    angles.append(angle)
                     print("Recorded distance " + str(dist) + " for angle " + str(angle))
+                    i += 1
+                # Check if we have "Forward but shouldn't happen"
+                if destination_angle == 90:
+                    # Now we need to see what other distances are good
+                    print("Prevented going forward. Choosing next largest angle")
+                    i = 0
+                    largest = None
+                    for dist in distances:
+                        if i == largest_index:
+                            i += 1
+                            continue
+                        if largest is None or dist > largest:
+                            largest = dist
+                            destination_angle = angles[i]
+                            largest_index2 = i
+                        i += 1
+                    destination_distance = largest
+                    largest_index = largest_index2
+                    
                 print("Chose angle " + str(destination_angle) + " with distance " + str(destination_distance))
 
                 # Save this angle
@@ -512,7 +538,7 @@ if __name__ == '__main__':
             
             # Track how much we turned overall since the start of the course.
             if stop_cond == 1 or stop_cond == 2:
-                degrees_entire += degrees_total - middleHoriz
+                degrees_entire += degrees_total - 90
                 print("degrees_entire:", degrees_entire)
             
             end_time = timer()
