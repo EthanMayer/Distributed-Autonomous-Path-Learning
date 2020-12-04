@@ -58,6 +58,7 @@ if len(sys.argv) <= 3:
                 str(list(map(str, CarConfig))) + ", or a dry run will be performed: ")
     isReceivingVehicle = bool(int(input(
         "Is this the navigation vehicle or the receiving vehicle? Enter 0 for navigation, 1 for receiving: ")))
+    debugWindowEnabled = False
 else:
     use = sys.argv[1]
     isReceivingVehicle = bool(int(sys.argv[2]))
