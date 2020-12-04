@@ -372,7 +372,7 @@ if __name__ == '__main__':
                                     angles.append(angle)
                                     i += 1
                                     continue
-                            destination_distance = dist
+                        destination_distance = dist
                         destination_angle = angle
                         largest_index = i
                     distances.append(dist)
