@@ -210,6 +210,7 @@ if __name__ == '__main__':
             forward(speed)
             start_time = timer()
             distances = []
+            c = None
             while True:
                 offset = 32
                 movement = 15
@@ -227,13 +228,15 @@ if __name__ == '__main__':
                             adj = c
                         print("dist: " + str(c), "adjusted:", adj)
                         if adj <= d:
-                            return False # Exit
+                            return (c, False) # Exit
                         distances.append(c)
                         time.sleep(0.11)
-                    return True
-                if not scan(1):
+                    return (None, True)
+                c, shouldContinue = scan(1)
+                if not shouldContinue:
                     break
-                if not scan(-1):
+                c, shouldContinue = scan(-1)
+                if not shouldContinue:
                     break
                 # Check if all distances were the same across the arrays by a threshold
                 if functools.reduce(lambda a,b: a and b, np.isclose(distances, distances_prev, 0.5)):
