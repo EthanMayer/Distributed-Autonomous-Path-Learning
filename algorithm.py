@@ -213,7 +213,6 @@ if __name__ == '__main__':
                 speed = forwardSpeed
                 forward(speed)
                 start_time = timer()
-                flag = True
                 distances = []
                 while True:
                     offset = 32
@@ -232,20 +231,20 @@ if __name__ == '__main__':
                                 adj = c
                             print("dist: " + str(c), "adjusted:", adj)
                             if adj <= d:
-                                flag = False
-                                break
+                                return False
                             distances.append(c)
                             time.sleep(0.11)
-                    scan(1)
-                    scan(-1)
+                        return True
+                    if not scan(1):
+                        break
+                    if not scan(-1):
+                        break
                     # Check if all distances were the same across the arrays by a threshold
-                    if functools.reduce(lambda a,b: a and b, np.isclose(distances, distances_prev, 2)):
+                    if functools.reduce(lambda a,b: a and b, np.isclose(distances, distances_prev, 0.5)):
                         # Speed up
                         print("Speeding up")
                         speed += 0.0013
                         forward(speed)
-                    if not flag:
-                        break
                 end_time = timer()
                 print("Time going forward: " + str(end_time - start_time))
                 recordedDurations.append((end_time - start_time, speed))
