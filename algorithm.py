@@ -219,7 +219,7 @@ if __name__ == '__main__':
                         ultrasonic.pwm_S.setServoPwm('0', angle)
                         c = getUltrasonicDistance()  # Grab distance from bot to object
                         if angle-middleHoriz > 30:
-                            adj = abs((angle-middleHoriz)*2*c) # Angles further off center are less important if they are close
+                            adj = abs(2*c) # Angles further off center are less important if they are close
                         else:
                             adj = c
                         print("dist: " + str(c), "adjusted:", adj)
@@ -231,7 +231,7 @@ if __name__ == '__main__':
                         ultrasonic.pwm_S.setServoPwm('0', angle)
                         c = getUltrasonicDistance()  # Grab distance from bot to object
                         if angle-middleHoriz > 30:
-                            adj = abs((angle-middleHoriz)*2*c) # Angles further off center are less important if they are close
+                            adj = abs(2*c) # Angles further off center are less important if they are close
                         else:
                             adj = c
                         print("dist: " + str(c), "adjusted:", adj)
