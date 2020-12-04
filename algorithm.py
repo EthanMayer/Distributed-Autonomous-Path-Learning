@@ -114,7 +114,7 @@ wheels=Motor()
 # [New]
 forwardSpeedOrig = 0.125 #0.15
 forwardSpeed = forwardSpeedOrig
-forwardSpeed += 0.025
+forwardSpeed += 0.02
 forwardSpeedup = 0.013 #0.007
 #forwardMutex = Lock()
 class ForwardSpeedManagerThread(Thread):
@@ -140,7 +140,8 @@ class ForwardSpeedManagerThread(Thread):
             forward(forwardSpeed-self.counter)
             self.counter += 0.001
 
-turnSpeed = 0.21 # WORKS but super slow: 0.20 # 0.25
+turnSpeedOrig = 0.21 # WORKS but super slow: 0.20 # 0.25
+turnSpeed = turnSpeedOrig
 turnSpeed += 0.034
 global motionThreads
 motionThreads = []
@@ -312,7 +313,7 @@ if __name__ == '__main__':
                     print("Speeding up")
                     speed += forwardSpeedup
                     forward(speed)
-                    forwardSpeed = speed
+                    forwardSpeed = (forwardSpeed + speed) / 2 # Approach the new speed here
             print("c <= d")
             end_time = timer()
             print("Time going forward: " + str(end_time - start_time))
@@ -507,7 +508,7 @@ if __name__ == '__main__':
                             turn(speed)
                             noMovementCounter = 0
                             print("Increasing turn speed")
-                            turnSpeed = abs(speed)
+                            turnSpeed = (turnSpeedOrig + abs(speed)) / 2 # Approach the new speed here
             
             # Track how much we turned overall since the start of the course.
             if stop_cond == 1 or stop_cond == 2:
