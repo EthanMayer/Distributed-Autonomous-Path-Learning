@@ -29,14 +29,9 @@ def stop():
     wheels.setMotorModel(0, 0, 0, 0)
 
 
-def left(speed=0.5):
+def turn(speed=0.5):
     wheels.setMotorModel(int(4095*speed), int(4095*speed),
                          int(-4095*speed), int(-4095*speed))
-
-
-def right(speed=0.5):
-    wheels.setMotorModel(int(-4095*speed), int(-4095*speed),
-                         int(4095*speed), int(4095*speed))
 
 
 def getUltrasonicDistance():
@@ -160,22 +155,23 @@ try:
                 print("Recorded distance " + str(dist) +
                       " for angle " + str(angle))
             print("Chose angle " + str(destination_angle))
-            recordedPath.append(
-                [destination_angle - middleHoriz, destination_distance])
 
             start_time = timer()
             current_degree = 0
+            speed = 0
             # Turn
             if destination_angle < 0:
                 print("Turning left")
-                left(0.25)
+                speed = -0.25
+                turn(speed)
             elif destination_angle == 0:
                 print("Forward but this shouldn't happen")
-                forward(0.25)
-                dir = 0
+                speed = 0.15
+                forward(speed)
             elif destination_angle > 0:
                 print("Turning right")
-                right(0.25)
+                speed = 0.25
+                turn(speed)
 
             if turn_method == 0:
                 ultrasonic.pwm_S.setServoPwm('0', middleHoriz)
@@ -211,6 +207,10 @@ try:
                         stop()
                         break
 
+            end_time = timer()
+            print("Time turning " + str(end_time - start_time))
+            recordedPath.append([end_time - start_time, speed])
+
             # Check for end condition: all polled distance values are less
             # than or equal to some constant end_dist:
             if destination_distance <= d:
@@ -229,18 +229,18 @@ try:
     else:  # Then we are the receiving vehicle, so we have a path already.
         forward(0.15)
         time.sleep(2.75)
-        right(0.25)
+        turn(0.25)
         time.sleep(0.5)
         forward(0.15)
         time.sleep(0.22)
-        right(0.25)
+        turn(0.25)
         time.sleep(0.5)
         forward(0.15)
         time.sleep(0.23)
-        right(0.25)
+        turn(0.25)
         time.sleep(2.5)
         forward(0.15)
-        time.sleep(3)
+        time.sleep(4)
         # while True:
         #     # Check for end condition: all angles popped
         #     if len(recordedPath) == 0:
