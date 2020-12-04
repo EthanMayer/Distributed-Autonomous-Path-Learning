@@ -41,6 +41,7 @@ def getUltrasonicDistance():
     count = 10
     for i in range(0, count):
         avg += ultrasonic.get_distance()
+        time.sleep(0.02)
     return avg / count
 
 
@@ -86,9 +87,9 @@ elif carConfig == CarConfig.Ethan:
 
 # If we are the receiving vehicle, we need to wait for a path first.
 if isReceivingVehicle:
-    print("receiver")
     client = Client()
-    recordedPath = client.receivePath()
+    # recordedPath = client.receivePath()
+    recordedPath = [[2, 0.15], [2, 0.25], [3, 0.15]]
 else:
     recordedPath = []
 
@@ -228,6 +229,13 @@ try:
                 break
 
     # else:  # Then we are the receiving vehicle, so we have a path already.
+    while len(recordedPath) != 0:
+        data = recordedPath.pop(0)
+        forward(data[1])
+        time.sleep(data[0])
+        data = recordedPath.pop(0)
+        turn(data[1])
+        time.sleep(data[0])
         # format: hardcoded
         # forward(0.15)
         # time.sleep(2.75)
@@ -243,15 +251,6 @@ try:
         # time.sleep(2.5)
         # forward(0.15)
         # time.sleep(4)
-        
-        # sudo code for reading entire array from chanel
-        # while more:
-        #     pop(0) array
-        #     forwardspeeed = array[1]
-        #     forwardtime = array[0]
-        #     pop(0) array
-        #     turnspeed = array[1]
-        #     turntime = array[0]
 
 finally:
     logging.error(traceback.format_exc())
@@ -259,5 +258,5 @@ finally:
     ultrasonic.pwm_S.setServoPwm('0', middleHoriz)
     ultrasonic.pwm_S.setServoPwm('1', middleVert)
 
-    # if client:
-    #     client.close()
+    if client:
+        client.close()
