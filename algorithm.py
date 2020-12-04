@@ -110,6 +110,7 @@ wheels=Motor()
 #        pass
 # [New]
 forwardSpeed = 0.125 #0.15
+turnSpeed = 0.21 # WORKS but super slow: 0.20 # 0.25
 def forward(speed=forwardSpeed):
     wheels.setMotorModel(int(-4095*speed), int(-4095*speed),
                          int(-4095*speed), int(-4095*speed))
@@ -248,6 +249,7 @@ if __name__ == '__main__':
                         print("Speeding up")
                         speed += 0.007
                         forward(speed)
+                        forwardSpeed = speed
                 end_time = timer()
                 print("Time going forward: " + str(end_time - start_time))
                 recordedDurations.append((end_time - start_time, speed))
@@ -339,7 +341,6 @@ if __name__ == '__main__':
                 flow.prepare()
             # Turn
             dir = None
-            turnSpeed = 0.21 # WORKS but super slow: 0.20 # 0.25
             if destination_angle < 90:
                 print("Turning left")
                 #left(None)
@@ -436,6 +437,7 @@ if __name__ == '__main__':
                             turn(speed)
                             noMovementCounter = 0
                             print("Increasing turn speed")
+                            turnSpeed = abs(speed)
             
             # Track how much we turned overall since the start of the course.
             if stop_cond == 1 or stop_cond == 2:
