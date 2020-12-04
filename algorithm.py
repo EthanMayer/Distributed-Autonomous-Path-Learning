@@ -210,12 +210,14 @@ if __name__ == '__main__':
                 speed = 0.15
                 forward(speed)
                 start_time = timer()
+                flag = True
                 while True:
                     for angle in range(middleHoriz - 20, middleHoriz + 30, 10):
                         ultrasonic.pwm_S.setServoPwm('0', angle)
                         c = getUltrasonicDistance()  # Grab distance from bot to object
                         print("dist: " + str(c))
                         if c <= d:
+                            flag = False
                             break
                         time.sleep(0.11)
                     for angle in range(middleHoriz + 20, middleHoriz - 30, -10):
@@ -223,8 +225,11 @@ if __name__ == '__main__':
                         c = getUltrasonicDistance()  # Grab distance from bot to object
                         print("dist: " + str(c))
                         if c <= d:
+                            flag = False
                             break
                         time.sleep(0.11)
+                    if not flag:
+                        break
                 end_time = timer()
                 print("Time going forward: " + str(end_time - start_time))
                 recordedDurations.append((end_time - start_time, speed))
