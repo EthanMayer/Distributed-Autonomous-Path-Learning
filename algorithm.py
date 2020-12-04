@@ -113,8 +113,8 @@ wheels=Motor()
 #        pass
 # [New]
 forwardSpeedOrig = 0.125 #0.15
+forwardSpeedOrig += 0.02
 forwardSpeed = forwardSpeedOrig
-forwardSpeed += 0.02
 forwardSpeedup = 0.013 #0.007
 #forwardMutex = Lock()
 class ForwardSpeedManagerThread(Thread):
@@ -277,7 +277,7 @@ if __name__ == '__main__':
             distances = []
             c = None
             while True:
-                offset = 32
+                offset = 40 #32
                 movement = 15
                 distances_prev = distances
                 def scan(dir): # Returns whether to continue or not.
