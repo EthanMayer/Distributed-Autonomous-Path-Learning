@@ -107,7 +107,7 @@ wheels=Motor()
 #    elif carConfig == CarConfig.Ethan:
 #        pass
 # [New]
-forwardSpeed = 0.13 #0.15
+forwardSpeed = 0.125 #0.15
 def forward(speed=forwardSpeed):
     wheels.setMotorModel(int(-4095*speed), int(-4095*speed),
                          int(-4095*speed), int(-4095*speed))
