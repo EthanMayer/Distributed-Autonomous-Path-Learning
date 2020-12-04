@@ -303,7 +303,9 @@ if __name__ == '__main__':
             # Prepare gyro or optical flow variables
             if stop_cond == 1 or stop_cond == 2:
                 degrees_total = 90
+                degrees_total_prev = degrees_total
                 speed = 0
+                noMovementCounter = 0
 
                 # ( https://stackoverflow.com/questions/1938048/high-precision-clock-in-python )
                 #prev_time = time.time_ns() / 1000 / 1000 / 1000  # ns to seconds
@@ -340,6 +342,8 @@ if __name__ == '__main__':
                 raise Exception("Unexpected case")
             # Check for the condition to stop turning (stop_cond)
             while True:
+                if stop_cond == 1 or stop_cond == 2:
+                    degrees_total_prev = degrees_total
                 if stop_cond == 0:
                     if isReceivingVehicle:
                         # Not supported
@@ -371,6 +375,13 @@ if __name__ == '__main__':
                     elif dir == 1:
                         if destination_angle - degrees_total <= angle_epsilon:
                             break
+                    if degrees_total - degrees_total_prev < 0.02:
+                        noMovementCounter += 1
+                        if noMovementCounter > 30:
+                            # Bump up how much we turn
+                            speed += 0.005
+                            turn(speed)
+                            noMovementCounter = 0
                 elif stop_cond == 2:
                     #current_time = time.time_ns() / 1000 / 1000 / 1000
 
