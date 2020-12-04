@@ -246,7 +246,7 @@ if __name__ == '__main__':
                 if functools.reduce(lambda a,b: a and b, np.isclose(distances, distances_prev, 0.5)):
                     # Speed up
                     print("Speeding up")
-                    speed += 0.007
+                    speed += 0.013 #0.007
                     forward(speed)
                     forwardSpeed = speed
             print("c <= d")
