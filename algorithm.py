@@ -393,7 +393,7 @@ if __name__ == '__main__':
                     elif dir == 1:
                         if destination_angle - degrees_total <= angle_epsilon:
                             break
-                    if abs(degrees_total - degrees_total_prev) < 0.08:
+                    if abs(degrees_total - degrees_total_prev) < 0.4:
                         noMovementCounter += 1
                         print("No movement")
                         if noMovementCounter > 30:
@@ -410,8 +410,8 @@ if __name__ == '__main__':
 
                     # Optical flow
                     (closestPointToCenter, flowVector) = flow.computeCentermostFlow()
-                    print("Flow reliability (closer to 0 is better): " 
-                            + str(flow.reliabilityOfPoint(closestPointToCenter)))
+                    #print("Flow reliability (closer to 0 is better): " 
+                    #        + str(flow.reliabilityOfPoint(closestPointToCenter)))
                     
                     rads = flow.computeRadiansOfCameraRotation(c, flowVector)
                     degrees = math.degrees(rads)
@@ -437,6 +437,7 @@ if __name__ == '__main__':
             # Track how much we turned overall since the start of the course.
             if stop_cond == 1 or stop_cond == 2:
                 degrees_entire += degrees_total - middleHoriz
+                print("degrees_entire:", degrees_entire)
             
             end_time = timer()
             print("Time turning: " + str(end_time - start_time))
