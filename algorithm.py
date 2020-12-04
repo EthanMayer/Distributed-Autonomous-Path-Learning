@@ -270,7 +270,7 @@ if __name__ == '__main__':
 
                     # Write the path (as an array of serialized bytes) to a file:
                     timestr = time.strftime("%Y%m%d-%H%M%S")
-                    with open("path_" + timestr, "w") as f:
+                    with open("path_" + timestr, "wb") as f:
                         outputRobotPath(array.array('B', recordedPath), f)
                     # Connect to the server and send the path
                     client = Client()
