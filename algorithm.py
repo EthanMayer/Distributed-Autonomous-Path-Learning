@@ -566,6 +566,7 @@ if __name__ == '__main__':
             if stop_cond == 1 or stop_cond == 2:
                 travelled[0] += forwardCounter*math.cos(radians(degrees_entire))
                 travelled[1] += forwardCounter*math.sin(radians(degrees_entire))
+                print("Travelled:", travelled)
                 degrees_entire += degrees_total - 90
                 print("degrees_entire:", degrees_entire)
                 forwardCounterTotal += forwardCounter
