@@ -275,6 +275,7 @@ if __name__ == '__main__':
                         if abs(degrees_entire + (angle - middleHoriz)) > 180: # Then we would turn around, don't!
                             print("Avoided turnaround")
                             distances.append(0)
+                            continue
                         destination_distance = dist
                         destination_angle = angle
                     distances.append(dist)
