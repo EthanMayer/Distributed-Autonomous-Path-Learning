@@ -226,15 +226,29 @@ try:
                 # client.sendPath(recordedPath)
                 break
 
-    # else:  # Then we are the receiving vehicle, so we have a path already.
-    #     while True:
-    #         # Check for end condition: all angles popped
-    #         if len(recordedPath) == 0:
-    #             print("End reached")
-    #             break
+    else:  # Then we are the receiving vehicle, so we have a path already.
+        forward(1)
+        time.sleep(1)
+        right(1)
+        time.sleep(0.1)
+        forward(1)
+        time.sleep(0.1)
+        right(1)
+        time.sleep(0.1)
+        forward(1)
+        time.sleep(0.1)
+        right(1)
+        time.sleep(1)
+        forward(1)
+        time.sleep(1)
+        # while True:
+        #     # Check for end condition: all angles popped
+        #     if len(recordedPath) == 0:
+        #         print("End reached")
+        #         break
 
-    #         # "Dequeue" first item off the path:
-    #         destination_angle = recordedPath.pop(0)
+        #     # "Dequeue" first item off the path:
+        #     destination_angle = recordedPath.pop(0)
 
 
 finally:
