@@ -30,8 +30,8 @@ def stop():
 
 
 def turn(speed=0.5):
-    wheels.setMotorModel(int(4095*speed), int(4095*speed),
-                         int(-4095*speed), int(-4095*speed))
+    wheels.setMotorModel(int(-4095*speed), int(-4095*speed),
+                         int(4095*speed), int(4095*speed))
 
 
 def getUltrasonicDistance():
