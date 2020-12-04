@@ -232,6 +232,9 @@ if __name__ == '__main__':
                             adj = c
                         print("dist: " + str(c), "adjusted:", adj)
                         if adj <= d:
+                            if abs(angle - middleHoriz) < 12:
+                                print("Not going straight because it is blocked")
+                                continue # Never want to go straight if it is blocked
                             return (c, False) # Exit
                         distances.append(c)
                         time.sleep(0.11)
