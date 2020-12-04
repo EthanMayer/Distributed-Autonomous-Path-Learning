@@ -117,6 +117,9 @@ forwardSpeedOrig += 0.02
 forwardSpeed = forwardSpeedOrig
 forwardSpeedup = 0.013 #0.007
 #forwardMutex = Lock()
+forwardCounter = 0
+forwardCounterTotal = forwardCounter
+travelled = [0, 0] # 2D vector of how far we travelled and in what direction
 class ForwardSpeedManagerThread(Thread):
     def __init__(self):
         ''' Constructor. '''
@@ -140,6 +143,7 @@ class ForwardSpeedManagerThread(Thread):
             # Slow down
             self.counter += 0.002
             forward(forwardSpeed-self.counter)
+            forwardCounter += 1
 
 turnSpeedOrig = 0.21 # WORKS but super slow: 0.20 # 0.25
 turnSpeed = turnSpeedOrig
@@ -552,8 +556,22 @@ if __name__ == '__main__':
             
             # Track how much we turned overall since the start of the course.
             if stop_cond == 1 or stop_cond == 2:
+                travelled[0] += forwardCounter*math.cos(radians(degrees_entire))
+                travelled[1] += forwardCounter*math.sin(radians(degrees_entire))
                 degrees_entire += degrees_total - 90
                 print("degrees_entire:", degrees_entire)
+                forwardCounterTotal += forwardCounter
+                forwardCounter = 0
+                threshold = forwardCounterTotal / 2
+                if travelled[0] > threshold and travelled[1] > threshold:
+                    print("Travelled diagonally, resetting degrees_entire to 0")
+                    #if forwardCounter > 20 and abs(degrees_entire) > 0:
+                    degrees_entire = 0 # Reset because once we go far enough in a diagonal direction since we actually 
+                    # do want to turn around to complete a semicircular course. Otherwise once it gets far enough, then
+                    # going in the direction of the end of the course will be considered "Avoided turnaround" which we
+                    # don't want.
+                    travelled[0] = 0
+                    travelled[1] = 0
             
             end_time = timer()
             print("Time turning: " + str(end_time - start_time))
