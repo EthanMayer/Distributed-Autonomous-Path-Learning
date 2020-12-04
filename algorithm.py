@@ -132,7 +132,7 @@ class ForwardSpeedManagerThread(Thread):
     
             # Sleep for random time between 1 ~ 3 second
             #secondsToSleep = randint(1, 5)
-            secondsToSleep=0.05
+            secondsToSleep=0.02
             print('%s sleeping for %f seconds...' % (self.getName(), secondsToSleep))
             time.sleep(secondsToSleep)
 
@@ -141,7 +141,7 @@ class ForwardSpeedManagerThread(Thread):
             self.counter += 0.001
 
 turnSpeed = 0.21 # WORKS but super slow: 0.20 # 0.25
-turnSpeed += 0.1
+turnSpeed += 0.05
 motionThreads = []
 def stopMotionThreads():
     if threading.current_thread() is not threading.main_thread():
@@ -152,6 +152,7 @@ def stopMotionThreads():
             t.stop = True
         for t in motionThreads:
             t.join()
+        motionThreads = []
 def forward(speed=forwardSpeed):
     if carConfig is None:
         return
