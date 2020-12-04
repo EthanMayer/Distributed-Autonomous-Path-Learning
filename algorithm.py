@@ -168,6 +168,9 @@ if __name__ == '__main__':
         recordedDurations = []
         client = None
 
+    # How much we have turned since the start of the course, relative to 90 degrees being ahead
+    degrees_entire = 90
+
     # Initialize sensors
     if stop_cond == 1:
         import board
@@ -218,7 +221,7 @@ if __name__ == '__main__':
                     offset = 32
                     movement = 20
                     distances_prev = distances
-                    def scan(dir):
+                    def scan(dir): # Returns whether to continue or not.
                         start = (middleHoriz - offset) if dir==1 else (middleHoriz + offset)
                         end = (middleHoriz + offset) if dir==1 else (middleHoriz - offset)
                         inc = movement if dir==1 else -movement
@@ -231,7 +234,7 @@ if __name__ == '__main__':
                                 adj = c
                             print("dist: " + str(c), "adjusted:", adj)
                             if adj <= d:
-                                return False
+                                return False # Exit
                             distances.append(c)
                             time.sleep(0.11)
                         return True
@@ -268,7 +271,10 @@ if __name__ == '__main__':
                     ultrasonic.pwm_S.setServoPwm('0',angle)
                     time.sleep(sleep_time_long)
                     dist = getUltrasonicDistance()
-                    if destination_distance is None or dist > destination_distance:
+                    if destination_distance is None or dist > destination_distance: # Record a new largest distance
+                        if abs(degrees_entire + (angle - middleHoriz)) > 180: # Then we would turn around, don't!
+                            print("Avoided turnaround")
+                            distances.append(0)
                         destination_distance = dist
                         destination_angle = angle
                     distances.append(dist)
@@ -314,7 +320,7 @@ if __name__ == '__main__':
 
             # Prepare gyro or optical flow variables
             if stop_cond == 1 or stop_cond == 2:
-                degrees_total = 90
+                degrees_total = middleHoriz
                 degrees_total_prev = degrees_total
                 speed = 0
                 noMovementCounter = 0
@@ -387,7 +393,7 @@ if __name__ == '__main__':
                     elif dir == 1:
                         if destination_angle - degrees_total <= angle_epsilon:
                             break
-                    if degrees_total - degrees_total_prev < 0.04:
+                    if abs(degrees_total - degrees_total_prev) < 0.08:
                         noMovementCounter += 1
                         print("No movement")
                         if noMovementCounter > 30:
@@ -427,6 +433,10 @@ if __name__ == '__main__':
                             break
                 else:
                     raise Exception("Unimplemented stop_cond")
+            
+            # Track how much we turned overall since the start of the course.
+            if stop_cond == 1 or stop_cond == 2:
+                degrees_entire += degrees_total - middleHoriz
             
             end_time = timer()
             print("Time turning: " + str(end_time - start_time))
