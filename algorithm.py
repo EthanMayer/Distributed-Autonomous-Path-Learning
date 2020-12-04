@@ -315,7 +315,7 @@ if __name__ == '__main__':
                 flow.prepare()
             # Turn
             dir = None
-            turnSpeed = 0.17 # 0.25
+            turnSpeed = 0.20 # 0.25
             if destination_angle < 90:
                 print("Turning left")
                 #left(None)
