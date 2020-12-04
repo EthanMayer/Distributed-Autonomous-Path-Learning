@@ -15,6 +15,7 @@ from networking.client import *
 from timeit import default_timer as timer
 import functools 
 import numpy as np
+from threading import Thread, Lock
 
 # Car configurations/profiles
 class CarConfig(Enum):
@@ -110,21 +111,71 @@ wheels=Motor()
 #    elif carConfig == CarConfig.Ethan:
 #        pass
 # [New]
-forwardSpeed = 0.125 #0.15
+forwardSpeedOrig = 0.125 #0.15
+forwardSpeed = forwardSpeedOrig
+forwardSpeedup = 0.013 #0.007
+#forwardMutex = Lock()
+class ForwardSpeedManagerThread(Thread):
+    def __init__(self):
+        ''' Constructor. '''
+ 
+        Thread.__init__(self, daemon=True)
+        self.counter = 0
+        self.stop = False
+ 
+    def run(self):
+        while forwardSpeed-self.counter > forwardSpeedOrig and not self.stop:
+            # for i in range(1, self.val):
+                #print('Value %d in thread %s' % (i, self.getName()))
+    
+            # Sleep for random time between 1 ~ 3 second
+            #secondsToSleep = randint(1, 5)
+            secondsToSleep=0.1
+            print('%s sleeping for %d seconds...' % (self.getName(), secondsToSleep))
+            time.sleep(secondsToSleep)
+
+            # Slow down
+            forward(forwardSpeed-self.counter)
+            self.counter += 0.001
+
 turnSpeed = 0.21 # WORKS but super slow: 0.20 # 0.25
+motionThreads = []
+def stopMotionThreads():
+    if len(motionThreads) > 0:
+        # Override the threads
+        for t in motionThreads:
+            t.stop = True
+        for t in motionThreads:
+            t.join()
 def forward(speed=forwardSpeed):
-    wheels.setMotorModel(int(-4095*speed), int(-4095*speed),
-                         int(-4095*speed), int(-4095*speed))
+    if carConfig is None:
+        return
+    stopMotionThreads()
+    #forwardMutex.acquire()
+    try:
+        wheels.setMotorModel(int(-4095*speed), int(-4095*speed),
+                            int(-4095*speed), int(-4095*speed))
+        if speed == forwardSpeed and speed > forwardSpeedOrig:
+            # Spawn a thread to slow down after a bit, due to inertia, the car will continue going forward under less power.
+            # Needed to increase accuracy. If we hit a wall then the sensor can report huge values for things too close.
+            x = ForwardSpeedManagerThread()
+            x.start()
+            motionThreads.append(x)
+    finally:
+        #forwardMutex.release()
+        pass
 def stop():
     wheels.setMotorModel(0, 0, 0, 0)
 # Pass `None` for `secs` to just set the PWM output to that until the next time
 # that the motors are set.
 def left_(secs=1, speed=0.6):
+    stopMotionThreads()
     wheels.setMotorModel(int(-500*speed),int(-500*speed),
                          int(2000*speed),int(2000*speed))       #Left  (<--originally)
     if secs:
         time.sleep(secs)
 def right_(secs=1, speed=0.6):
+    stopMotionThreads()
     wheels.setMotorModel(int(2000*speed),int(2000*speed),
                          int(-500*speed),int(-500*speed))       #Right (<--originally)  
     if secs:
@@ -146,6 +197,7 @@ def right(secs=1):
 # [New]
 def turn(speed=0.5):
     if carConfig is not None:
+        stopMotionThreads()
         wheels.setMotorModel(int(-4095*speed), int(-4095*speed),
                             int(4095*speed), int(4095*speed))
 
@@ -249,7 +301,7 @@ if __name__ == '__main__':
                 if functools.reduce(lambda a,b: a and b, np.isclose(distances, distances_prev, 0.5)):
                     # Speed up
                     print("Speeding up")
-                    speed += 0.013 #0.007
+                    speed += forwardSpeedup
                     forward(speed)
                     forwardSpeed = speed
             print("c <= d")
@@ -259,7 +311,7 @@ if __name__ == '__main__':
             #time.sleep(sleep_time_short) # Rest CPU for a bit
 
             # Stop
-            wheels.setMotorModel(0,0,0,0)                   #Stop
+            stop()
             
             if not isReceivingVehicle: # Then we are the navigation vehicle. We are forging 
                 # a new path!
@@ -462,7 +514,7 @@ if __name__ == '__main__':
     #except Exception as e:
     finally:
         logging.error(traceback.format_exc())
-        wheels.setMotorModel(0,0,0,0)
+        stop()
         ultrasonic.pwm_S.setServoPwm('0',middleHoriz)
         ultrasonic.pwm_S.setServoPwm('1',middleVert)
 
