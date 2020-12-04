@@ -16,6 +16,10 @@ class CarConfig(Enum):
     WhereEam = 1
     sbond75 = 2
     Ethan = 3
+
+    # https://stackoverflow.com/questions/53297848/get-enum-name-in-python-without-class-name
+    def __str__(self):
+        return self.name
 # Get `use` for which CarConfig to use:
 if len(sys.argv) <= 1: # If we don't have a 1st arg
     # Prompt for input
