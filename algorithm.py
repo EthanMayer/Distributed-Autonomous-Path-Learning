@@ -137,8 +137,8 @@ class ForwardSpeedManagerThread(Thread):
             time.sleep(secondsToSleep)
 
             # Slow down
+            self.counter += 0.002
             forward(forwardSpeed-self.counter)
-            self.counter += 0.001
 
 turnSpeedOrig = 0.21 # WORKS but super slow: 0.20 # 0.25
 turnSpeed = turnSpeedOrig
