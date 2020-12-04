@@ -118,7 +118,7 @@ try:
             time.sleep(0.5)
 
             # Move forward
-            speed = 0.25
+            speed = 0.1
             forward(speed)
             start_time = timer()
             flag = True
