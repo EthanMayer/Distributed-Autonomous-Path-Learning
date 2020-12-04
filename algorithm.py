@@ -165,7 +165,8 @@ def forward(speed=forwardSpeed):
     try:
         wheels.setMotorModel(int(-4095*speed), int(-4095*speed),
                             int(-4095*speed), int(-4095*speed))
-        if speed == forwardSpeed and speed > forwardSpeedOrig and len(motionThreads) == 0:
+        #if speed == forwardSpeed and speed > forwardSpeedOrig and len(motionThreads) == 0:
+        if len(motionThreads) == 0:
             # Spawn a thread to slow down after a bit, due to inertia, the car will continue going forward under less power.
             # Needed to increase accuracy. If we hit a wall then the sensor can report huge values for things too close.
             x = ForwardSpeedManagerThread()
@@ -175,6 +176,7 @@ def forward(speed=forwardSpeed):
         #forwardMutex.release()
         pass
 def stop():
+    stopMotionThreads()
     wheels.setMotorModel(0, 0, 0, 0)
 # Pass `None` for `secs` to just set the PWM output to that until the next time
 # that the motors are set.
