@@ -80,8 +80,8 @@ dist_epsilon = 30  # For distance polling(0)
 angle_epsilon = 1  # For gyroscope(1)
 
 if carConfig == CarConfig.WhereEam:
-    middleHoriz = 50
-    middleVert = 25
+    middleHoriz = 75
+    middleVert = 60
 elif carConfig == CarConfig.sbond75:
     middleHoriz = 90
     middleVert = 90
