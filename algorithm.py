@@ -178,6 +178,8 @@ try:
                 right(0.25)
 
             if turn_method == 0:
+                ultrasonic.pwm_S.setServoPwm('0', middleHoriz)
+                time.sleep(0.5)
                 while True:
                     # Get current distance as we turn
                     c = getUltrasonicDistance()
