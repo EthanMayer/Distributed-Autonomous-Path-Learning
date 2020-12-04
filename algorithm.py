@@ -286,16 +286,18 @@ if __name__ == '__main__':
                 # Check for end condition: all polled distance values are less 
                 # than or equal to `d`:
                 if destination_distance <= d:
-                    print("End reached")
-
-                    # Write the path (as an array of serialized bytes) to a file:
-                    timestr = time.strftime("%Y%m%d-%H%M%S")
-                    with open("path_" + timestr, "wb") as f:
-                        outputRobotPath(array.array('B', recordedPath), f)
-                    # Connect to the server and send the path
-                    client = Client()
-                    client.sendPath(recordedPath)
-                    break
+                    isEnd=input("End reached (y/n)? ")
+                    if not isEnd or isEnd.lower().strip() == "n":
+                        pass
+                    else:
+                        # Write the path (as an array of serialized bytes) to a file:
+                        timestr = time.strftime("%Y%m%d-%H%M%S")
+                        with open("path_" + timestr, "wb") as f:
+                            outputRobotPath(array.array('B', recordedPath), f)
+                        # Connect to the server and send the path
+                        client = Client()
+                        client.sendPath(recordedPath)
+                        break
 
                 # Move sensor back to middle
                 ultrasonic.pwm_S.setServoPwm('0',middleHoriz)
