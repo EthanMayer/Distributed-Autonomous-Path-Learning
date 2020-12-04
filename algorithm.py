@@ -213,7 +213,7 @@ if __name__ == '__main__':
                 start_time = timer()
                 flag = True
                 while True:
-                    offset = 40
+                    offset = 32
                     movement = 20
                     for angle in range(middleHoriz - offset, middleHoriz + offset, movement):
                         ultrasonic.pwm_S.setServoPwm('0', angle)
