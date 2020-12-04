@@ -114,6 +114,7 @@ wheels=Motor()
 # [New]
 forwardSpeedOrig = 0.125 #0.15
 forwardSpeed = forwardSpeedOrig
+forwardSpeed += 0.025
 forwardSpeedup = 0.013 #0.007
 #forwardMutex = Lock()
 class ForwardSpeedManagerThread(Thread):
@@ -140,6 +141,7 @@ class ForwardSpeedManagerThread(Thread):
             self.counter += 0.001
 
 turnSpeed = 0.21 # WORKS but super slow: 0.20 # 0.25
+turnSpeed += 0.1
 motionThreads = []
 def stopMotionThreads():
     if threading.current_thread() is not threading.main_thread():
