@@ -103,7 +103,7 @@ try:
             # Allow time to settle:
             time.sleep(0.5)
 
-            forward(speed)
+            forward(speed * 0.75)
             start_time = timer()
             flag = True
             while flag:
@@ -129,8 +129,8 @@ try:
                     time.sleep(0.1)
             end_time = timer()
             print("Time forward " + str(end_time - start_time))
-            forward(-speed)
-            time.sleep(0.1)
+            forward(-speed*0.75)
+            time.sleep(0.25)
             stop()
             recordedPath.append([end_time - start_time, speed])
 
