@@ -58,7 +58,7 @@ else:
 
 # Configuration
 d = 25  # Centimeters from car to object at which to stop and scan from
-turn_method = 2  # distance polling(0), gyroscope(1), optical flow(2)
+turn_method = 0  # distance polling(0), gyroscope(1), optical flow(2)
 dist_epsilon = 30  # For distance polling(0)
 angle_epsilon = 5  # For gyroscope(1) and optical flow(2)
 speed = 0.25
@@ -77,8 +77,7 @@ else:
 
 # If we are the receiving vehicle, we need to wait for a path first.
 if isReceivingVehicle:
-    # recordedPath = client.receivePath()
-    recordedPath = [[2, 0.15], [2, 0.25], [3, 0.15]]
+    recordedPath = client.receivePath()
 else:
     recordedPath = []
 
