@@ -101,11 +101,11 @@ try:
             # Allow time to settle:
             time.sleep(0.5)
 
-            forward(speed * 0.75)
+            forward(speed * 0.5)
             start_time = timer()
             flag = True
             while flag:
-                for angle in range(middleHoriz - 10, middleHoriz + 20, 10):
+                for angle in range(middleHoriz, middleHoriz + 10, 10):
                     ultrasonic.pwm_S.setServoPwm('0', angle)
                     c = getUltrasonicDistance()  # Grab distance from bot to object
                     print("dist: " + str(c))
@@ -115,7 +115,7 @@ try:
                         flag = False
                         break
                     time.sleep(0.1)
-                for angle in range(middleHoriz + 10, middleHoriz - 20, -10):
+                for angle in range(middleHoriz, middleHoriz - 10, -10):
                     ultrasonic.pwm_S.setServoPwm('0', angle)
                     c = getUltrasonicDistance()  # Grab distance from bot to object
                     print("dist: " + str(c))
@@ -128,7 +128,7 @@ try:
             end_time = timer()
             print("Time forward " + str(end_time - start_time))
             time.sleep(0.25)
-            forward(-speed*0.75)
+            forward(-speed*0.5)
             time.sleep(0.25)
             stop()
             recordedPath.append([end_time - start_time, speed])
