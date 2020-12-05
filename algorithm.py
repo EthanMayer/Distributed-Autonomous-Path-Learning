@@ -104,7 +104,7 @@ try:
             start_time = timer()
             flag = True
             while flag:
-                for angle in range(-30, 50, 10):
+                for angle in range(-20, 40, 10):
                     ultrasonic.pwm_S.setServoPwm('0', angle + middleHoriz)
                     c = getUltrasonicDistance()  # Grab distance from bot to object
                     print("dist: " + str(c) + " angle: " + str(angle))
@@ -112,7 +112,7 @@ try:
                         stop()
                         flag = False
                         break
-                for angle in range(30, -50, -10):
+                for angle in range(20, -40, -10):
                     ultrasonic.pwm_S.setServoPwm('0', angle + middleHoriz)
                     c = getUltrasonicDistance()  # Grab distance from bot to object
                     print("dist: " + str(c) + " angle: " + str(angle))
