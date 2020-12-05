@@ -106,7 +106,7 @@ try:
             start_time = timer()
             flag = True
             while flag:
-                for angle in range(middleHoriz - 20, middleHoriz + 30, 10):
+                for angle in range(middleHoriz - 10, middleHoriz + 20, 10):
                     ultrasonic.pwm_S.setServoPwm('0', angle)
                     c = getUltrasonicDistance()  # Grab distance from bot to object
                     print("dist: " + str(c))
@@ -116,7 +116,7 @@ try:
                         flag = False
                         break
                     time.sleep(0.1)
-                for angle in range(middleHoriz + 20, middleHoriz - 30, -10):
+                for angle in range(middleHoriz + 10, middleHoriz - 20, -10):
                     ultrasonic.pwm_S.setServoPwm('0', angle)
                     c = getUltrasonicDistance()  # Grab distance from bot to object
                     print("dist: " + str(c))
@@ -128,6 +128,7 @@ try:
                     time.sleep(0.1)
             end_time = timer()
             print("Time forward " + str(end_time - start_time))
+            time.sleep(0.25)
             forward(-speed*0.75)
             time.sleep(0.25)
             stop()
@@ -150,15 +151,12 @@ try:
 
             start_time = timer()
             current_degree = 0
-            speed = 0
             # Turn
             if destination_angle < 0:
                 print("Turning left")
-                speed = -0.25
-                turn(speed)
+                turn(-speed)
             elif destination_angle > 0:
                 print("Turning right")
-                speed = 0.25
                 turn(speed)
 
             if turn_method == 0:
