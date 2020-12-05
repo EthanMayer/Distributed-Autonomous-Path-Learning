@@ -31,6 +31,16 @@ def turn(speed=0.5):
                          int(4095 * speed), int(4095 * speed))
 
 
+def getUltrasonicDistance():
+    # Average out some values to ensure the reading is sensible since it can fluctuate
+    # in complex obstacle courses.
+    avg = 0
+    count = 5
+    for i in range(0, count):
+        avg += ultrasonic.get_distance()
+    return avg / count
+
+
 # Get `use` for which CarConfig to use:
 if len(sys.argv) <= 3:
     # Prompt for input
@@ -89,14 +99,14 @@ try:
             ultrasonic.pwm_S.setServoPwm('1', middleVert)
             # Allow time to settle:
             time.sleep(0.5)
-
-            forward(speed * 0.5)
+            forward_speed = speed * 0.25
+            forward(forward_speed)
             start_time = timer()
             flag = True
             while flag:
                 for angle in range(-30, 50, 10):
                     ultrasonic.pwm_S.setServoPwm('0', angle + middleHoriz)
-                    c = ultrasonic.get_distance()  # Grab distance from bot to object
+                    c = getUltrasonicDistance()  # Grab distance from bot to object
                     print("dist: " + str(c) + " angle: " + str(angle))
                     if c <= d:
                         stop()
@@ -104,7 +114,7 @@ try:
                         break
                 for angle in range(30, -50, -10):
                     ultrasonic.pwm_S.setServoPwm('0', angle + middleHoriz)
-                    c = ultrasonic.get_distance()  # Grab distance from bot to object
+                    c = getUltrasonicDistance()  # Grab distance from bot to object
                     print("dist: " + str(c) + " angle: " + str(angle))
                     if c <= d:
                         stop()
@@ -113,10 +123,10 @@ try:
             end_time = timer()
             print("Time forward " + str(end_time - start_time))
             time.sleep(0.25)
-            forward(-speed*0.5)
+            forward(-forward_speed)
             time.sleep(0.25)
             stop()
-            recordedPath.append([end_time - start_time, speed])
+            recordedPath.append([end_time - start_time, forward_speed])
 
             # Look around, checking distances
             destination_distance = 0
@@ -124,7 +134,7 @@ try:
             for angle in range(-90, 100, 10):
                 ultrasonic.pwm_S.setServoPwm('0', angle + middleHoriz)
                 time.sleep(0.5)
-                dist = ultrasonic.get_distance()
+                dist = getUltrasonicDistance()
                 if dist > destination_distance:
                     destination_distance = dist
                     destination_angle = angle
@@ -146,7 +156,7 @@ try:
             if turn_method == 0:
                 while True:
                     # Get current distance as we turn
-                    c = ultrasonic.get_distance()
+                    c = getUltrasonicDistance()
                     if abs(c - destination_distance) <= dist_epsilon:
                         stop()
                         break
@@ -165,7 +175,7 @@ try:
                 flow.prepare()
                 while True:
                     # Get current distance as we turn
-                    c = ultrasonic.get_distance()
+                    c = getUltrasonicDistance()
                     (closestPointToCenter, flowVector) = flow.computeCentermostFlow()
                     current_degree -= math.degrees(flow.computeRadiansOfCameraRotation(c, flowVector))
                     print("At " + str(current_degree) + " degrees out of " + str(destination_angle) + " degrees")
