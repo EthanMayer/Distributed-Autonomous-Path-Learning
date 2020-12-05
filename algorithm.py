@@ -75,7 +75,8 @@ else:
 
 # If we are the receiving vehicle, we need to wait for a path first.
 if isReceivingVehicle:
-    recordedPath = client.receivePath()
+    recordedPath = [0.15, 1.257, -0.25, 0.368, 0.15, 0.852, 0.25, 0.090, 0.15, 3.916, -0.25, 0.535, 0.15, 0.182, -0.25, 0.132, 0.15, 0.346, -0.25, 0.528, 0.15, 2.956, 0.25, 0.361, 0.15, 2.834]
+    # recordedPath = client.receivePath()
 else:
     recordedPath = []
 
@@ -200,12 +201,10 @@ try:
 
     else:  # Then we are the receiving vehicle, so we have a path already.
         while len(recordedPath) != 0:
-            data = recordedPath.pop(0)
-            forward(data[1])
-            time.sleep(data[0])
-            data = recordedPath.pop(0)
-            turn(data[1])
-            time.sleep(data[0])
+            forward(recordedPath.pop(0))
+            time.sleep(recordedPath.pop(0))
+            turn(recordedPath.pop(0))
+            time.sleep(recordedPath.pop(0))
 
 finally:
     logging.error(traceback.format_exc())
