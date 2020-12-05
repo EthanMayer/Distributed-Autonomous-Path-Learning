@@ -41,6 +41,52 @@ def getUltrasonicDistance():
     return avg / count
 
 
+def accurateTurn(destination_angle = 0, speed = 0):
+    # Turn
+    current_degree = 0
+    if destination_angle < 0:
+        print("Turning left")
+        turn(-speed)
+    elif destination_angle > 0:
+        print("Turning right")
+        turn(speed)
+
+    if turn_method == 0:
+        while True:
+            # Get current distance as we turn
+            c = getUltrasonicDistance()
+            if abs(c - destination_distance) <= dist_epsilon:
+                stop()
+                break
+    elif turn_method == 1:
+        while True:
+            # Grab current angular velocity z in degrees per second.
+            (dRoll, dPitch, dYaw) = mpu.gyro
+            end_time = timer()
+            current_degree -= (end_time - start_time) * dYaw
+            print("At " + str(current_degree) + " degrees out of " +
+                  str(destination_angle) + " degrees")
+            if abs(current_degree - destination_angle) <= angle_epsilon:
+                stop()
+                break
+    elif turn_method == 2:
+        flow.prepare()
+        while True:
+            # Get current distance as we turn
+            c = getUltrasonicDistance()
+            (closestPointToCenter, flowVector) = flow.computeCentermostFlow()
+            current_degree -= math.degrees(
+                flow.computeRadiansOfCameraRotation(c, flowVector))
+            print("At " + str(current_degree) + " degrees out of " +
+                  str(destination_angle) + " degrees")
+            if abs(current_degree - destination_angle) <= angle_epsilon:
+                stop()
+                break
+    elif turn_method == 3:
+        time.sleep(abs(destination_angle)/180)
+        stop()
+
+
 # Get `use` for which CarConfig to use:
 if len(sys.argv) <= 3:
     # Prompt for input
@@ -56,7 +102,8 @@ else:
 
 # Configuration
 d = 20  # Centimeters from car to object at which to stop and scan from
-turn_method = 3  # distance polling(0), gyroscope(1), optical flow(2), timed (3)
+# distance polling(0), gyroscope(1), optical flow(2), timed (3)
+turn_method = 3
 dist_epsilon = 30  # For distance polling(0)
 angle_epsilon = 5  # For gyroscope(1) and optical flow(2)
 speed = 0.5
@@ -75,7 +122,20 @@ else:
 
 # If we are the receiving vehicle, we need to wait for a path first.
 if isReceivingVehicle:
-    recordedPath = [0.15, 1.257-0.1, -0.5, 0.368, 0.15, 0.852-0.1, 0.5, 0.090, 0.15, 3.916-0.1, -0.5, 0.535, 0.15, 0.182-0.1, -0.5, 0.132, 0.15, 0.346-0.1, -0.5, 0.528, 0.15, 2.956-0.1, 0.5, 0.361, 0.15, 2.834-0.1]
+    recordedPath = [0.5, 
+                    1.257-0.25, 
+                    -60, 
+                    0.852-0.25, 
+                    10, 
+                    3.916-0.25, 
+                    -90,
+                    0.182-0.25, 
+                    -20, 
+                    0.346-0.25, 
+                    -90, 
+                    2.956-0.25, 
+                    60, 
+                    2.834-0.25]
     # recordedPath = client.receivePath()
 else:
     recordedPath = []
@@ -144,51 +204,8 @@ try:
             ultrasonic.pwm_S.setServoPwm('0', middleHoriz)
             time.sleep(0.5)
 
-            start_time = timer()
-            current_degree = 0
-            # Turn
-            if destination_angle < 0:
-                print("Turning left")
-                turn(-speed)
-            elif destination_angle > 0:
-                print("Turning right")
-                turn(speed)
+            accurateTurn(destination_angle, speed)
 
-            if turn_method == 0:
-                while True:
-                    # Get current distance as we turn
-                    c = getUltrasonicDistance()
-                    if abs(c - destination_distance) <= dist_epsilon:
-                        stop()
-                        break
-            elif turn_method == 1:
-                while True:
-                    # Grab current angular velocity z in degrees per second.
-                    (dRoll, dPitch, dYaw) = mpu.gyro
-                    end_time = timer()
-                    current_degree -= (end_time - start_time) * dYaw
-                    print("At " + str(current_degree) + " degrees out of " +
-                          str(destination_angle) + " degrees")
-                    if abs(current_degree - destination_angle) <= angle_epsilon:
-                        stop()
-                        break
-            elif turn_method == 2:
-                flow.prepare()
-                while True:
-                    # Get current distance as we turn
-                    c = getUltrasonicDistance()
-                    (closestPointToCenter, flowVector) = flow.computeCentermostFlow()
-                    current_degree -= math.degrees(flow.computeRadiansOfCameraRotation(c, flowVector))
-                    print("At " + str(current_degree) + " degrees out of " + str(destination_angle) + " degrees")
-                    if abs(current_degree - destination_angle) <= angle_epsilon:
-                        stop()
-                        break
-            elif turn_method == 3:
-                time.sleep(abs(destination_angle)/180)
-                stop()
-
-            end_time = timer()
-            print("Time turning " + str(end_time - start_time))
             recordedPath.append([end_time - start_time, speed])
 
             # Check for end condition: all polled distance values are less
@@ -200,15 +217,18 @@ try:
                 break
 
     else:  # Then we are the receiving vehicle, so we have a path already.
+        speed = recordedPath.pop(0)
+        print("speed: " +  str(speed))
         while len(recordedPath) != 0:
-            print("forward")
-            forward(recordedPath.pop(0))
-            time.sleep(recordedPath.pop(0))
+            period = recordedPath.pop(0)
+            print("forward: " + str(period))
+            forward(speed * 0.3)
+            time.sleep(period)
             stop()
             time.sleep(0.25)
-            print("turn")
-            turn(recordedPath.pop(0))
-            time.sleep(recordedPath.pop(0))
+            angle = recordedPath.pop(0)
+            print("turn: " + str(angle))
+            accurateTurn(angle, speed)
             stop()
             time.sleep(0.25)
 
