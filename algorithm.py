@@ -38,7 +38,6 @@ def getUltrasonicDistance():
     count = 10
     for i in range(0, count):
         avg += ultrasonic.get_distance()
-        time.sleep(0.02)
     return avg / count
 
 
@@ -105,18 +104,18 @@ try:
             start_time = timer()
             flag = True
             while flag:
-                for angle in range(middleHoriz - 30, middleHoriz + 40, 10):
+                for angle in range(middleHoriz - 30, middleHoriz + 50, 10):
                     ultrasonic.pwm_S.setServoPwm('0', angle)
                     c = getUltrasonicDistance()  # Grab distance from bot to object
-                    print("dist: " + str(c) + "angle: " + str(angle))
+                    print("dist: " + str(c) + " angle: " + str(angle))
                     if c <= d:
                         stop()
                         flag = False
                         break
-                for angle in range(middleHoriz + 30, middleHoriz - 40, -10):
+                for angle in range(middleHoriz + 30, middleHoriz - 50, -10):
                     ultrasonic.pwm_S.setServoPwm('0', angle)
                     c = getUltrasonicDistance()  # Grab distance from bot to object
-                    print("dist: " + str(c) + "angle: " + str(angle))
+                    print("dist: " + str(c) + " angle: " + str(angle))
                     if c <= d:
                         stop()
                         flag = False
