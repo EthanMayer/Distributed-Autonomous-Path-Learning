@@ -108,23 +108,19 @@ try:
                 for angle in range(middleHoriz - 30, middleHoriz + 40, 10):
                     ultrasonic.pwm_S.setServoPwm('0', angle)
                     c = getUltrasonicDistance()  # Grab distance from bot to object
-                    print("dist: " + str(c))
+                    print("dist: " + str(c) + "angle: " + str(angle))
                     if c <= d:
-                        print("c <= d")
                         stop()
                         flag = False
                         break
-                    time.sleep(0.05)
                 for angle in range(middleHoriz + 30, middleHoriz - 40, -10):
                     ultrasonic.pwm_S.setServoPwm('0', angle)
                     c = getUltrasonicDistance()  # Grab distance from bot to object
-                    print("dist: " + str(c))
+                    print("dist: " + str(c) + "angle: " + str(angle))
                     if c <= d:
-                        print("c <= d")
                         stop()
                         flag = False
                         break
-                    time.sleep(0.05)
             end_time = timer()
             print("Time forward " + str(end_time - start_time))
             time.sleep(0.25)
@@ -136,7 +132,7 @@ try:
             # Look around, checking distances
             destination_distance = 0
             destination_angle = 0
-            for angle in range(middleHoriz - 90, middleHoriz + 90, 10):
+            for angle in range(middleHoriz - 90, middleHoriz + 100, 10):
                 ultrasonic.pwm_S.setServoPwm('0', angle)
                 time.sleep(0.5)
                 dist = getUltrasonicDistance()
