@@ -204,9 +204,13 @@ try:
             print("forward")
             forward(float(recordedPath.pop(0)))
             time.sleep(float(recordedPath.pop(0)))
+            stop()
+            time.sleep(0.01)
             print("turn")
             turn(float(recordedPath.pop(0)))
             time.sleep(float(recordedPath.pop(0)))
+            stop()
+            time.sleep(0.01)
 
 finally:
     logging.error(traceback.format_exc())
