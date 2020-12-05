@@ -46,8 +46,7 @@ def getUltrasonicDistance():
 if len(sys.argv) <= 3:
     # Prompt for input
     carConfig = int(input(
-        "Enter the user of the car. Must be one of:\n1 for WhereEam\n2 for sbond75\n" +
-        "3 for Ethan, or a dry run will be performed: "))
+        "Enter the user of the car. Must be one of:\n1 for WhereEam\n2 for sbond75\n3 for Ethan"))
     isReceivingVehicle = bool(int(input(
         "Is this the navigation vehicle or the receiving vehicle? Enter 0 for navigation, 1 for receiving: ")))
     debugWindowEnabled = False
