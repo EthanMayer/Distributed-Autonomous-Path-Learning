@@ -58,7 +58,7 @@ else:
 
 # Configuration
 d = 25  # Centimeters from car to object at which to stop and scan from
-turn_method = 0  # distance polling(0), gyroscope(1), optical flow(2)
+turn_method = 0  # distance polling(0), gyroscope(1), optical flow(2), timed (3)
 dist_epsilon = 30  # For distance polling(0)
 angle_epsilon = 5  # For gyroscope(1) and optical flow(2)
 speed = 0.25
@@ -188,6 +188,8 @@ try:
                     if abs(current_degree - destination_angle) <= angle_epsilon:
                         stop()
                         break
+            elif turn_method == 3:
+                timer.sleep(abs(destination_angle)/20)
 
             end_time = timer()
             print("Time turning " + str(end_time - start_time))
