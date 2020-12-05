@@ -15,7 +15,7 @@ speed = 0.5
 
 print("Enter an amount of time to turn in seconds.\n")
 while True:
-    timer = int(input("> "))
+    timer = float(input("> "))
     turn(speed)
     time.sleep(timer)
     stop()
