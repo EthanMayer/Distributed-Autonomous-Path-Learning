@@ -61,6 +61,7 @@ d = 25  # Centimeters from car to object at which to stop and scan from
 turn_method = 2  # distance polling(0), gyroscope(1), optical flow(2)
 dist_epsilon = 30  # For distance polling(0)
 angle_epsilon = 5  # For gyroscope(1) and optical flow(2)
+speed = 0.25
 
 if carConfig == 1:
     middleHoriz = 75
@@ -102,8 +103,6 @@ try:
             # Allow time to settle:
             time.sleep(0.5)
 
-            # Move forward
-            speed = 0.20
             forward(speed)
             start_time = timer()
             flag = True
@@ -130,6 +129,9 @@ try:
                     time.sleep(0.1)
             end_time = timer()
             print("Time forward " + str(end_time - start_time))
+            forward(-speed)
+            time.sleep(0.1)
+            stop()
             recordedPath.append([end_time - start_time, speed])
 
             # Look around, checking distances
@@ -155,10 +157,6 @@ try:
                 print("Turning left")
                 speed = -0.25
                 turn(speed)
-            elif destination_angle == 0:
-                print("Forward but this shouldn't happen")
-                speed = 0.20
-                forward(speed)
             elif destination_angle > 0:
                 print("Turning right")
                 speed = 0.25
