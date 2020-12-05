@@ -75,7 +75,7 @@ else:
 
 # If we are the receiving vehicle, we need to wait for a path first.
 if isReceivingVehicle:
-    recordedPath = [0.15, 1.257, -0.5, 0.368, 0.15, 0.852, 0.5, 0.090, 0.15, 3.916, -0.5, 0.535, 0.15, 0.182, -0.5, 0.132, 0.15, 0.346, -0.5, 0.528, 0.15, 2.956, 0.5, 0.361, 0.15, 2.834]
+    recordedPath = [0.15, 1.257-0.25, -0.5, 0.368, 0.15, 0.852-0.25, 0.5, 0.090, 0.15, 3.916-0.25, -0.5, 0.535, 0.15, 0.182-0.25, -0.5, 0.132, 0.15, 0.346-0.25, -0.5, 0.528, 0.15, 2.956-0.25, 0.5, 0.361, 0.15, 2.834-0.25]
     # recordedPath = client.receivePath()
 else:
     recordedPath = []
@@ -202,13 +202,8 @@ try:
     else:  # Then we are the receiving vehicle, so we have a path already.
         while len(recordedPath) != 0:
             print("forward")
-            forward_speed = recordedPath.pop(0)
-            forward(forward_speed)
+            forward(recordedPath.pop(0))
             time.sleep(recordedPath.pop(0))
-            stop()
-            time.sleep(0.25)
-            forward(-forward_speed)
-            time.sleep(0.25)
             stop()
             time.sleep(0.25)
             print("turn")
