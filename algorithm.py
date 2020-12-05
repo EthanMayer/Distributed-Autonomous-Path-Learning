@@ -143,7 +143,7 @@ try:
                 if dist > destination_distance:
                     destination_distance = dist
                     destination_angle = angle - middleHoriz
-                print("Recorded distance " + str(dist) + " for angle " + str(angle))
+                print("Recorded distance " + str(dist) + " for angle " + str(angle - middleHoriz))
             print("Chose angle " + str(destination_angle))
             ultrasonic.pwm_S.setServoPwm('0', middleHoriz)
             time.sleep(0.5)
@@ -190,6 +190,7 @@ try:
             elif turn_method == 3:
                 time.sleep(abs(destination_angle)/180)
                 stop()
+                print(str(abs(destination_angle)/180))
 
             end_time = timer()
             print("Time turning " + str(end_time - start_time))
