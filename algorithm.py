@@ -202,7 +202,8 @@ try:
     else:  # Then we are the receiving vehicle, so we have a path already.
         while len(recordedPath) != 0:
             print("forward")
-            forward(recordedPath.pop(0))
+            forward_speed = recordedPath.pop(0)
+            forward(forward_speed)
             time.sleep(recordedPath.pop(0))
             stop()
             time.sleep(0.25)
