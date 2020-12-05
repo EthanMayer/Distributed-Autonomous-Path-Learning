@@ -43,6 +43,8 @@ def getUltrasonicDistance():
 
 def accurateTurn(destination_angle = 0, speed = 0):
     # Turn
+    ultrasonic.pwm_S.setServoPwm('0', middleHoriz)
+    time.sleep(0.25)
     current_degree = 0
     if destination_angle < 0:
         print("Turning left")
@@ -159,7 +161,7 @@ try:
             ultrasonic.pwm_S.setServoPwm('0', middleHoriz)
             ultrasonic.pwm_S.setServoPwm('1', middleVert)
             # Allow time to settle:
-            time.sleep(0.5)
+            time.sleep(0.25)
             forward_speed = speed * 0.30
             forward(forward_speed)
             start_time = timer()
@@ -194,15 +196,13 @@ try:
             destination_angle = 0
             for angle in range(-90, 100, 10):
                 ultrasonic.pwm_S.setServoPwm('0', angle + middleHoriz)
-                time.sleep(0.5)
+                time.sleep(0.25)
                 dist = getUltrasonicDistance()
                 if dist > destination_distance:
                     destination_distance = dist
                     destination_angle = angle
                 print("Recorded distance " + str(dist) + " for angle " + str(angle))
             print("Chose angle " + str(destination_angle))
-            ultrasonic.pwm_S.setServoPwm('0', middleHoriz)
-            time.sleep(0.5)
 
             accurateTurn(destination_angle, speed)
 
