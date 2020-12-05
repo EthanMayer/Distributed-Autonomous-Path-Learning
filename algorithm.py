@@ -202,7 +202,7 @@ try:
     else:  # Then we are the receiving vehicle, so we have a path already.
         while len(recordedPath) != 0:
             print("forward")
-            forward(float(recordedPath.pop(0)))
+            forward((recordedPath.pop(0)))
             time.sleep(float(recordedPath.pop(0)))
             stop()
             time.sleep(0.01)
