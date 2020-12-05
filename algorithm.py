@@ -222,8 +222,12 @@ try:
         while len(recordedPath) != 0:
             period = recordedPath.pop(0)
             print("forward: " + str(period))
-            forward(speed * 0.3)
-            time.sleep(period)
+            if period < 0:
+                forward(-speed * 0.3)
+                time.sleep(abs(period))
+            else:
+                forward(speed * 0.3)
+                time.sleep(period)
             stop()
             time.sleep(0.25)
             angle = recordedPath.pop(0)
