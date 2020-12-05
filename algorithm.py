@@ -104,16 +104,16 @@ try:
             start_time = timer()
             flag = True
             while flag:
-                for angle in range(middleHoriz - 30, middleHoriz + 50, 10):
-                    ultrasonic.pwm_S.setServoPwm('0', angle)
+                for angle in range(-30, 50, 10):
+                    ultrasonic.pwm_S.setServoPwm('0', angle + middleHoriz)
                     c = getUltrasonicDistance()  # Grab distance from bot to object
                     print("dist: " + str(c) + " angle: " + str(angle))
                     if c <= d:
                         stop()
                         flag = False
                         break
-                for angle in range(middleHoriz + 30, middleHoriz - 50, -10):
-                    ultrasonic.pwm_S.setServoPwm('0', angle)
+                for angle in range(30, -50, -10):
+                    ultrasonic.pwm_S.setServoPwm('0', angle + middleHoriz)
                     c = getUltrasonicDistance()  # Grab distance from bot to object
                     print("dist: " + str(c) + " angle: " + str(angle))
                     if c <= d:
@@ -131,14 +131,14 @@ try:
             # Look around, checking distances
             destination_distance = 0
             destination_angle = 0
-            for angle in range(middleHoriz - 90, middleHoriz + 100, 10):
-                ultrasonic.pwm_S.setServoPwm('0', angle)
+            for angle in range(-90, 100, 10):
+                ultrasonic.pwm_S.setServoPwm('0', angle + middleHoriz)
                 time.sleep(0.5)
                 dist = getUltrasonicDistance()
                 if dist > destination_distance:
                     destination_distance = dist
-                    destination_angle = angle - middleHoriz
-                print("Recorded distance " + str(dist) + " for angle " + str(angle - middleHoriz))
+                    destination_angle = angle
+                print("Recorded distance " + str(dist) + " for angle " + str(angle))
             print("Chose angle " + str(destination_angle))
             ultrasonic.pwm_S.setServoPwm('0', middleHoriz)
             time.sleep(0.5)
