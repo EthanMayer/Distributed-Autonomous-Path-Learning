@@ -103,7 +103,7 @@ try:
             time.sleep(0.5)
 
             # Move forward
-            speed = 0.15
+            speed = 0.20
             forward(speed)
             start_time = timer()
             flag = True
@@ -157,7 +157,7 @@ try:
                 turn(speed)
             elif destination_angle == 0:
                 print("Forward but this shouldn't happen")
-                speed = 0.15
+                speed = 0.20
                 forward(speed)
             elif destination_angle > 0:
                 print("Turning right")
