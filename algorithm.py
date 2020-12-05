@@ -31,16 +31,6 @@ def turn(speed=0.5):
                          int(4095 * speed), int(4095 * speed))
 
 
-def getUltrasonicDistance():
-    # Average out some values to ensure the reading is sensible since it can fluctuate
-    # in complex obstacle courses.
-    avg = 0
-    count = 10
-    for i in range(0, count):
-        avg += ultrasonic.get_distance()
-    return avg / count
-
-
 # Get `use` for which CarConfig to use:
 if len(sys.argv) <= 3:
     # Prompt for input
@@ -106,7 +96,7 @@ try:
             while flag:
                 for angle in range(-30, 50, 10):
                     ultrasonic.pwm_S.setServoPwm('0', angle + middleHoriz)
-                    c = getUltrasonicDistance()  # Grab distance from bot to object
+                    c = ultrasonic.get_distance()  # Grab distance from bot to object
                     print("dist: " + str(c) + " angle: " + str(angle))
                     if c <= d:
                         stop()
@@ -114,7 +104,7 @@ try:
                         break
                 for angle in range(30, -50, -10):
                     ultrasonic.pwm_S.setServoPwm('0', angle + middleHoriz)
-                    c = getUltrasonicDistance()  # Grab distance from bot to object
+                    c = ultrasonic.get_distance()  # Grab distance from bot to object
                     print("dist: " + str(c) + " angle: " + str(angle))
                     if c <= d:
                         stop()
@@ -134,7 +124,7 @@ try:
             for angle in range(-90, 100, 10):
                 ultrasonic.pwm_S.setServoPwm('0', angle + middleHoriz)
                 time.sleep(0.5)
-                dist = getUltrasonicDistance()
+                dist = ultrasonic.get_distance()
                 if dist > destination_distance:
                     destination_distance = dist
                     destination_angle = angle
@@ -156,7 +146,7 @@ try:
             if turn_method == 0:
                 while True:
                     # Get current distance as we turn
-                    c = getUltrasonicDistance()
+                    c = ultrasonic.get_distance()
                     if abs(c - destination_distance) <= dist_epsilon:
                         stop()
                         break
@@ -175,7 +165,7 @@ try:
                 flow.prepare()
                 while True:
                     # Get current distance as we turn
-                    c = getUltrasonicDistance()
+                    c = ultrasonic.get_distance()
                     (closestPointToCenter, flowVector) = flow.computeCentermostFlow()
                     current_degree -= math.degrees(flow.computeRadiansOfCameraRotation(c, flowVector))
                     print("At " + str(current_degree) + " degrees out of " + str(destination_angle) + " degrees")
