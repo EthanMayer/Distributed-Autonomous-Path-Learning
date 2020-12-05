@@ -190,7 +190,6 @@ try:
             elif turn_method == 3:
                 time.sleep(abs(destination_angle)/180)
                 stop()
-                print(str(abs(destination_angle)/180))
 
             end_time = timer()
             print("Time turning " + str(end_time - start_time))
