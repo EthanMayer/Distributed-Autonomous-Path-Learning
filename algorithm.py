@@ -60,7 +60,7 @@ else:
 d = 25  # Centimeters from car to object at which to stop and scan from
 turn_method = 2  # distance polling(0), gyroscope(1), optical flow(2)
 dist_epsilon = 30  # For distance polling(0)
-angle_epsilon = 1  # For gyroscope(1) and optical flow(2)
+angle_epsilon = 5  # For gyroscope(1) and optical flow(2)
 
 if carConfig == 1:
     middleHoriz = 75
