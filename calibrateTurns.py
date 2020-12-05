@@ -11,7 +11,7 @@ def stop():
 
 
 wheels = Motor()
-speed = 0.25
+speed = 0.5
 
 print("Enter an amount of time to turn in seconds.\n")
 while True:
@@ -19,6 +19,7 @@ while True:
     turn(speed)
     time.sleep(timer)
     stop()
+    time.sleep(1)
     turn(-speed)
     time.sleep(timer)
     stop()
