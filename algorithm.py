@@ -1,28 +1,25 @@
-import time
 from timeit import default_timer as timer
 
-from Motor import *
 from Ultrasonic import *
 from servo import *
 
 import traceback
 import logging
 
-from enum import Enum
 import sys
 import math
-import networking.client
 from networking.client import *
 
 # Utilities
 ultrasonic = Ultrasonic()
 ultrasonic.pwm_S = Servo()
 wheels = Motor()
+client = Client()
 
 
 def forward(speed=0.5):
-    wheels.setMotorModel(int(-4095*speed), int(-4095*speed),
-                         int(-4095*speed), int(-4095*speed))
+    wheels.setMotorModel(int(-4095 * speed), int(-4095 * speed),
+                         int(-4095 * speed), int(-4095 * speed))
 
 
 def stop():
@@ -30,8 +27,8 @@ def stop():
 
 
 def turn(speed=0.5):
-    wheels.setMotorModel(int(-4095*speed), int(-4095*speed),
-                         int(4095*speed), int(4095*speed))
+    wheels.setMotorModel(int(-4095 * speed), int(-4095 * speed),
+                         int(4095 * speed), int(4095 * speed))
 
 
 def getUltrasonicDistance():
@@ -45,50 +42,40 @@ def getUltrasonicDistance():
     return avg / count
 
 
-class CarConfig(Enum):
-    WhereEam = 1
-    sbond75 = 2
-    Ethan = 3
-
-
 # Get `use` for which CarConfig to use:
 if len(sys.argv) <= 3:
     # Prompt for input
-    use = input("Enter the user of the car. Must be one of " +
-                str(list(map(str, CarConfig))) + ", or a dry run will be performed: ")
+    carConfig = int(input(
+        "Enter the user of the car. Must be one of:\n1 for WhereEam\n2 for sbond75\n" +
+        "3 for Ethan, or a dry run will be performed: "))
     isReceivingVehicle = bool(int(input(
         "Is this the navigation vehicle or the receiving vehicle? Enter 0 for navigation, 1 for receiving: ")))
     debugWindowEnabled = False
 else:
-    use = sys.argv[1]
+    carConfig = int(sys.argv[1])
     isReceivingVehicle = bool(int(sys.argv[2]))
     debugWindowEnabled = bool(int(sys.argv[3]))
-# Verify `use`:
-try:
-    carConfig = CarConfig[use]
-except KeyError:
-    carConfig = None
-    print("Unknown name given.")
-    exit
 
 # Configuration
 d = 25  # Centimeters from car to object at which to stop and scan from
 turn_method = 2  # distance polling(0), gyroscope(1), optical flow(2)
 dist_epsilon = 30  # For distance polling(0)
-angle_epsilon = 1  # For gyroscope(1)
+angle_epsilon = 1  # For gyroscope(1) and optical flow(2)
 
-if carConfig == CarConfig.WhereEam:
+if carConfig == 1:
     middleHoriz = 75
     middleVert = 55
-elif carConfig == CarConfig.sbond75:
+elif carConfig == 2:
     middleHoriz = 90
     middleVert = 90
-elif carConfig == CarConfig.Ethan:
+elif carConfig == 3:
     pass
+else:
+    middleHoriz = 90
+    middleVert = 90
 
 # If we are the receiving vehicle, we need to wait for a path first.
 if isReceivingVehicle:
-    client = Client()
     # recordedPath = client.receivePath()
     recordedPath = [[2, 0.15], [2, 0.25], [3, 0.15]]
 else:
@@ -96,13 +83,14 @@ else:
 
 # Initialize sensors
 if turn_method == 1:
-    import board
     import busio
     import adafruit_mpu6050
+
     i2c = busio.I2C(1, 0)
     mpu = adafruit_mpu6050.MPU6050(i2c)
 elif turn_method == 2:
     import flow
+
     flow = flow.OpticalFlow(show_debug=debugWindowEnabled)
 
 try:
@@ -115,7 +103,7 @@ try:
             time.sleep(0.5)
 
             # Move forward
-            speed = 0.15
+            speed = 0.1
             forward(speed)
             start_time = timer()
             flag = True
@@ -129,7 +117,7 @@ try:
                         stop()
                         flag = False
                         break
-                    time.sleep(0.11)
+                    time.sleep(0.1)
                 for angle in range(middleHoriz + 20, middleHoriz - 30, -10):
                     ultrasonic.pwm_S.setServoPwm('0', angle)
                     c = getUltrasonicDistance()  # Grab distance from bot to object
@@ -139,7 +127,7 @@ try:
                         stop()
                         flag = False
                         break
-                    time.sleep(0.11)
+                    time.sleep(0.1)
             end_time = timer()
             print("Time forward " + str(end_time - start_time))
             recordedPath.append([end_time - start_time, speed])
@@ -165,15 +153,15 @@ try:
             # Turn
             if destination_angle < 0:
                 print("Turning left")
-                speed = -0.25
+                speed = -0.2
                 turn(speed)
             elif destination_angle == 0:
                 print("Forward but this shouldn't happen")
-                speed = 0.15
+                speed = 0.1
                 forward(speed)
             elif destination_angle > 0:
                 print("Turning right")
-                speed = 0.25
+                speed = 0.2
                 turn(speed)
 
             if turn_method == 0:
@@ -200,10 +188,8 @@ try:
                     # Get current distance as we turn
                     c = getUltrasonicDistance()
                     (closestPointToCenter, flowVector) = flow.computeCentermostFlow()
-                    current_degree -= math.degrees(
-                        flow.computeRadiansOfCameraRotation(c, flowVector))
-                    print("At " + str(current_degree) + " degrees out of " +
-                          str(destination_angle) + " degrees")
+                    current_degree -= math.degrees(flow.computeRadiansOfCameraRotation(c, flowVector))
+                    print("At " + str(current_degree) + " degrees out of " + str(destination_angle) + " degrees")
                     if abs(current_degree - destination_angle) <= angle_epsilon:
                         stop()
                         break
@@ -217,25 +203,17 @@ try:
             if destination_distance <= d:
                 print("End reached")
 
-                # Write the path (as an array of serialized bytes) to a file:
-                timestr = time.strftime("%Y%m%d-%H%M%S")
-                with open("path_" + timestr, "w") as f:
-                    for path in recordedPath:
-                        f.write(str(path[0]) + "," + str(path[1]))
-
-                # Connect to the server and send the path
-                client = Client()
                 client.sendPath(recordedPath)
                 break
 
-    # else:  # Then we are the receiving vehicle, so we have a path already.
-    while len(recordedPath) != 0:
-        data = recordedPath.pop(0)
-        forward(data[1])
-        time.sleep(data[0])
-        data = recordedPath.pop(0)
-        turn(data[1])
-        time.sleep(data[0])
+    else:  # Then we are the receiving vehicle, so we have a path already.
+        while len(recordedPath) != 0:
+            data = recordedPath.pop(0)
+            forward(data[1])
+            time.sleep(data[0])
+            data = recordedPath.pop(0)
+            turn(data[1])
+            time.sleep(data[0])
 
 finally:
     logging.error(traceback.format_exc())
