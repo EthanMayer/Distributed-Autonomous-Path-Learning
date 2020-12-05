@@ -43,8 +43,6 @@ def getUltrasonicDistance():
 
 def accurateTurn(destination_angle = 0, speed = 0):
     # Turn
-    ultrasonic.pwm_S.setServoPwm('0', middleHoriz)
-    time.sleep(0.25)
     current_degree = 0
     if destination_angle < 0:
         print("Turning left")
@@ -155,13 +153,14 @@ elif turn_method == 2:
     flow = flow.OpticalFlow(show_debug=debugWindowEnabled)
 
 try:
+    # Move the ultrasonic sensor to the middle:
+    ultrasonic.pwm_S.setServoPwm('0', middleHoriz)
+    ultrasonic.pwm_S.setServoPwm('1', middleVert)
+    # Allow time to settle:
+    time.sleep(0.25)
+    
     if not isReceivingVehicle:  # Then we are the navigation vehicle. We are forging a new path!
         while True:
-            # Move the ultrasonic sensor to the middle:
-            ultrasonic.pwm_S.setServoPwm('0', middleHoriz)
-            ultrasonic.pwm_S.setServoPwm('1', middleVert)
-            # Allow time to settle:
-            time.sleep(0.25)
             forward_speed = speed * 0.30
             forward(forward_speed)
             start_time = timer()
@@ -203,6 +202,9 @@ try:
                     destination_angle = angle
                 print("Recorded distance " + str(dist) + " for angle " + str(angle))
             print("Chose angle " + str(destination_angle))
+
+            ultrasonic.pwm_S.setServoPwm('0', middleHoriz)
+            time.sleep(0.25)
 
             accurateTurn(destination_angle, speed)
 
