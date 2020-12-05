@@ -205,12 +205,16 @@ try:
             forward(recordedPath.pop(0))
             time.sleep(recordedPath.pop(0))
             stop()
-            time.sleep(0.01)
+            time.sleep(0.25)
+            forward(-forward_speed)
+            time.sleep(0.25)
+            stop()
+            time.sleep(0.25)
             print("turn")
             turn(recordedPath.pop(0))
             time.sleep(recordedPath.pop(0))
             stop()
-            time.sleep(0.01)
+            time.sleep(0.25)
 
 finally:
     logging.error(traceback.format_exc())
