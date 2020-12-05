@@ -60,7 +60,7 @@ d = 25  # Centimeters from car to object at which to stop and scan from
 turn_method = 3  # distance polling(0), gyroscope(1), optical flow(2), timed (3)
 dist_epsilon = 30  # For distance polling(0)
 angle_epsilon = 5  # For gyroscope(1) and optical flow(2)
-speed = 0.25
+speed = 0.5
 
 if carConfig == 1:
     middleHoriz = 75
@@ -188,7 +188,7 @@ try:
                         stop()
                         break
             elif turn_method == 3:
-                time.sleep(abs(destination_angle)/25)
+                time.sleep(abs(destination_angle)/180)
                 stop()
 
             end_time = timer()
