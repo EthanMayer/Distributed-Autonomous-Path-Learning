@@ -201,10 +201,12 @@ try:
 
     else:  # Then we are the receiving vehicle, so we have a path already.
         while len(recordedPath) != 0:
-            forward(recordedPath.pop(0))
-            time.sleep(recordedPath.pop(0))
-            turn(recordedPath.pop(0))
-            time.sleep(recordedPath.pop(0))
+            print("forward")
+            forward(float(recordedPath.pop(0)))
+            time.sleep(float(recordedPath.pop(0)))
+            print("turn")
+            turn(float(recordedPath.pop(0)))
+            time.sleep(float(recordedPath.pop(0)))
 
 finally:
     logging.error(traceback.format_exc())
