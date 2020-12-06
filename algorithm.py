@@ -22,6 +22,18 @@ from intervaltree import Interval, IntervalTree # https://pypi.org/project/inter
 from ADC import *
 import debugUtils
 
+# From https://stackoverflow.com/questions/1628386/normalise-orientation-between-0-and-360 :
+# Normalizes any number to an arbitrary range 
+# by assuming the range wraps around when going below min or above max 
+def normalize(value, start, end):
+    width = end - start
+    offsetValue = value - start # value relative to 0
+    return (offsetValue - (math.floor(offsetValue / width) * width)) + start
+    # + start to reset back to start of original range
+def normalizeDegrees(value):
+    return normalize(value, 0, 360)
+
+
 # Car configurations/profiles
 class CarConfig(Enum):
     WhereEam = 1
@@ -396,6 +408,7 @@ if __name__ == '__main__':
                     # then we want to adjust our `degrees_backwards_direction` so that it makes what is considered
                     # "turning around"* to instead be behind us currently
                     threshold = 10
+                    absoluteAngle_normalized = normalizeDegrees(absoluteAngle)
                     distancesA = distancesAtAbsoluteAngles[absoluteAngle - threshold:absoluteAngle + threshold]
                     if len(distancesA) > 0: # `distancesA` is an array of `Interval`s, each of 
                         # which has a `begin`, `end`, and `data` (which holds the distance in this case)
@@ -409,7 +422,7 @@ if __name__ == '__main__':
                                 break
                         if larger:
                             # Reorient the backwards direction to be behind us
-                            newBackwardsOrientation = (absoluteAngle + 180.0) % 360.0
+                            newBackwardsOrientation = normalizeDegrees(absoluteAngle + 180.0)
                             print("Reorienting backwards direction to", newBackwardsOrientation, 
                                     "from", degrees_backwards_direction)
                             degrees_backwards_direction = newBackwardsOrientation
