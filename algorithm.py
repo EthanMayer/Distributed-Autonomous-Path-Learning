@@ -491,8 +491,11 @@ if __name__ == '__main__':
                     # "turning around"* to instead be behind us currently
                     threshold = 10
                     absoluteAngle_normalized = normalizeDegrees(absoluteAngle)
-                    minA = normalizeDegrees(absoluteAngle - threshold)
-                    maxA = normalizeDegrees(absoluteAngle + threshold)
+                    minA = normalizeDegrees(absoluteAngle_normalized - threshold)
+                    maxA = normalizeDegrees(absoluteAngle_normalized + threshold)
+                    if maxA < minA:
+                        # We can't have this stored in the interval tree, so we do a workaround:
+                        maxA = maxA + 360 # Make it wrap once (do we need to undo this later?)
                     distancesA = distancesAtAbsoluteAngles[minA:maxA]
                     if len(distancesA) > 0: # `distancesA` is an array of `Interval`s, each of 
                         # which has a `begin`, `end`, and `data` (which holds the distance in this case)
