@@ -523,7 +523,11 @@ if __name__ == '__main__':
                             print("Reorienting backwards direction to", newBackwardsOrientation, 
                                     "from", degrees_backwards_direction)
                             degrees_backwards_direction = newBackwardsOrientation
-                    
+                    else:
+                        # Record it
+                        print("First time: Adding interval", str(minA) + ":" 
+                                + str(maxA), "with distance", dist)
+                        distancesAtAbsoluteAngles[minA:maxA] = dist
 
                     if destination_distance is None or dist > destination_distance: # Record a new largest distance
                         # 90 works but we need to be a little more picky because sometimes it's ok, in order to complete the semicircle. So we will
