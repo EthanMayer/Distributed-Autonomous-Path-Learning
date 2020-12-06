@@ -80,6 +80,10 @@ class OpticalFlow:
         self.frame_height = frame_height if frame_height is not None else self.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
         self.show_debug = show_debug
 
+        # The current frame
+        self.frame = None
+        self.frame_gray = None
+
         # Lists holding good points to track
         self.good_new = None
         self.good_old = None
@@ -90,6 +94,8 @@ class OpticalFlow:
         
         self.angle_ = None
         self.change_ = None
+        
+        self.renderHookRes = None
 
     # Call this before beginning to turn the car. It locks onto feature points 
     # in the camera image which will be tracked while turning. 
@@ -131,7 +137,12 @@ class OpticalFlow:
     #   was all that could be captured
     #   or that no tracking points are left. This means
     #   you need to try again until you get True. cap.isOpened() may be useful too.
-    def computeCentermostFlow(self, reprepare=True):
+    # @param renderHook -- Function to run, if any, right before drawing flow on the image to be shown when
+    # show_debug is True, or if it's False then it can compute more using the image. This callback will be passed 
+    # `self` as well as an image to draw to before it is shown if show_debug is True, 
+    # otherwise None for this parameter. self.renderHookRes is set to whatever is
+    # returned by the call to the renderHook.
+    def computeCentermostFlow(self, reprepare=True, renderHook=None):
         if self.p0 is None:
             if not reprepare:
                 return False
@@ -152,13 +163,16 @@ class OpticalFlow:
                 break
 
         frame_gray = cv2.cvtColor(frame, 
-                                cv2.COLOR_BGR2GRAY) 
+                                cv2.COLOR_BGR2GRAY)
+        self.frame = frame
+        self.frame_gray = frame_gray
 
         if self.p0 is not None and self.good_old is not None:
             check1 = self.p0.shape != self.good_old.shape
             check2 = len(self.p0) != len(self.good_old.shape)
             if check1 or check2: # Check if numpy shapes are the same
-                print("Potential assertion failure incoming...", check1, check2) # Trying to fix this error:
+                pass
+                #print("Potential assertion failure incoming...", check1, check2) # Trying to fix this error:
                 """...
 At 50.8427095413208 degrees, want 10 degrees
 No movement
@@ -241,6 +255,8 @@ pi@embeddedpi46:~/Distributed-Autonomous-Path-Learning $
                 frame = cv2.circle(frame, (a, b), 5, 
                                 self.color[i].tolist(), -1) 
                 
+            if renderHook is not None:
+                self.renderHookRes = renderHook(self, self.mask)
             img = cv2.add(frame, self.mask)
             if self.angle_ is not None and self.change_ is not None:
                 img = cv2.putText(img, 'Angle: ' + str(math.degrees(self.angle_)), org, font, fontScale, color, thickness, cv2.LINE_AA)
@@ -252,7 +268,11 @@ pi@embeddedpi46:~/Distributed-Autonomous-Path-Learning $
             k = cv2.waitKey(25) 
             if k == 27: 
                 return True
-
+        else:
+            # `show_debug` is false, so we just call the `renderHook` if any:
+            if renderHook is not None:
+                self.renderHookRes = renderHook(self, None)
+        
         # Check if we lost any points
         try:
             if len(self.good_old) < len(self.good_new):

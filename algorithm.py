@@ -262,6 +262,77 @@ def getUltrasonicDistance():
         avg += ultrasonic.get_distance()
     return avg / count
 
+if stop_cond == 2:
+    import cv2
+
+    # Source: https://www.pyimagesearch.com/2015/09/14/ball-tracking-with-opencv/ :
+
+    # define the lower and upper boundaries of the "green"
+    # ball in the HSV color space, then initialize the
+    # list of tracked points
+    greenLower = (29, 86, 6)
+    greenUpper = (64, 255, 255)
+    import deque
+    pts = deque(maxlen=64)
+def checkForTennisBall(opticalFlowObj, imgRenderTarget):
+    resultBallPos = None
+    frame = opticalFlowObj.frame
+
+    # Source: https://www.pyimagesearch.com/2015/09/14/ball-tracking-with-opencv/ :
+
+    # resize the frame, blur it, and convert it to the HSV
+    # color space
+    #frame = imutils.resize(frame, width=600)
+    blurred = cv2.GaussianBlur(frame, (11, 11), 0)
+    hsv = cv2.cvtColor(blurred, cv2.COLOR_BGR2HSV)
+    # construct a mask for the color "green", then perform
+    # a series of dilations and erosions to remove any small
+    # blobs left in the mask
+    mask = cv2.inRange(hsv, greenLower, greenUpper)
+    mask = cv2.erode(mask, None, iterations=2)
+    mask = cv2.dilate(mask, None, iterations=2)
+
+    # find contours in the mask and initialize the current
+	# (x, y) center of the ball
+	cnts = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL,
+		cv2.CHAIN_APPROX_SIMPLE)
+	cnts = imutils.grab_contours(cnts)
+	center = None
+	# only proceed if at least one contour was found
+	if len(cnts) > 0:
+		# find the largest contour in the mask, then use
+		# it to compute the minimum enclosing circle and
+		# centroid
+		c = max(cnts, key=cv2.contourArea)
+		((x, y), radius) = cv2.minEnclosingCircle(c)
+		M = cv2.moments(c)
+		center = (int(M["m10"] / M["m00"]), int(M["m01"] / M["m00"]))
+		# only proceed if the radius meets a minimum size
+		if radius > 10:
+            if imgRenderTarget is not None:
+                # draw the circle and centroid on the frame,
+                # then update the list of tracked points
+                cv2.circle(imgRenderTarget, (int(x), int(y)), int(radius),
+                    (0, 255, 255), 2)
+                cv2.circle(imgRenderTarget, center, 5, (0, 0, 255), -1)
+            resultBallPos = center
+	# update the points queue
+	pts.appendleft(center)
+
+    if imgRenderTarget is not None:
+        # loop over the set of tracked points
+        for i in range(1, len(pts)):
+            # if either of the tracked points are None, ignore
+            # them
+            if pts[i - 1] is None or pts[i] is None:
+                continue
+            # otherwise, compute the thickness of the line and
+            # draw the connecting lines
+            thickness = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
+            cv2.line(imgRenderTarget, pts[i - 1], pts[i], (0, 0, 255), thickness)
+    
+    return resultBallPos
+
 # Main program logic follows:
 if __name__ == '__main__':
     print ('Program is starting ... ')
@@ -275,6 +346,16 @@ if __name__ == '__main__':
         recordedPath = []
         recordedDurations = []
         client = None
+
+    def endOfCourseForNavigationVehicle():
+        # Write the path (as an array of serialized bytes) to a file:
+        timestr = time.strftime("%Y%m%d-%H%M%S")
+        with open("path_" + timestr, "wb") as f:
+            outputRobotPath(array.array('B', recordedPath), f)
+        # Connect to the server and send the path
+        client = Client()
+        client.sendPath(recordedPath)
+        break
 
     # How much we have turned since the start of the course, relative to 0 degrees being ahead
     degrees_entire = 0
@@ -476,21 +557,15 @@ if __name__ == '__main__':
                 # Save this angle
                 recordedPath.append(destination_angle)
 
-                # Check for end condition: all polled distance values are less 
-                # than or equal to `d`:
-                if destination_distance <= d:
-                    isEnd=input("End reached (y/n)? ")
-                    if not isEnd or isEnd.lower().strip() == "n":
-                        pass
-                    else:
-                        # Write the path (as an array of serialized bytes) to a file:
-                        timestr = time.strftime("%Y%m%d-%H%M%S")
-                        with open("path_" + timestr, "wb") as f:
-                            outputRobotPath(array.array('B', recordedPath), f)
-                        # Connect to the server and send the path
-                        client = Client()
-                        client.sendPath(recordedPath)
-                        break
+                if False:
+                    # Check for end condition: all polled distance values are less 
+                    # than or equal to `d`:
+                    if destination_distance <= d:
+                        isEnd=input("End reached (y/n)? ")
+                        if not isEnd or isEnd.lower().strip() == "n":
+                            pass
+                        else:
+                            endOfCourseForNavigationVehicle()
 
                 # Move sensor back to middle
                 ultrasonic.pwm_S.setServoPwm('0',middleHoriz)
@@ -597,10 +672,15 @@ if __name__ == '__main__':
                     # Get current distance as we turn
                     #c = getUltrasonicDistance() 
 
-                    # Optical flow
-                    (closestPointToCenter, flowVector) = flow.computeCentermostFlow()
+                    # Optical flow, also look for end condition: seeing a tennis ball (via the `renderHook`)
+                    (closestPointToCenter, flowVector) = flow.computeCentermostFlow(renderHook=checkForTennisBall)
                     #print("Flow reliability (closer to 0 is better): " 
                     #        + str(flow.reliabilityOfPoint(closestPointToCenter)))
+                    
+                    # Check for tennis ball position [nvm:, and if there is any then move towards it]
+                    if flow.renderHookRes is not None:
+                        print("Tennis ball (end of course) found!")
+                        endOfCourseForNavigationVehicle()
                     
                     rads = flow.computeRadiansOfCameraRotation(c, flowVector)
                     degrees = math.degrees(rads)
