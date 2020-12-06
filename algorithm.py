@@ -524,7 +524,8 @@ if __name__ == '__main__':
                         # 90 works but we need to be a little more picky because sometimes it's ok, in order to complete the semicircle. So we will
                         # only activate this if the distance isn't big (second part after the first `if`)
 
-                        if abs(absoluteAngle) > (degrees_backwards_direction - 180) + 90: # *Then we would turn around, don't!
+                        #if abs(absoluteAngle) > (degrees_backwards_direction - 180) + 90: # *Then we would turn around, don't!
+                        if abs(absoluteAngle_normalized - degrees_backwards_direction < 180): # *Then we would turn around, don't!
                             print("Potential turnaround, distance", dist, "for angle", angle)
                             #if dist < 50:
                             #res = input("Avoid turnaround (y/n)? ")
