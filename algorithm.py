@@ -355,7 +355,6 @@ if __name__ == '__main__':
         # Connect to the server and send the path
         client = Client()
         client.sendPath(recordedPath)
-        break
 
     # How much we have turned since the start of the course, relative to 0 degrees being ahead
     degrees_entire = 0
@@ -566,6 +565,7 @@ if __name__ == '__main__':
                             pass
                         else:
                             endOfCourseForNavigationVehicle()
+                            break
 
                 # Move sensor back to middle
                 ultrasonic.pwm_S.setServoPwm('0',middleHoriz)
@@ -681,6 +681,7 @@ if __name__ == '__main__':
                     if flow.renderHookRes is not None:
                         print("Tennis ball (end of course) found!")
                         endOfCourseForNavigationVehicle()
+                        break
                     
                     rads = flow.computeRadiansOfCameraRotation(c, flowVector)
                     degrees = math.degrees(rads)
