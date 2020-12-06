@@ -20,6 +20,7 @@ import threading
 from threading import Thread, Lock
 from intervaltree import Interval, IntervalTree # https://pypi.org/project/intervaltree/
 from ADC import *
+import debugUtils
 
 # Car configurations/profiles
 class CarConfig(Enum):
@@ -649,6 +650,10 @@ if __name__ == '__main__':
         stop()
         ultrasonic.pwm_S.setServoPwm('0',middleHoriz)
         ultrasonic.pwm_S.setServoPwm('1',middleVert)
+
+        # Enter REPL real quick; useful to inspect the last state of the car.
+        print("Entering REPL; press Ctrl-C to exit")
+        debugUtils.enterREPL(globals(), locals())
 
         if client:
             client.close()
