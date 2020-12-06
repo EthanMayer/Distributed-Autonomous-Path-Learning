@@ -125,7 +125,7 @@ def batteryVoltage():
     print ("The battery voltage is "+str(voltage)+"V")
     return voltage
 battVoltage = batteryVoltage()
-if battVoltage > 7.5: # I got around 8.07V for about a full charge.
+if battVoltage > 7.8: # I got around 8.07V for about a full charge.
     pass
 elif battVoltage > 6: # UNTESTED
     forwardSpeedOrig += 0.02
