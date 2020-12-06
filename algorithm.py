@@ -680,9 +680,10 @@ if __name__ == '__main__':
                     
                     # Check for tennis ball position [nvm:, and if there is any then move towards it]
                     if flow.renderHookRes is not None:
-                        print("Tennis ball (end of course) found!")
-                        endOfCourseForNavigationVehicle()
-                        break
+                        #print("Tennis ball (end of course) found!")
+                        #endOfCourseForNavigationVehicle()
+                        #break
+                        pass
                     
                     rads = flow.computeRadiansOfCameraRotation(c, flowVector)
                     degrees = math.degrees(rads)

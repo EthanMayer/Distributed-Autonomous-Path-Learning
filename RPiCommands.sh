@@ -14,6 +14,7 @@ pip3 install RPI.GPIO
 pip3 install adafruit-blinka
 pip3 install adafruit-circuitpython-mpu6050
 pip3 install intervaltree
+pip3 install imutils
 
 # Also, to use the gyroscope, you must to remove/comment out "start_x=1" under /boot/config.txt and then reboot, or else
 # GPIO 0 and 1 which use the gyroscope will not detect anything. Source:
