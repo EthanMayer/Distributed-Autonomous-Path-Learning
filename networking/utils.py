@@ -118,6 +118,12 @@ def pack_array(arr):
 
 # Robot commands #
 
+# @param command -- Enum
+def outputCommand(command, outputIO):
+    commandBytes = str(command.value)
+    # Write bytes
+    outputIO.write(bytes(commandBytes + ' ', encoding='utf-8'))
+
 # @param path -- array.array
 def outputRobotPath(path, outputIO):
     pathBytes = pack_array(path)
@@ -130,9 +136,8 @@ def outputRobotPath(path, outputIO):
 def makeRobotPathCommand(path, command):
     replyBytes = None
     with io.BytesIO() as output:
-        commandBytes = str(command.value)
-        # Write bytes
-        output.write(bytes(commandBytes + ' ', encoding='utf-8'))
+        # Write command
+        outputCommand(command, output)
 
         # Write path
         outputRobotPath(array.array('B', path), output)
@@ -144,9 +149,15 @@ def makeRobotPathCommand(path, command):
 def runCommand(data, callback, handler):
     # Read in the length specified in the packet as ASCII and convert it to an int,
     # putting the result into `itemLength`.
+
+    # Read in the command:
     commandNumber, dataRest, amountRead = readAsciiInt(data, handler)
     if not NetworkCommand.has_value(commandNumber):
         raise Exception("Invalid command number received: " + str(commandNumber))
+    if NetworkCommand(commandNumber) == NetworkCommand.getLastPath:
+        # We're done, we got a getLastPath command that only contains a command
+        callback(dataRest, NetworkCommand(commandNumber))
+        return
     # Get the length of the path:
     pathLength, dataRest, amountRead = readAsciiInt(dataRest, handler)
     ensureLength(dataRest, pathLength, handler)

@@ -20,6 +20,14 @@ class Client:
         print("Sent path:",path)
 
     def receivePath(self):
+        # Send getLastPath command
+        with io.BytesIO() as output:
+            # Write command
+            outputCommand(NetworkCommand.getLastPath, output)
+
+            self.s.send(output.getvalue())
+
+        # Receive path
         RECV_BUFSIZE = 4096  # maximum amount of data to be received at a time
         while True:
             data = self.s.recv(RECV_BUFSIZE)
@@ -52,10 +60,17 @@ class Client:
 
 def main():
     c = Client()
-    time.sleep(2)
-    c.sendPath([90,1,2,3])
-    p = c.receivePath()
-    print(p)
+    #time.sleep(2)
+    recvOrSend = input("Receive (1) or send (0)?: ")
+    if recvOrSend == "0":
+        # Send path
+        #p1 = [90,1,2,3]
+        p2 = [100, 80, 180, 0, 160, 100, 160, 130]
+        c.sendPath(p2)
+    else:
+        # Receive path
+        p = c.receivePath()
+        print(p)
 
 if __name__ == "__main__":
     main()

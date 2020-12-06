@@ -12,17 +12,14 @@ import struct
 from .utils import *
 import time
 
-# Configuration #
-sendLastPathWhenNewCarConnects = True
-# #
-
 # Sources for some of this code:
 # https://docs.python.org/3/howto/sockets.html
 # https://gist.github.com/dp7k/a496ef8e8a32f713900fd5fe1e12d41a
 # https://docs.python.org/3/library/socket.html#socket.socket.listen
 
 # Last car path that was uploaded. Currently is an array of angles encoded as bytes.
-lastPath = None
+global lastPath
+lastPath = []
 
 # Represents a single client connected to the server.
 class ClientThread:
@@ -35,12 +32,6 @@ class ClientThread:
 
             # Car path that was uploaded from this client. Currently is an array of angles encoded as bytes.
             self.path = None
-
-            if sendLastPathWhenNewCarConnects:
-                # Send this client the lastPath, if any:
-                if lastPath:
-                    replyBytes = makeRobotPathCommand(lastPath, NetworkCommand.setPath)
-                    self.clientsocket.send(replyBytes)
 
             # main loop: receive/send data from this client
             while True:
@@ -57,9 +48,18 @@ class ClientThread:
     
     # play with received data
     def _do_stuff(self, dataRest, command):
+        global lastPath
         if command == NetworkCommand.uploadPath:
             # Upload to server needs to be handled.
             pass
+        elif command == NetworkCommand.getLastPath:
+            # Send this client the lastPath, if any (if len(lastPath == 0) then the 
+            # path data won't be written, which is ok):
+            replyBytes = makeRobotPathCommand(lastPath, NetworkCommand.setPath)
+            print("Sending lastPath")
+            self.clientsocket.send(replyBytes)
+            print("Sent lastPath")
+            return
         else:
             print("Error: the command", command, "cannot be issued to a server")
             return
@@ -74,11 +74,12 @@ class ClientThread:
         replyBytes = makeRobotPathCommand(self.path, NetworkCommand.setPath)
         
         #reply = ('OK: %s' % data.decode()).encode()
+        # [nvm, now they can just send a NetworkCommand.getLastPath! Much better than this:] 
         # Send to all clients except sender:
-        for client in self.allClients:
-            if client != self.clientsocket:
-                print("sendPath:", replyBytes)
-                client.send(replyBytes)
+        #for client in self.allClients:
+        #    if client != self.clientsocket:
+        #        print("sendPath:", replyBytes)
+        #        client.send(replyBytes)
         
 
 def main():
