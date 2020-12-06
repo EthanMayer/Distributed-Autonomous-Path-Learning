@@ -458,7 +458,8 @@ if __name__ == '__main__':
             print("c <= d")
             end_time = timer()
             print("Time going forward: " + str(end_time - start_time))
-            recordedDurations.append((end_time - start_time, speed))
+            if not isReceivingVehicle:
+                recordedDurations.append((end_time - start_time, speed))
             #time.sleep(sleep_time_short) # Rest CPU for a bit
 
             # Stop
@@ -748,7 +749,8 @@ if __name__ == '__main__':
             
             end_time = timer()
             print("Time turning: " + str(end_time - start_time))
-            recordedDurations.append((end_time - start_time, speed))
+            if not isReceivingVehicle:
+                recordedDurations.append((end_time - start_time, speed))
             # Go forward again, until we reach a wall, in which case we look around again as above.
 
     #except KeyboardInterrupt:  # When 'Ctrl+C' is pressed, this will be executed.
