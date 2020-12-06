@@ -1,0 +1,7 @@
+Last issues:
+- The backwards direction, notably reorienting and when this is called: `
+                                # Record it
+                                print("Adding interval", str(minA) + ":" 
+                                        + str(maxA), "with distance", dist)
+                                distancesAtAbsoluteAngles[minA:maxA] = dist` are broken, it's almost fully working and then it should be able to do the course (see videos -- it can complete the course due to a bug in this angle checking...)
+- Then try receiving a path and running the car again from the start with that path.
