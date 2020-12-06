@@ -391,10 +391,11 @@ if __name__ == '__main__':
                     absoluteAngle = degrees_entire + (angle - middleHoriz) # What we consider to be the 
                     # angle in a fixed coordinate system (i.e., one that doesn't rotate with the car).
                     
+
                     # Check whether we have seen this absoluteAngle before, up to some threshold, and if so,
                     # then we want to adjust our `degrees_backwards_direction` so that it makes what is considered
                     # "turning around"* to instead be behind us currently
-                    threshold = 5
+                    threshold = 10
                     distancesA = distancesAtAbsoluteAngles[absoluteAngle - threshold:absoluteAngle + threshold]
                     if len(distancesA) > 0: # `distancesA` is an array of `Interval`s, each of 
                         # which has a `begin`, `end`, and `data` (which holds the distance in this case)
@@ -412,16 +413,16 @@ if __name__ == '__main__':
                             print("Reorienting backwards direction to", newBackwardsOrientation, 
                                     "from", degrees_backwards_direction)
                             degrees_backwards_direction = newBackwardsOrientation
-                        
-                        # Record it
-                        distancesAtAbsoluteAngles[absoluteAngle - threshold:absoluteAngle + threshold] = dist
-                        print("Adding interval", str(absoluteAngle - threshold) + ":" 
-                                + str(absoluteAngle + threshold), "with distance", dist)
-
+                    # Record it
+                    distancesAtAbsoluteAngles[absoluteAngle - threshold:absoluteAngle + threshold] = dist
+                    print("Adding interval", str(absoluteAngle - threshold) + ":" 
+                            + str(absoluteAngle + threshold), "with distance", dist)
+                    
 
                     if destination_distance is None or dist > destination_distance: # Record a new largest distance
                         # 90 works but we need to be a little more picky because sometimes it's ok, in order to complete the semicircle. So we will
                         # only activate this if the distance isn't big (second part after the first `if`)
+
                         if abs(absoluteAngle) > (degrees_backwards_direction - 180) + 90: # *Then we would turn around, don't!
                             print("Potential turnaround, distance", dist, "for angle", angle)
                             #if dist < 50:
