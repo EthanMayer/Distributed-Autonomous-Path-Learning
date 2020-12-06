@@ -415,8 +415,8 @@ if __name__ == '__main__':
 
                         # Check if our distance is larger by another threshold
                         larger = False # Assume False.
-                        for d in distancesA:
-                            if dist > d.data + 8:
+                        for dInterval in distancesA:
+                            if dist > dInterval.data + 8:
                                 # Larger, so we need to try using this
                                 larger = True
                                 break
