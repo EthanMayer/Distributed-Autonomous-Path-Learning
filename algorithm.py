@@ -107,7 +107,7 @@ turn_method = 3
 dist_epsilon = 30  # For distance polling(0)
 angle_epsilon = 5  # For gyroscope(1) and optical flow(2)
 speed = 0.5
-power = 0.9
+power = 0.95
 
 if carConfig == 1:
     middleHoriz = 75
