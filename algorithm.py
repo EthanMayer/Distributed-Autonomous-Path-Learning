@@ -511,9 +511,9 @@ if __name__ == '__main__':
                                     "from", degrees_backwards_direction)
                             degrees_backwards_direction = newBackwardsOrientation
                     # Record it
-                    distancesAtAbsoluteAngles[minA:maxA] = dist
                     print("Adding interval", str(minA) + ":" 
                             + str(maxA), "with distance", dist)
+                    distancesAtAbsoluteAngles[minA:maxA] = dist
                     
 
                     if destination_distance is None or dist > destination_distance: # Record a new largest distance
