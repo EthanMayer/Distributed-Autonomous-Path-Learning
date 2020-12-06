@@ -392,7 +392,10 @@ if __name__ == '__main__':
                                     break
                             if larger:
                                 # Reorient the backwards direction to be behind us
-                                degrees_backwards_direction = (absoluteAngle + 180.0) % 360.0
+                                newBackwardsOrientation = (absoluteAngle + 180.0) % 360.0
+                                print("Reorienting backwards direction to", newBackwardsOrientation, 
+                                        "from", degrees_backwards_direction)
+                                degrees_backwards_direction = newBackwardsOrientation
                             
                             # Record it
                             distancesAtAbsoluteAngles[absoluteAngle - threshold:absoluteAngle + threshold] = dist
