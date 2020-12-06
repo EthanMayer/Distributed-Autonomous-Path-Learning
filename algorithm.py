@@ -18,8 +18,8 @@ client = Client()
 
 
 def forward(speed=0.5):
-    wheels.setMotorModel(int(-4095 * speed), int(-4095 * speed),
-                         int(-4095 * speed), int(-4095 * speed))
+    wheels.setMotorModel(int(-4095 * speed * power), int(-4095 * speed * power),
+                         int(-4095 * speed * power), int(-4095 * speed * power))
 
 
 def stop():
@@ -27,8 +27,8 @@ def stop():
 
 
 def turn(speed=0.5):
-    wheels.setMotorModel(int(-4095 * speed), int(-4095 * speed),
-                         int(4095 * speed), int(4095 * speed))
+    wheels.setMotorModel(int(-4095 * speed * power), int(-4095 * speed * power),
+                         int(4095 * speed * power), int(4095 * speed * power))
 
 
 def getUltrasonicDistance():
@@ -107,6 +107,7 @@ turn_method = 3
 dist_epsilon = 30  # For distance polling(0)
 angle_epsilon = 5  # For gyroscope(1) and optical flow(2)
 speed = 0.5
+power = 0.9
 
 if carConfig == 1:
     middleHoriz = 75
