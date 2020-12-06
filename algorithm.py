@@ -512,16 +512,17 @@ if __name__ == '__main__':
                                 # Larger, so we need to try using this
                                 larger = True
                                 break
+                            elif dist > dInterval.data:
+                                # Record it
+                                print("Adding interval", str(minA) + ":" 
+                                        + str(maxA), "with distance", dist)
+                                distancesAtAbsoluteAngles[minA:maxA] = dist
                         if larger:
                             # Reorient the backwards direction to be behind us
                             newBackwardsOrientation = normalizeDegrees(absoluteAngle + 180.0)
                             print("Reorienting backwards direction to", newBackwardsOrientation, 
                                     "from", degrees_backwards_direction)
                             degrees_backwards_direction = newBackwardsOrientation
-                    # Record it
-                    print("Adding interval", str(minA) + ":" 
-                            + str(maxA), "with distance", dist)
-                    distancesAtAbsoluteAngles[minA:maxA] = dist
                     
 
                     if destination_distance is None or dist > destination_distance: # Record a new largest distance
