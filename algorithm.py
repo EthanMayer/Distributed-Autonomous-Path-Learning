@@ -379,13 +379,13 @@ if __name__ == '__main__':
                         # then we want to adjust our `degrees_backwards_direction` so that it makes what is considered
                         # "turning around"* to instead be behind us currently
                         threshold = 5
-                        distances = distancesAtAbsoluteAngles[absoluteAngle - threshold:absoluteAngle + threshold]
-                        if len(distances) > 0: # distances is an array of `Interval`s, each of 
+                        distancesA = distancesAtAbsoluteAngles[absoluteAngle - threshold:absoluteAngle + threshold]
+                        if len(distancesA) > 0: # `distancesA` is an array of `Interval`s, each of 
                             # which has a `begin`, `end`, and `data` (which holds the distance in this case)
 
                             # Check if our distance is larger by another threshold
                             larger = False # Assume False.
-                            for d in distances:
+                            for d in distancesA:
                                 if dist > d + 8:
                                     # Larger, so we need to try using this
                                     larger = True
