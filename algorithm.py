@@ -18,6 +18,7 @@ import functools
 import numpy as np
 import threading
 from threading import Thread, Lock
+from intervaltree import Interval, IntervalTree # https://pypi.org/project/intervaltree/
 
 # Car configurations/profiles
 class CarConfig(Enum):
@@ -247,6 +248,14 @@ if __name__ == '__main__':
 
     # How much we have turned since the start of the course, relative to 0 degrees being ahead
     degrees_entire = 0
+    # What we currently consider to be the backwards direction. Starts at 180 since that is behind the car at the
+    # start of the course.
+    degrees_backwards_direction = 180
+    # Distances for angles we have seen before that are absolute, i.e. fixed and not relative to the car's
+    # current rotation.
+    distancesAtAbsoluteAngles = IntervalTree() # Given an absolute angle range, this gives the largest distance seen.
+    # ^^ Overall idea is: reorient the backwards direction when an absolute direction becomes larger than it was
+    # *before* it was measured, indicating a turn.
 
     # Initialize sensors
     if stop_cond == 1:
@@ -363,7 +372,32 @@ if __name__ == '__main__':
                     if destination_distance is None or dist > destination_distance: # Record a new largest distance
                         # 90 works but we need to be a little more picky because sometimes it's ok, in order to complete the semicircle. So we will
                         # only activate this if the distance isn't big (second part after the first `if`)
-                        if abs(degrees_entire + (angle - middleHoriz)) > 90: # Then we would turn around, don't!
+                        absoluteAngle = degrees_entire + (angle - middleHoriz) # What we consider to be the 
+                        # angle in a fixed coordinate system (i.e., one that doesn't rotate with the car).
+                        
+                        # Check whether we have seen this absoluteAngle before, up to some threshold, and if so,
+                        # then we want to adjust our `degrees_backwards_direction` so that it makes what is considered
+                        # "turning around"* to instead be behind us currently
+                        threshold = 5
+                        distances = distancesAtAbsoluteAngles[absoluteAngle - threshold:absoluteAngle + threshold]
+                        if len(distances) > 0: # distances is an array of `Interval`s, each of 
+                            # which has a `begin`, `end`, and `data` (which holds the distance in this case)
+
+                            # Check if our distance is larger by another threshold
+                            larger = False # Assume False.
+                            for d in distances:
+                                if dist > d + 8:
+                                    # Larger, so we need to try using this
+                                    larger = True
+                                    break
+                            if larger:
+                                # Reorient the backwards direction to be behind us
+                                degrees_backwards_direction = (absoluteAngle + 180.0) % 360.0
+                            
+                            # Record it
+                            distancesAtAbsoluteAngles[absoluteAngle - threshold:absoluteAngle + threshold] = dist
+
+                        if abs(absoluteAngle) > (degrees_backwards_direction - 180) + 90: # *Then we would turn around, don't!
                             print("Potential turnaround, distance", dist, "for angle", angle)
                             #if dist < 50:
                             #res = input("Avoid turnaround (y/n)? ")
@@ -573,7 +607,7 @@ if __name__ == '__main__':
                 print("forwardCounterTotal:", forwardCounterTotal)
                 forwardCounter = 0
                 threshold = forwardCounterTotal / 2
-                if abs(travelled[0]) > threshold and abs(travelled[1]) > threshold:
+                if False: #if abs(travelled[0]) > threshold and abs(travelled[1]) > threshold:
                     print("Travelled diagonally, resetting degrees_entire to 0")
                     #if forwardCounter > 20 and abs(degrees_entire) > 0:
                     degrees_entire = 0 # Reset because once we go far enough in a diagonal direction since we actually 
