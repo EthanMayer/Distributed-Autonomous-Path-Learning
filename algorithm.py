@@ -530,7 +530,9 @@ if __name__ == '__main__':
 
                         #if abs(absoluteAngle) > (degrees_backwards_direction - 180) + 90: # *Then we would turn around, don't!
                         if abs(absoluteAngle_normalized - (degrees_backwards_direction - 180) < 110): # *Then we would turn around, don't!
-                            print("Potential turnaround, distance", dist, "for angle", angle)
+                            print("Potential turnaround, distance", dist, "for angle", str(angle)
+                                    + "; absoluteAngle_normalized:", str(absoluteAngle_normalized)
+                                    + ", degrees_backwards_direction:", degrees_backwards_direction)
                             #if dist < 50:
                             #res = input("Avoid turnaround (y/n)? ")
                             if True: #if res == "y":
