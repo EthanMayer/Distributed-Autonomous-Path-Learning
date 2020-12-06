@@ -139,9 +139,13 @@ def batteryVoltage():
 battVoltage = batteryVoltage()
 if battVoltage > 7.8: # I got around 8.07V for about a full charge.
     pass
+elif battVoltage > 7: # UNTESTED
+    forwardSpeedOrig += 0.02
 elif battVoltage > 6: # UNTESTED
     forwardSpeedOrig += 0.02
+    forwardSpeedOrig += 0.02
 elif battVoltage > 5: # UNTESTED
+    forwardSpeedOrig += 0.02
     forwardSpeedOrig += 0.02
     forwardSpeedOrig += 0.02
 forwardSpeed = forwardSpeedOrig
