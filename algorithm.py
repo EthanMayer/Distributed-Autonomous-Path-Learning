@@ -679,8 +679,9 @@ if __name__ == '__main__':
                     # Get current distance as we turn
                     #c = getUltrasonicDistance() 
 
-                    # Optical flow, also look for end condition: seeing a tennis ball (via the `renderHook`)
-                    (closestPointToCenter, flowVector) = flow.computeCentermostFlow(renderHook=checkForTennisBall)
+                    # Optical flow, [nvm, doesn't work: also look for end condition: seeing a tennis ball (via the `renderHook`)]
+                    #(closestPointToCenter, flowVector) = flow.computeCentermostFlow(renderHook=checkForTennisBall)
+                    (closestPointToCenter, flowVector) = flow.computeCentermostFlow(renderHook=None)
                     #print("Flow reliability (closer to 0 is better): " 
                     #        + str(flow.reliabilityOfPoint(closestPointToCenter)))
                     
