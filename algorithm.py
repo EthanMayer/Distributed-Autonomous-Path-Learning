@@ -415,6 +415,8 @@ if __name__ == '__main__':
                         
                         # Record it
                         distancesAtAbsoluteAngles[absoluteAngle - threshold:absoluteAngle + threshold] = dist
+                        print("Adding interval", str(absoluteAngle - threshold) + ":" 
+                                + str(absoluteAngle + threshold), "with distance", dist)
 
 
                     if destination_distance is None or dist > destination_distance: # Record a new largest distance
