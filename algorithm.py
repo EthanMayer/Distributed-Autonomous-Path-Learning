@@ -272,7 +272,6 @@ if stop_cond == 2:
     # list of tracked points
     greenLower = (29, 86, 6)
     greenUpper = (64, 255, 255)
-    import deque
     pts = deque(maxlen=64)
 def checkForTennisBall(opticalFlowObj, imgRenderTarget):
     resultBallPos = None
