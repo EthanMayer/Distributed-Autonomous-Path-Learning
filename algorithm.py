@@ -19,6 +19,7 @@ import numpy as np
 import threading
 from threading import Thread, Lock
 from intervaltree import Interval, IntervalTree # https://pypi.org/project/intervaltree/
+from ADC import *
 
 # Car configurations/profiles
 class CarConfig(Enum):
@@ -115,8 +116,20 @@ wheels=Motor()
 #        pass
 # [New]
 forwardSpeedOrig = 0.125 #0.15
-forwardSpeedOrig += 0.02
-forwardSpeedOrig += 0.02
+# Read battery voltage of the car and up the forward speed orig as battery is detected lower and lower:
+adc=Adc()
+def batteryVoltage():
+    Power=adc.recvADC(2)
+    voltage = Power*3
+    print ("The battery voltage is "+str(voltage)+"V")
+    return voltage
+battVoltage = batteryVoltage()
+if battVoltage > 7.5: # I got around 8.07V for about a full charge.
+    pass
+elif battVoltage > 6: # UNTESTED
+    forwardSpeedOrig += 0.02
+elif battVoltage > 5: # UNTESTED
+    forwardSpeedOrig += 0.02
 forwardSpeed = forwardSpeedOrig
 forwardSpeedup = 0.013 #0.007
 #forwardMutex = Lock()
@@ -152,7 +165,10 @@ class ForwardSpeedManagerThread(Thread):
 
 turnSpeedOrig = 0.21 # WORKS but super slow: 0.20 # 0.25
 turnSpeed = turnSpeedOrig
-turnSpeed += 0.03
+if battVoltage > 7.5:
+    pass
+else:
+    turnSpeed += 0.03
 global motionThreads
 motionThreads = []
 def stopMotionThreads():
