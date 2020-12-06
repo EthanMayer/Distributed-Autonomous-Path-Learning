@@ -274,7 +274,8 @@ if stop_cond == 2:
     greenLower = (29, 86, 6)
     greenUpper = (64, 255, 255)
     from collections import deque
-    pts = deque(maxlen=64)
+    maxlen = 64
+    pts = deque(maxlen=maxlen)
 def checkForTennisBall(opticalFlowObj, imgRenderTarget):
     resultBallPos = None
     frame = opticalFlowObj.frame
@@ -329,7 +330,7 @@ def checkForTennisBall(opticalFlowObj, imgRenderTarget):
                 continue
             # otherwise, compute the thickness of the line and
             # draw the connecting lines
-            thickness = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
+            thickness = int(np.sqrt(maxlen / float(i + 1)) * 2.5)
             cv2.line(imgRenderTarget, pts[i - 1], pts[i], (0, 0, 255), thickness)
     
     return resultBallPos
@@ -490,7 +491,9 @@ if __name__ == '__main__':
                     # "turning around"* to instead be behind us currently
                     threshold = 10
                     absoluteAngle_normalized = normalizeDegrees(absoluteAngle)
-                    distancesA = distancesAtAbsoluteAngles[absoluteAngle - threshold:absoluteAngle + threshold]
+                    minA = normalizeDegrees(absoluteAngle - threshold)
+                    maxA = normalizeDegrees(absoluteAngle + threshold)
+                    distancesA = distancesAtAbsoluteAngles[minA:maxA]
                     if len(distancesA) > 0: # `distancesA` is an array of `Interval`s, each of 
                         # which has a `begin`, `end`, and `data` (which holds the distance in this case)
 
@@ -508,9 +511,9 @@ if __name__ == '__main__':
                                     "from", degrees_backwards_direction)
                             degrees_backwards_direction = newBackwardsOrientation
                     # Record it
-                    distancesAtAbsoluteAngles[absoluteAngle - threshold:absoluteAngle + threshold] = dist
-                    print("Adding interval", str(absoluteAngle - threshold) + ":" 
-                            + str(absoluteAngle + threshold), "with distance", dist)
+                    distancesAtAbsoluteAngles[minA:maxA] = dist
+                    print("Adding interval", str(minA) + ":" 
+                            + str(maxA), "with distance", dist)
                     
 
                     if destination_distance is None or dist > destination_distance: # Record a new largest distance
