@@ -18,8 +18,8 @@ client = Client()
 
 
 def forward(speed=0.5):
-    wheels.setMotorModel(int(-4095 * speed * power), int(-4095 * speed * power),
-                         int(-4095 * speed * power), int(-4095 * speed * power))
+    wheels.setMotorModel(int(-4095 * speed), int(-4095 * speed),
+                         int(-4095 * speed), int(-4095 * speed))
 
 
 def stop():
@@ -27,8 +27,8 @@ def stop():
 
 
 def turn(speed=0.5):
-    wheels.setMotorModel(int(-4095 * speed * power), int(-4095 * speed * power),
-                         int(4095 * speed * power), int(4095 * speed * power))
+    wheels.setMotorModel(int(-4095 * speed), int(-4095 * speed),
+                         int(4095 * speed), int(4095 * speed))
 
 
 def getUltrasonicDistance():
@@ -107,7 +107,6 @@ turn_method = 3
 dist_epsilon = 30  # For distance polling(0)
 angle_epsilon = 5  # For gyroscope(1) and optical flow(2)
 speed = 0.5
-power = 0.95
 
 if carConfig == 1:
     middleHoriz = 75
@@ -162,7 +161,7 @@ try:
     
     if not isReceivingVehicle:  # Then we are the navigation vehicle. We are forging a new path!
         while True:
-            forward_speed = speed * 0.30
+            forward_speed = speed * 0.3
             forward(forward_speed)
             start_time = timer()
             flag = True
