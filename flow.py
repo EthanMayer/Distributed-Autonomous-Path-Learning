@@ -154,11 +154,12 @@ class OpticalFlow:
         frame_gray = cv2.cvtColor(frame, 
                                 cv2.COLOR_BGR2GRAY) 
 
-        check1 = self.p0.shape != self.good_old.shape
-        check2 = len(self.p0) != len(self.good_old.shape)
-        if check1 or check2: # Check if numpy shapes are the same
-            print("Potential assertion failure incoming...", check1, check2) # Trying to fix this error:
-            """...
+        if self.p0 is not None and self.good_old is not None:
+            check1 = self.p0.shape != self.good_old.shape
+            check2 = len(self.p0) != len(self.good_old.shape)
+            if check1 or check2: # Check if numpy shapes are the same
+                print("Potential assertion failure incoming...", check1, check2) # Trying to fix this error:
+                """...
 At 50.8427095413208 degrees, want 10 degrees
 No movement
 computeCentermostFlow(): Re-prepare needed
@@ -183,7 +184,7 @@ Traceback (most recent call last):
 cv2.error: /build/opencv-L65chJ/opencv-3.2.0+dfsg/modules/video/src/lkpyramid.cpp:1231: error: (-215) (npoints = prevPtsMat.checkVector(2, CV_32F, true)) >= 0 in function calc
 
 pi@embeddedpi46:~/Distributed-Autonomous-Path-Learning $ 
-            """
+                """
         # calculate optical flow 
         # https://docs.opencv.org/3.4/dc/d6b/group__video__track.html#ga5d10ebbd59fe09c5f650289ec0ece5af
         p1, st, err = cv2.calcOpticalFlowPyrLK(self.old_gray, 
